@@ -16,12 +16,13 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/com
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
-import { calcDCA, DCAResult, PricePoint } from "@/lib/calculations";
+import { calcDCA, DCAResult, PricePoint, DividendPoint } from "@/lib/calculations";
 import { formatCurrency, formatPct, formatShortDate, pctColor } from "@/lib/formatters";
-import { Info, Calendar } from "lucide-react";
+import { Info, Calendar, Coins } from "lucide-react";
 
 interface Props {
   prices: PricePoint[];
+  dividends?: DividendPoint[];
   currency: string;
   ticker: string;
   onResult?: (result: DCAResult, monthlyAmount: number, startDate: string, dayOfMonth: number) => void;
@@ -35,7 +36,7 @@ function sampleArray<T>(arr: T[], step: number): T[] {
   return result;
 }
 
-export function DCASimulator({ prices, currency, ticker, onResult }: Props) {
+export function DCASimulator({ prices, dividends = [], currency, ticker, onResult }: Props) {
   const [monthlyAmount, setMonthlyAmount] = useState("500");
   const [startDate, setStartDate] = useState(() => {
     const d = new Date();
@@ -52,7 +53,7 @@ export function DCASimulator({ prices, currency, ticker, onResult }: Props) {
     const amt = parseFloat(monthlyAmount);
     const day = parseInt(dayOfMonth, 10);
     if (!amt || amt <= 0 || !prices.length || !day) return;
-    const res = calcDCA(prices, amt, new Date(startDate), Math.min(Math.max(day, 1), 28));
+    const res = calcDCA(prices, amt, new Date(startDate), Math.min(Math.max(day, 1), 28), dividends);
     setResult(res);
     onResult?.(res, amt, startDate, day);
   }
@@ -259,6 +260,55 @@ export function DCASimulator({ prices, currency, ticker, onResult }: Props) {
               </ResponsiveContainer>
             </CardContent>
           </Card>
+
+          {/* Dividendi */}
+          {result.totalDividends > 0 && (
+            <Card className="border-green-200 bg-green-50/50 dark:bg-green-950/10 dark:border-green-900">
+              <CardHeader className="pb-2 pt-4">
+                <div className="flex items-center justify-between flex-wrap gap-2">
+                  <div className="flex items-center gap-2">
+                    <Coins className="h-4 w-4 text-green-600" />
+                    <CardTitle className="text-base">Rendita da dividendi</CardTitle>
+                  </div>
+                  <div className="flex items-baseline gap-3">
+                    <span className="text-xl font-bold text-green-600">{formatCurrency(result.totalDividends, currency)}</span>
+                    <span className="text-sm text-muted-foreground">+{result.totalDividendsPct.toFixed(1)}% sul versato</span>
+                  </div>
+                </div>
+                <CardDescription>Calcolati sulle quote accumulate anno per anno · lordi, tassazione esclusa</CardDescription>
+              </CardHeader>
+              <CardContent className="pb-4">
+                <div className="rounded-lg border overflow-hidden">
+                  <table className="w-full text-xs">
+                    <thead>
+                      <tr className="bg-muted/50">
+                        <th className="text-left py-2 px-3 font-medium">Anno</th>
+                        <th className="text-right py-2 px-3 font-medium">Dividendo/quota</th>
+                        <th className="text-right py-2 px-3 font-medium">Incassato</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {result.dividendsByYear.map((row) => (
+                        <tr key={row.year} className="border-t hover:bg-muted/30 transition-colors">
+                          <td className="py-2 px-3 font-medium">{row.year}</td>
+                          <td className="py-2 px-3 text-right text-muted-foreground">{formatCurrency(row.perShare, currency)}</td>
+                          <td className="py-2 px-3 text-right font-semibold">{formatCurrency(row.income, currency)}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+                <div className="mt-3 flex items-start gap-2 text-xs text-muted-foreground border-t pt-3">
+                  <Info className="h-3.5 w-3.5 shrink-0 mt-0.5" />
+                  <span>
+                    Nel PAC le quote crescono mese dopo mese con ogni versamento. Ogni dividendo viene moltiplicato solo per le quote <span className="font-semibold">già accumulate fino a quella data</span> — non per quelle comprate dopo.
+                    Per questo l&apos;incasso cresce anno dopo anno man mano che il portafoglio si accumula.
+                    {" "}<span className="font-semibold">Dividendo incassato = Dividendo/quota × Quote detenute alla data di stacco</span>.
+                  </span>
+                </div>
+              </CardContent>
+            </Card>
+          )}
 
           {/* Formula */}
           <Card className="bg-muted/30">

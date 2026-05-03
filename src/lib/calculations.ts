@@ -32,6 +32,9 @@ export interface DCAResult {
   returnPct: number;
   returnRealPct: number;
   installments: number;
+  totalDividends: number;
+  totalDividendsPct: number;
+  dividendsByYear: { year: number; perShare: number; income: number }[];
 }
 
 export interface WindowPerformance {
@@ -192,7 +195,8 @@ export function calcDCA(
   prices: PricePoint[],
   monthlyAmount: number,
   startDate: Date,
-  dayOfMonth: number
+  dayOfMonth: number,
+  dividends: DividendPoint[] = []
 ): DCAResult {
   if (!prices.length) {
     return {
@@ -203,6 +207,9 @@ export function calcDCA(
       returnPct: 0,
       returnRealPct: 0,
       installments: 0,
+      totalDividends: 0,
+      totalDividendsPct: 0,
+      dividendsByYear: [],
     };
   }
 
@@ -245,6 +252,9 @@ export function calcDCA(
       returnPct: 0,
       returnRealPct: 0,
       installments: 0,
+      totalDividends: 0,
+      totalDividendsPct: 0,
+      dividendsByYear: [],
     };
   }
 
@@ -289,6 +299,32 @@ export function calcDCA(
   const returnPct = totalInvested > 0 ? ((finalValue - totalInvested) / totalInvested) * 100 : 0;
   const returnRealPct = totalInvested > 0 ? ((finalValueReal - totalInvested) / totalInvested) * 100 : 0;
 
+  // Dividendi DCA: per ogni pagamento, moltiplica per le quote accumulate FINO a quella data
+  const firstPurchaseTs = firstPurchaseDate.getTime();
+  const dcaByYear = new Map<number, { income: number; perShare: number }>();
+  for (const d of dividends) {
+    const divTs = new Date(d.date).getTime();
+    if (divTs < firstPurchaseTs) continue;
+    let sharesAtDiv = 0;
+    for (const p of purchases) {
+      if (new Date(p.date).getTime() <= divTs) sharesAtDiv += p.shares;
+      else break;
+    }
+    if (sharesAtDiv === 0) continue;
+    const year = new Date(d.date).getFullYear();
+    const prev = dcaByYear.get(year) ?? { income: 0, perShare: 0 };
+    dcaByYear.set(year, { income: prev.income + sharesAtDiv * d.amount, perShare: prev.perShare + d.amount });
+  }
+  const dividendsByYear = Array.from(dcaByYear.entries())
+    .sort(([a], [b]) => a - b)
+    .map(([year, { income, perShare }]) => ({
+      year,
+      perShare: Math.round(perShare * 10000) / 10000,
+      income: Math.round(income * 100) / 100,
+    }));
+  const totalDividends = Math.round(dividendsByYear.reduce((s, r) => s + r.income, 0) * 100) / 100;
+  const totalDividendsPct = totalInvested > 0 ? Math.round((totalDividends / totalInvested) * 10000) / 100 : 0;
+
   return {
     portfolioHistory,
     finalValue: Math.round(finalValue * 100) / 100,
@@ -297,6 +333,9 @@ export function calcDCA(
     returnPct: Math.round(returnPct * 100) / 100,
     returnRealPct: Math.round(returnRealPct * 100) / 100,
     installments: purchases.length,
+    totalDividends,
+    totalDividendsPct,
+    dividendsByYear,
   };
 }
 

@@ -287,6 +287,7 @@ export default function HomePage() {
               <TabsContent value="dca">
                 <DCASimulator
                   prices={prices}
+                  dividends={dividends}
                   currency={currency}
                   ticker={ticker.toUpperCase()}
                   onResult={(res, monthly) => {

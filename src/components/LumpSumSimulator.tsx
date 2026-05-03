@@ -222,6 +222,14 @@ export function LumpSumSimulator({ prices, dividends = [], currency, ticker, onR
                     </tbody>
                   </table>
                 </div>
+                <div className="mt-3 flex items-start gap-2 text-xs text-muted-foreground border-t pt-3">
+                  <Info className="h-3.5 w-3.5 shrink-0 mt-0.5" />
+                  <span>
+                    Nel Lump Sum le quote acquistate all&apos;inizio restano <span className="font-semibold">sempre le stesse</span> per tutta la durata dell&apos;investimento.
+                    Ogni volta che il titolo paga un dividendo, quell&apos;importo viene moltiplicato per il numero fisso di quote in tuo possesso.
+                    {" "}<span className="font-semibold">Dividendo incassato = Dividendo/quota × Quote acquistate</span>.
+                  </span>
+                </div>
               </CardContent>
             </Card>
           )}
