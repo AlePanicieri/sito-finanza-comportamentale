@@ -35,6 +35,7 @@ export interface DCAResult {
   totalDividends: number;
   totalDividendsPct: number;
   dividendsByYear: { year: number; perShare: number; income: number }[];
+  finalDate: string;
 }
 
 export interface WindowPerformance {
@@ -211,6 +212,7 @@ export function calcDCA(
       totalDividends: 0,
       totalDividendsPct: 0,
       dividendsByYear: [],
+      finalDate: "",
     };
   }
 
@@ -257,6 +259,7 @@ export function calcDCA(
       totalDividends: 0,
       totalDividendsPct: 0,
       dividendsByYear: [],
+      finalDate: "",
     };
   }
 
@@ -295,12 +298,24 @@ export function calcDCA(
     }
   }
 
-  const finalValue = portfolioHistory[portfolioHistory.length - 1]?.value ?? 0;
-  const years = yearsBetween(firstPurchaseDate, today);
+  // I KPI si calcolano alla data di fine PAC se impostata, altrimenti ad oggi
+  const kpiDate = endDate && endDate < today ? endDate : today;
+  const kpiPoint = portfolioHistory.length
+    ? portfolioHistory.reduce((best, p) =>
+        Math.abs(new Date(p.date).getTime() - kpiDate.getTime()) <
+        Math.abs(new Date(best.date).getTime() - kpiDate.getTime())
+          ? p : best
+      )
+    : null;
+
+  const finalValue = kpiPoint?.value ?? 0;
+  const finalDate = kpiPoint?.date ?? kpiDate.toISOString().split("T")[0];
+  const kpiTotalInvested = kpiPoint?.totalInvested ?? totalInvested;
+  const years = yearsBetween(firstPurchaseDate, new Date(finalDate));
   const finalValueReal = adjustForInflation(finalValue, years);
 
-  const returnPct = totalInvested > 0 ? ((finalValue - totalInvested) / totalInvested) * 100 : 0;
-  const returnRealPct = totalInvested > 0 ? ((finalValueReal - totalInvested) / totalInvested) * 100 : 0;
+  const returnPct = kpiTotalInvested > 0 ? ((finalValue - kpiTotalInvested) / kpiTotalInvested) * 100 : 0;
+  const returnRealPct = kpiTotalInvested > 0 ? ((finalValueReal - kpiTotalInvested) / kpiTotalInvested) * 100 : 0;
 
   // Dividendi DCA: per ogni pagamento, moltiplica per le quote accumulate FINO a quella data
   const firstPurchaseTs = firstPurchaseDate.getTime();
@@ -339,6 +354,7 @@ export function calcDCA(
     totalDividends,
     totalDividendsPct,
     dividendsByYear,
+    finalDate,
   };
 }
 

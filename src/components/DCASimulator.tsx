@@ -212,7 +212,9 @@ export function DCASimulator({ prices, dividends = [], currency, ticker, onResul
             </Card>
             <Card>
               <CardContent className="pt-4 pb-3">
-                <div className="text-xs text-muted-foreground">Valore oggi</div>
+                <div className="text-xs text-muted-foreground">
+                  {useEndDate && result.finalDate ? `Valore al ${formatShortDate(result.finalDate)}` : "Valore oggi"}
+                </div>
                 <div className="text-lg font-bold mt-1">
                   {formatCurrency(result.finalValue, currency)}
                 </div>

@@ -20,6 +20,9 @@ export async function GET(request: NextRequest) {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const results: any = await yahooFinance.search(ticker, { newsCount: 0 });
       const allQuotes: Array<Record<string, string>> = results?.quotes ?? [];
+      // Suffissi di listinggi secondari da mettere in fondo (stessa società, borsa minore)
+      const SECONDARY_SUFFIXES = new Set([".VI", ".F", ".BE", ".MU", ".SG", ".HM", ".DU", ".TI", ".SW", ".DE"]);
+
       const quotes = allQuotes
         .filter((q) => {
           const t = (q.typeDisp ?? "").toLowerCase();
@@ -27,13 +30,20 @@ export async function GET(request: NextRequest) {
           if (sym.endsWith(".XD") || sym.endsWith(".EX")) return false;
           return t === "equity" || t === "etf" || t === "cryptocurrency" || t === "mutualfund" || t === "stock";
         })
-        .slice(0, 8)
+        .slice(0, 16)
         .map((q) => ({
           symbol: q.symbol ?? "",
           shortname: q.shortname ?? q.longname ?? "",
           typeDisp: q.typeDisp ?? "",
           exchDisp: q.exchDisp ?? "",
-        }));
+        }))
+        .sort((a, b) => {
+          const suffix = (s: string) => s.includes(".") ? "." + s.split(".").pop()!.toUpperCase() : "";
+          const aSecondary = SECONDARY_SUFFIXES.has(suffix(a.symbol)) ? 1 : 0;
+          const bSecondary = SECONDARY_SUFFIXES.has(suffix(b.symbol)) ? 1 : 0;
+          return aSecondary - bSecondary;
+        })
+        .slice(0, 8);
       return NextResponse.json({ quotes });
     }
 
