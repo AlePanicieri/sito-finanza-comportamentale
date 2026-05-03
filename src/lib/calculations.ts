@@ -196,7 +196,8 @@ export function calcDCA(
   monthlyAmount: number,
   startDate: Date,
   dayOfMonth: number,
-  dividends: DividendPoint[] = []
+  dividends: DividendPoint[] = [],
+  endDate?: Date
 ): DCAResult {
   if (!prices.length) {
     return {
@@ -213,15 +214,16 @@ export function calcDCA(
     };
   }
 
-  // Genera tutte le date di acquisto mensile dalla startDate ad oggi
+  // Genera tutte le date di acquisto mensile dalla startDate al cutoff (endDate o oggi)
   const today = new Date();
+  const purchaseCutoff = endDate && endDate < today ? endDate : today;
   const purchaseDates: Date[] = [];
   const cursor = new Date(startDate);
 
   // Allinea al giorno del mese
   cursor.setDate(Math.min(dayOfMonth, 28));
 
-  while (cursor <= today) {
+  while (cursor <= purchaseCutoff) {
     purchaseDates.push(new Date(cursor));
     cursor.setMonth(cursor.getMonth() + 1);
   }
@@ -235,8 +237,8 @@ export function calcDCA(
     const point = findClosestPrice(prices, pd);
     if (!point) continue;
     const pointDate = new Date(point.date);
-    // Non acquistare nel futuro o prima dei dati disponibili
-    if (pointDate > today) continue;
+    // Non acquistare nel futuro o oltre il cutoff
+    if (pointDate > purchaseCutoff) continue;
     const shares = monthlyAmount / point.close;
     totalShares += shares;
     totalInvested += monthlyAmount;

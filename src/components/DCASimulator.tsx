@@ -44,6 +44,8 @@ export function DCASimulator({ prices, dividends = [], currency, ticker, onResul
     return d.toISOString().split("T")[0];
   });
   const [dayOfMonth, setDayOfMonth] = useState("1");
+  const [useEndDate, setUseEndDate] = useState(false);
+  const [endDate, setEndDate] = useState(() => new Date().toISOString().split("T")[0]);
   const [result, setResult] = useState<DCAResult | null>(null);
 
   const minDate = prices.length ? prices[0].date : "1990-01-01";
@@ -53,7 +55,8 @@ export function DCASimulator({ prices, dividends = [], currency, ticker, onResul
     const amt = parseFloat(monthlyAmount);
     const day = parseInt(dayOfMonth, 10);
     if (!amt || amt <= 0 || !prices.length || !day) return;
-    const res = calcDCA(prices, amt, new Date(startDate), Math.min(Math.max(day, 1), 28), dividends);
+    const end = useEndDate && endDate ? new Date(endDate) : undefined;
+    const res = calcDCA(prices, amt, new Date(startDate), Math.min(Math.max(day, 1), 28), dividends, end);
     setResult(res);
     onResult?.(res, amt, startDate, day);
   }
@@ -149,9 +152,34 @@ export function DCASimulator({ prices, dividends = [], currency, ticker, onResul
               Calcola
             </Button>
           </div>
+          <div className="mt-4 flex flex-wrap items-center gap-4">
+            <label className="flex items-center gap-2 cursor-pointer select-none">
+              <input
+                type="checkbox"
+                checked={useEndDate}
+                onChange={(e) => setUseEndDate(e.target.checked)}
+                className="h-4 w-4 rounded border-gray-300 accent-primary"
+              />
+              <span className="text-sm text-muted-foreground">Imposta data di fine PAC</span>
+            </label>
+            {useEndDate && (
+              <div className="flex items-center gap-2">
+                <Label className="text-sm shrink-0">Fine versamenti</Label>
+                <Input
+                  type="date"
+                  min={startDate}
+                  max={new Date().toISOString().split("T")[0]}
+                  value={endDate}
+                  onChange={(e) => setEndDate(e.target.value)}
+                  className="w-40"
+                />
+              </div>
+            )}
+          </div>
           <p className="text-xs text-muted-foreground mt-3 flex items-center gap-1">
             <Info className="h-3 w-3" />
             Il giorno del mese influenza il prezzo di acquisto mensile — prova a cambiarlo per vedere la differenza.
+            {useEndDate && " Il grafico mostra l'evoluzione del portafoglio fino ad oggi, anche dopo la fine dei versamenti."}
           </p>
         </CardContent>
       </Card>
