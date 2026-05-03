@@ -3,6 +3,11 @@ export interface PricePoint {
   close: number;
 }
 
+export interface DividendPoint {
+  date: string;
+  amount: number;
+}
+
 export interface LumpSumResult {
   portfolioHistory: { date: string; value: number; valueReal: number }[];
   finalValue: number;
@@ -14,6 +19,9 @@ export interface LumpSumResult {
   worstSession: number;
   periodsInNegative: number;
   totalPeriods: number;
+  totalDividends: number;
+  totalDividendsPct: number;
+  dividendsByYear: { year: number; perShare: number; income: number }[];
 }
 
 export interface DCAResult {
@@ -72,7 +80,8 @@ export function findClosestPrice(
 export function calcLumpSum(
   prices: PricePoint[],
   investedAmount: number,
-  startDate: Date
+  startDate: Date,
+  dividends: DividendPoint[] = []
 ): LumpSumResult {
   const today = new Date();
 
@@ -89,6 +98,9 @@ export function calcLumpSum(
       worstSession: 0,
       periodsInNegative: 0,
       totalPeriods: 0,
+      totalDividends: 0,
+      totalDividendsPct: 0,
+      dividendsByYear: [],
     };
   }
 
@@ -138,6 +150,23 @@ export function calcLumpSum(
   const returnPct = ((finalValue - investedAmount) / investedAmount) * 100;
   const returnRealPct = ((finalValueReal - investedAmount) / investedAmount) * 100;
 
+  // Dividendi: filtra quelli dopo la data di acquisto, raggruppa per anno
+  const byYear = new Map<number, number>();
+  for (const d of dividends) {
+    if (new Date(d.date).getTime() < startTs) continue;
+    const year = new Date(d.date).getFullYear();
+    byYear.set(year, (byYear.get(year) ?? 0) + d.amount);
+  }
+  const dividendsByYear = Array.from(byYear.entries())
+    .sort(([a], [b]) => a - b)
+    .map(([year, perShare]) => ({
+      year,
+      perShare: Math.round(perShare * 10000) / 10000,
+      income: Math.round(perShare * shares * 100) / 100,
+    }));
+  const totalDividends = Math.round(dividendsByYear.reduce((s, r) => s + r.income, 0) * 100) / 100;
+  const totalDividendsPct = Math.round((totalDividends / investedAmount) * 10000) / 100;
+
   return {
     portfolioHistory,
     finalValue: Math.round(finalValue * 100) / 100,
@@ -149,6 +178,9 @@ export function calcLumpSum(
     worstSession: Math.round(worstSession * 100) / 100,
     periodsInNegative,
     totalPeriods: portfolioHistory.length,
+    totalDividends,
+    totalDividendsPct,
+    dividendsByYear,
   };
 }
 

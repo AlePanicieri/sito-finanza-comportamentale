@@ -1,5 +1,5 @@
 import { useState, useCallback } from "react";
-import { PricePoint } from "@/lib/calculations";
+import { PricePoint, DividendPoint } from "@/lib/calculations";
 
 interface StockMeta {
   symbol: string;
@@ -10,6 +10,7 @@ interface StockMeta {
 interface FetchResult {
   quotes: PricePoint[];
   meta: StockMeta;
+  dividends: DividendPoint[];
 }
 
 export function useStockData() {

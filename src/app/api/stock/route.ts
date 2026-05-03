@@ -47,7 +47,7 @@ export async function GET(request: NextRequest) {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const historical: any = await yahooFinance.chart(
       ticker,
-      { period1, period2, interval: "1d" },
+      { period1, period2, interval: "1d", events: "div" },
       { fetchOptions: {} }
     );
 
@@ -77,7 +77,14 @@ export async function GET(request: NextRequest) {
       shortName: historical?.meta?.shortName ?? historical?.meta?.longName ?? ticker,
     };
 
-    return NextResponse.json({ quotes, meta });
+    const rawDividends: Array<{ date: Date | string; amount: number }> =
+      historical?.events?.dividends ?? [];
+    const dividends = rawDividends.map((d) => ({
+      date: d.date instanceof Date ? d.date.toISOString().split("T")[0] : String(d.date).split("T")[0],
+      amount: d.amount,
+    }));
+
+    return NextResponse.json({ quotes, meta, dividends });
   } catch (err) {
     const message = err instanceof Error ? err.message : "Errore sconosciuto";
     return NextResponse.json({ error: `Impossibile recuperare dati: ${message}` }, { status: 500 });

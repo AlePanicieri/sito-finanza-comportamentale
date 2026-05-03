@@ -10,7 +10,7 @@ import { LumpSumSimulator } from "@/components/LumpSumSimulator";
 import { DCASimulator } from "@/components/DCASimulator";
 import { ComparisonPanel } from "@/components/ComparisonPanel";
 import { useStockData } from "@/hooks/useStockData";
-import { LumpSumResult, DCAResult, PricePoint } from "@/lib/calculations";
+import { LumpSumResult, DCAResult, PricePoint, DividendPoint } from "@/lib/calculations";
 import { formatCurrency } from "@/lib/formatters";
 import {
   Brain,
@@ -38,6 +38,7 @@ export default function HomePage() {
   const [ticker, setTicker] = useState("");
   const [stockName, setStockName] = useState("");
   const [prices, setPrices] = useState<PricePoint[]>([]);
+  const [dividends, setDividends] = useState<DividendPoint[]>([]);
   const [currency, setCurrency] = useState("USD");
   const [activeTab, setActiveTab] = useState<TabId>("distortion");
   const [hasLoaded, setHasLoaded] = useState(false);
@@ -58,6 +59,7 @@ export default function HomePage() {
       const result = await fetchStock(sym, from);
       if (result) {
         setPrices(result.quotes);
+        setDividends(result.dividends ?? []);
         setCurrency(result.meta.currency ?? "USD");
         setStockName(name ?? result.meta.shortName ?? sym);
         setHasLoaded(true);
@@ -272,6 +274,7 @@ export default function HomePage() {
               <TabsContent value="lumpsum">
                 <LumpSumSimulator
                   prices={prices}
+                  dividends={dividends}
                   currency={currency}
                   ticker={ticker.toUpperCase()}
                   onResult={(res, amt) => {
@@ -338,7 +341,7 @@ export default function HomePage() {
             Dati forniti da Yahoo Finance. Solo a scopo educativo — non costituisce consulenza finanziaria.
           </p>
           <p>
-            Rendimenti storici non garantiscono risultati futuri. Dividendi esclusi dal calcolo.
+            Rendimenti storici non garantiscono risultati futuri. I dividendi sono lordi e non tengono conto della tassazione.
           </p>
         </div>
       </footer>

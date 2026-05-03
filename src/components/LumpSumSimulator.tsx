@@ -17,12 +17,13 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { calcLumpSum, LumpSumResult, PricePoint } from "@/lib/calculations";
+import { calcLumpSum, LumpSumResult, PricePoint, DividendPoint } from "@/lib/calculations";
 import { formatCurrency, formatPct, formatShortDate, pctColor } from "@/lib/formatters";
-import { TrendingUp, TrendingDown, AlertTriangle, Info } from "lucide-react";
+import { TrendingUp, TrendingDown, AlertTriangle, Info, Coins } from "lucide-react";
 
 interface Props {
   prices: PricePoint[];
+  dividends?: DividendPoint[];
   currency: string;
   ticker: string;
   onResult?: (result: LumpSumResult, amount: number, startDate: string) => void;
@@ -42,7 +43,7 @@ function sampleArray<T>(arr: T[], step: number): T[] {
   return result;
 }
 
-export function LumpSumSimulator({ prices, currency, ticker, onResult }: Props) {
+export function LumpSumSimulator({ prices, dividends = [], currency, ticker, onResult }: Props) {
   const [amount, setAmount] = useState("10000");
   const [startDate, setStartDate] = useState(() => {
     const d = new Date();
@@ -58,7 +59,7 @@ export function LumpSumSimulator({ prices, currency, ticker, onResult }: Props) 
   function handleCalculate() {
     const amt = parseFloat(amount);
     if (!amt || amt <= 0 || !prices.length) return;
-    const res = calcLumpSum(prices, amt, new Date(startDate));
+    const res = calcLumpSum(prices, amt, new Date(startDate), dividends);
     setResult(res);
     onResult?.(res, amt, startDate);
   }
@@ -183,6 +184,47 @@ export function LumpSumSimulator({ prices, currency, ticker, onResult }: Props) 
               </CardContent>
             </Card>
           </div>
+
+          {/* Dividendi */}
+          {result.totalDividends > 0 && (
+            <Card className="border-green-200 bg-green-50/50 dark:bg-green-950/10 dark:border-green-900">
+              <CardHeader className="pb-2 pt-4">
+                <div className="flex items-center justify-between flex-wrap gap-2">
+                  <div className="flex items-center gap-2">
+                    <Coins className="h-4 w-4 text-green-600" />
+                    <CardTitle className="text-base">Rendita da dividendi</CardTitle>
+                  </div>
+                  <div className="flex items-baseline gap-3">
+                    <span className="text-xl font-bold text-green-600">{formatCurrency(result.totalDividends, currency)}</span>
+                    <span className="text-sm text-muted-foreground">+{result.totalDividendsPct.toFixed(1)}% sull&apos;investito</span>
+                  </div>
+                </div>
+                <CardDescription>Dividendi incassati separatamente dalla rivalutazione del titolo · lordi, tassazione esclusa</CardDescription>
+              </CardHeader>
+              <CardContent className="pb-4">
+                <div className="rounded-lg border overflow-hidden">
+                  <table className="w-full text-xs">
+                    <thead>
+                      <tr className="bg-muted/50">
+                        <th className="text-left py-2 px-3 font-medium">Anno</th>
+                        <th className="text-right py-2 px-3 font-medium">Dividendo/quota</th>
+                        <th className="text-right py-2 px-3 font-medium">Incassato</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {result.dividendsByYear.map((row) => (
+                        <tr key={row.year} className="border-t hover:bg-muted/30 transition-colors">
+                          <td className="py-2 px-3 font-medium">{row.year}</td>
+                          <td className="py-2 px-3 text-right text-muted-foreground">{formatCurrency(row.perShare, currency)}</td>
+                          <td className="py-2 px-3 text-right font-semibold">{formatCurrency(row.income, currency)}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </CardContent>
+            </Card>
+          )}
 
           {/* Avviso periodi negativi */}
           {result.periodsInNegative > 0 && (
