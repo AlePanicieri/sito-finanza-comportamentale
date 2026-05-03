@@ -78,6 +78,14 @@ export function DCASimulator({ prices, dividends = [], currency, ticker, onResul
       )
     : [];
 
+  const pacEndDateLabel = useEndDate && endDate && chartData.length
+    ? chartData.reduce((best, p) =>
+        Math.abs(new Date(p.date).getTime() - new Date(endDate).getTime()) <
+        Math.abs(new Date(best.date).getTime() - new Date(endDate).getTime())
+          ? p : best
+      ).date
+    : null;
+
   const CustomTooltip = ({ active, payload, label }: { active?: boolean; payload?: Array<{ name: string; value: number; color: string; payload: { close?: number } }>; label?: string }) => {
     if (!active || !payload?.length) return null;
     const versato = payload.find((p) => p.name === "Totale versato")?.value ?? 0;
@@ -297,6 +305,14 @@ export function DCASimulator({ prices, dividends = [], currency, ticker, onResul
                     dot={false}
                   />
                   <Legend wrapperStyle={{ fontSize: 12 }} />
+                  {pacEndDateLabel && (
+                    <ReferenceLine
+                      x={pacEndDateLabel}
+                      stroke="#000"
+                      strokeWidth={2}
+                      label={{ value: "Fine PAC", position: "insideTopRight", fontSize: 11, fill: "#000", fontWeight: "bold" }}
+                    />
+                  )}
                 </AreaChart>
               </ResponsiveContainer>
             </CardContent>

@@ -270,11 +270,13 @@ export function calcDCA(
     (p) => new Date(p.date).getTime() >= startTs
   );
 
-  // Mappa acquisti per data
+  // Mappa acquisti per data: shares e importo investito (più mesi possono cadere sulla stessa data prezzo)
   const purchaseMap = new Map<string, number>();
+  const purchaseAmountMap = new Map<string, number>();
   let cumulativeShares = 0;
   for (const p of purchases) {
     purchaseMap.set(p.date, (purchaseMap.get(p.date) ?? 0) + p.shares);
+    purchaseAmountMap.set(p.date, (purchaseAmountMap.get(p.date) ?? 0) + monthlyAmount);
   }
 
   let sharesHeld = 0;
@@ -285,7 +287,7 @@ export function calcDCA(
     if (purchaseMap.has(p.date)) {
       const newShares = purchaseMap.get(p.date)!;
       sharesHeld += newShares;
-      investedSoFar += monthlyAmount;
+      investedSoFar += purchaseAmountMap.get(p.date)!;
       cumulativeShares = sharesHeld;
     }
     if (sharesHeld > 0) {
