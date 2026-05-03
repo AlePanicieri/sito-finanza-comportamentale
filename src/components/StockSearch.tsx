@@ -74,7 +74,12 @@ export function StockSearch({ value, onChange, placeholder = "Es. AAPL, BTC-USD,
           onChange={(e) => setQuery(e.target.value)}
           onKeyDown={(e) => {
             if (e.key === "Enter" && query.trim()) {
-              onChange(query.trim().toUpperCase());
+              if (results.length > 0) {
+                onChange(results[0].symbol, results[0].shortname);
+                setQuery(results[0].symbol);
+              } else {
+                onChange(query.trim().toUpperCase());
+              }
               setOpen(false);
             }
           }}

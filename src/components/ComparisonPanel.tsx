@@ -186,8 +186,8 @@ export function ComparisonPanel({ lumpSum, dca, lumpSumAmount, dcaMonthly, curre
                 ...(lumpSum
                   ? [
                       {
-                        label: "Max drawdown",
-                        ls: `-${lumpSum.maxDrawdownPct.toFixed(1)}%`,
+                        label: "Peggior sessione",
+                        ls: `${lumpSum.worstSessionPct.toFixed(2)}%`,
                         dca: null,
                         lsColor: "text-red-500",
                         dcaColor: "",

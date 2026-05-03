@@ -10,8 +10,8 @@ export interface LumpSumResult {
   totalInvested: number;
   returnPct: number;
   returnRealPct: number;
-  maxDrawdown: number;
-  maxDrawdownPct: number;
+  worstSessionPct: number;
+  worstSession: number;
   periodsInNegative: number;
   totalPeriods: number;
 }
@@ -85,8 +85,8 @@ export function calcLumpSum(
       totalInvested: investedAmount,
       returnPct: 0,
       returnRealPct: 0,
-      maxDrawdown: 0,
-      maxDrawdownPct: 0,
+      worstSessionPct: 0,
+      worstSession: 0,
       periodsInNegative: 0,
       totalPeriods: 0,
     };
@@ -101,30 +101,34 @@ export function calcLumpSum(
     (p) => new Date(p.date).getTime() >= startTs
   );
 
-  let peakValue = investedAmount;
-  let maxDrawdown = 0;
-  let maxDrawdownPct = 0;
+  let worstSessionPct = 0;
+  let worstSession = 0;
   let periodsInNegative = 0;
 
-  const portfolioHistory = relevantPrices.map((p) => {
+  const portfolioHistory: { date: string; value: number; valueReal: number }[] = [];
+
+  for (let i = 0; i < relevantPrices.length; i++) {
+    const p = relevantPrices[i];
     const value = shares * p.close;
     const years = yearsBetween(new Date(startPoint.date), new Date(p.date));
     const valueReal = adjustForInflation(value, years);
 
-    // Drawdown
-    if (value > peakValue) peakValue = value;
-    const dd = peakValue - value;
-    const ddPct = (dd / peakValue) * 100;
-    if (dd > maxDrawdown) {
-      maxDrawdown = dd;
-      maxDrawdownPct = ddPct;
+    // Peggior sessione giornaliera
+    if (i > 0) {
+      const prevClose = relevantPrices[i - 1].close;
+      const dailyPct = ((p.close - prevClose) / prevClose) * 100;
+      const dailyAbs = (p.close - prevClose) * shares;
+      if (dailyPct < worstSessionPct) {
+        worstSessionPct = dailyPct;
+        worstSession = dailyAbs;
+      }
     }
 
     // Sotto il capitale investito
     if (value < investedAmount) periodsInNegative++;
 
-    return { date: p.date, value: Math.round(value * 100) / 100, valueReal: Math.round(valueReal * 100) / 100 };
-  });
+    portfolioHistory.push({ date: p.date, value: Math.round(value * 100) / 100, valueReal: Math.round(valueReal * 100) / 100 });
+  }
 
   const lastPoint = portfolioHistory[portfolioHistory.length - 1];
   const finalValue = lastPoint?.value ?? investedAmount;
@@ -141,8 +145,8 @@ export function calcLumpSum(
     totalInvested: investedAmount,
     returnPct: Math.round(returnPct * 100) / 100,
     returnRealPct: Math.round(returnRealPct * 100) / 100,
-    maxDrawdown: Math.round(maxDrawdown * 100) / 100,
-    maxDrawdownPct: Math.round(maxDrawdownPct * 100) / 100,
+    worstSessionPct: Math.round(worstSessionPct * 100) / 100,
+    worstSession: Math.round(worstSession * 100) / 100,
     periodsInNegative,
     totalPeriods: portfolioHistory.length,
   };

@@ -23,7 +23,9 @@ export async function GET(request: NextRequest) {
       const quotes = allQuotes
         .filter((q) => {
           const t = (q.typeDisp ?? "").toLowerCase();
-          return t === "equity" || t === "etf" || t === "cryptocurrency" || t === "mutualfund";
+          const sym = (q.symbol ?? "").toUpperCase();
+          if (sym.endsWith(".XD") || sym.endsWith(".EX")) return false;
+          return t === "equity" || t === "etf" || t === "cryptocurrency" || t === "mutualfund" || t === "stock";
         })
         .slice(0, 8)
         .map((q) => ({
@@ -43,11 +45,11 @@ export async function GET(request: NextRequest) {
     const period2 = to ? new Date(to) : new Date();
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const historical: any = await yahooFinance.chart(ticker, {
-      period1,
-      period2,
-      interval: "1d",
-    });
+    const historical: any = await yahooFinance.chart(
+      ticker,
+      { period1, period2, interval: "1d" },
+      { fetchOptions: {} }
+    );
 
     const rawQuotes: Array<{
       date: Date | string;

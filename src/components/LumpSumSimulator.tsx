@@ -168,17 +168,17 @@ export function LumpSumSimulator({ prices, currency, ticker, onResult }: Props) 
                 </div>
               </CardContent>
             </Card>
-            <Card className={result.maxDrawdownPct > 20 ? "border-red-200 bg-red-50/50 dark:bg-red-950/10" : ""}>
+            <Card className={result.worstSessionPct < -5 ? "border-red-200 bg-red-50/50 dark:bg-red-950/10" : ""}>
               <CardContent className="pt-4 pb-3">
                 <div className="text-xs text-muted-foreground flex items-center gap-1">
                   <AlertTriangle className="h-3 w-3 text-amber-500" />
-                  Max drawdown
+                  Peggior sessione
                 </div>
                 <div className="text-lg font-bold mt-1 text-red-500">
-                  -{result.maxDrawdownPct.toFixed(1)}%
+                  {result.worstSessionPct.toFixed(2)}%
                 </div>
                 <div className="text-xs text-muted-foreground mt-0.5">
-                  {formatCurrency(result.maxDrawdown, currency)}
+                  {formatCurrency(result.worstSession, currency)}
                 </div>
               </CardContent>
             </Card>
