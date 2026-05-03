@@ -25,7 +25,7 @@ export interface LumpSumResult {
 }
 
 export interface DCAResult {
-  portfolioHistory: { date: string; value: number; totalInvested: number }[];
+  portfolioHistory: { date: string; value: number; totalInvested: number; close: number }[];
   finalValue: number;
   finalValueReal: number;
   totalInvested: number;
@@ -276,7 +276,7 @@ export function calcDCA(
 
   let sharesHeld = 0;
   let investedSoFar = 0;
-  const portfolioHistory: { date: string; value: number; totalInvested: number }[] = [];
+  const portfolioHistory: { date: string; value: number; totalInvested: number; close: number }[] = [];
 
   for (const p of relevantPrices) {
     if (purchaseMap.has(p.date)) {
@@ -290,6 +290,7 @@ export function calcDCA(
         date: p.date,
         value: Math.round(sharesHeld * p.close * 100) / 100,
         totalInvested: Math.round(investedSoFar * 100) / 100,
+        close: p.close,
       });
     }
   }

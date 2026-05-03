@@ -72,28 +72,39 @@ export function DCASimulator({ prices, dividends = [], currency, ticker, onResul
           date: p.date,
           "Valore portafoglio": p.value,
           "Totale versato": p.totalInvested,
+          close: p.close,
         })),
         7
       )
     : [];
 
-  const CustomTooltip = ({ active, payload, label }: { active?: boolean; payload?: Array<{ name: string; value: number; color: string }>; label?: string }) => {
+  const CustomTooltip = ({ active, payload, label }: { active?: boolean; payload?: Array<{ name: string; value: number; color: string; payload: { close?: number } }>; label?: string }) => {
     if (!active || !payload?.length) return null;
+    const versato = payload.find((p) => p.name === "Totale versato")?.value ?? 0;
+    const portafoglio = payload.find((p) => p.name === "Valore portafoglio")?.value ?? 0;
+    const guadagno = portafoglio - versato;
+    const closePrice = payload[0]?.payload?.close;
     return (
       <div className="bg-background border rounded-lg px-3 py-2 shadow-lg text-sm min-w-44">
         <div className="font-medium text-xs text-muted-foreground mb-2">{label ? formatShortDate(label) : ""}</div>
+        {closePrice !== undefined && (
+          <div className="flex justify-between gap-4 mb-1.5 pb-1.5 border-b">
+            <span className="text-xs text-muted-foreground">Prezzo azione</span>
+            <span className="font-semibold text-xs">{formatCurrency(closePrice, currency)}</span>
+          </div>
+        )}
         {payload.map((p) => (
           <div key={p.name} className="flex justify-between gap-4">
             <span className="text-xs" style={{ color: p.color }}>{p.name}</span>
             <span className="font-semibold text-xs">{formatCurrency(p.value, currency)}</span>
           </div>
         ))}
-        {payload.length >= 2 && (
+        {versato > 0 && (
           <div className="mt-1.5 pt-1.5 border-t text-xs">
             <div className="flex justify-between">
               <span className="text-muted-foreground">Guadagno</span>
-              <span className={`font-semibold ${pctColor(payload[0].value - payload[1].value)}`}>
-                {formatCurrency(payload[0].value - payload[1].value, currency)}
+              <span className={`font-semibold ${pctColor(guadagno)}`}>
+                {formatCurrency(guadagno, currency)}
               </span>
             </div>
           </div>
