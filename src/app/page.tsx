@@ -14,6 +14,7 @@ import { LumpSumResult, DCAResult, PricePoint, DividendPoint } from "@/lib/calcu
 import { formatCurrency } from "@/lib/formatters";
 import { ARTICLES } from "@/lib/articles";
 import { AdSlot } from "@/components/site/AdSlot";
+import { RiskDisclaimer } from "@/components/site/RiskDisclaimer";
 import Link from "next/link";
 import {
   Brain,
@@ -138,6 +139,8 @@ export default function HomePage() {
                 Poi impara a riconoscere i bias — e i fuffaguru — che ti fanno vedere guadagni che non esistono.
               </p>
             </div>
+
+            <RiskDisclaimer className="w-full max-w-3xl text-left" />
 
             {/* Feature cards */}
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 w-full max-w-3xl">

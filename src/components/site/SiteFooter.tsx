@@ -35,9 +35,10 @@ export function SiteFooter() {
             Avvertenze
           </div>
           <p className="text-xs text-muted-foreground leading-relaxed">
-            Contenuto a solo scopo educativo. Non è consulenza finanziaria. I
-            rendimenti storici non garantiscono risultati futuri. Dati di mercato
-            forniti da Yahoo Finance.
+            Contenuto a solo scopo educativo. Non è consulenza finanziaria né un invito a
+            investire. La finanza è rischio: i titoli possono perdere valore, fallire o
+            essere delistati. I rendimenti storici non garantiscono risultati futuri. Dati
+            di mercato forniti da Yahoo Finance.
           </p>
         </div>
       </div>

@@ -3,6 +3,7 @@ import Link from "next/link";
 import { Clock } from "lucide-react";
 import { ARTICLES, formatDate } from "@/lib/articles";
 import { AdSlot } from "@/components/site/AdSlot";
+import { RiskDisclaimer } from "@/components/site/RiskDisclaimer";
 
 export const metadata: Metadata = {
   title: "Guide alla finanza comportamentale",
@@ -23,6 +24,8 @@ export default function GuideIndexPage() {
           da chi ti vende fumo.
         </p>
       </header>
+
+      <RiskDisclaimer className="mb-8" />
 
       <div className="grid gap-4">
         {ARTICLES.map((a) => (
