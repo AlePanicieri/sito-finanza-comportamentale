@@ -1,10 +1,13 @@
-// Segnaposto per unità pubblicitarie (es. Google AdSense).
-// Finché NEXT_PUBLIC_ADSENSE_CLIENT non è configurato, mostra un placeholder
-// discreto. Dopo l'approvazione AdSense basterà popolare questo componente con
-// il tag <ins className="adsbygoogle" .../> e caricare lo script nel layout.
+import { AdUnit } from "./AdUnit";
+
+// Slot pubblicitario. Comportamento a seconda della configurazione:
+// - Nessun NEXT_PUBLIC_ADSENSE_CLIENT  → placeholder discreto (sviluppo).
+// - Client impostato + slot passato     → unità AdSense reale (manuale).
+// - Client impostato + nessuno slot     → non renderizza nulla (lascia spazio
+//   agli Auto Ads di AdSense, che scelgono da soli i posizionamenti).
 
 interface AdSlotProps {
-  /** Etichetta interna (non mostrata all'utente) */
+  /** ID dell'unità pubblicitaria creata nella dashboard AdSense */
   slot?: string;
   className?: string;
   /** Formato indicativo per l'altezza del placeholder */
@@ -17,16 +20,15 @@ const HEIGHTS: Record<NonNullable<AdSlotProps["format"]>, string> = {
   inline: "min-h-[120px]",
 };
 
-export function AdSlot({ className = "", format = "leaderboard" }: AdSlotProps) {
+export function AdSlot({ slot, className = "", format = "leaderboard" }: AdSlotProps) {
   const adsenseClient = process.env.NEXT_PUBLIC_ADSENSE_CLIENT;
 
-  // In produzione, con AdSense configurato, qui andrà l'unità reale.
   if (adsenseClient) {
-    return (
-      <div className={className} aria-hidden>
-        {/* TODO: <ins className="adsbygoogle" data-ad-client={adsenseClient} ... /> */}
-      </div>
-    );
+    // Unità manuale solo se abbiamo lo slot; altrimenti lasciamo fare agli Auto Ads.
+    if (slot) {
+      return <AdUnit client={adsenseClient} slot={slot} className={className} />;
+    }
+    return null;
   }
 
   return (
