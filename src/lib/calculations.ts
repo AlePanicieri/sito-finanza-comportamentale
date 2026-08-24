@@ -15,6 +15,8 @@ export interface LumpSumResult {
   totalInvested: number;
   returnPct: number;
   returnRealPct: number;
+  /** Rendimento annualizzato (CAGR/IRR). null se non calcolabile. */
+  annualizedReturnPct: number | null;
   worstSessionPct: number;
   worstSession: number;
   periodsInNegative: number;
@@ -31,6 +33,8 @@ export interface DCAResult {
   totalInvested: number;
   returnPct: number;
   returnRealPct: number;
+  /** Rendimento annualizzato money-weighted (XIRR). null se non calcolabile. */
+  annualizedReturnPct: number | null;
   installments: number;
   totalDividends: number;
   totalDividendsPct: number;
@@ -48,9 +52,52 @@ export interface WindowPerformance {
   available: boolean;
 }
 
-/** Deflaziona un valore nominale con inflazione al 2%/anno */
-export function adjustForInflation(nominalValue: number, years: number): number {
-  return nominalValue / Math.pow(1.02, years);
+/** Deflaziona un valore nominale con un tasso d'inflazione annuo (default 2%) */
+export function adjustForInflation(
+  nominalValue: number,
+  years: number,
+  annualRate: number = 0.02
+): number {
+  return nominalValue / Math.pow(1 + annualRate, years);
+}
+
+export interface CashFlow {
+  date: Date;
+  /** Negativo per gli esborsi (versamenti), positivo per gli incassi (valore finale) */
+  amount: number;
+}
+
+/**
+ * Rendimento annualizzato money-weighted (XIRR) via Newton-Raphson.
+ * Tiene conto di QUANDO viene investito ogni euro, quindi è confrontabile
+ * tra strategie diverse (Lump Sum vs PAC). Ritorna il tasso annuo (es. 0.12
+ * = 12%/anno) oppure null se non converge / non è calcolabile.
+ */
+export function xirr(flows: CashFlow[], guess: number = 0.1): number | null {
+  if (flows.length < 2) return null;
+  const t0 = flows[0].date.getTime();
+  const msPerYear = 365.25 * 24 * 60 * 60 * 1000;
+  const yearFrac = (d: Date) => (d.getTime() - t0) / msPerYear;
+  const npv = (r: number) =>
+    flows.reduce((s, cf) => s + cf.amount / Math.pow(1 + r, yearFrac(cf.date)), 0);
+  const dNpv = (r: number) =>
+    flows.reduce((s, cf) => {
+      const t = yearFrac(cf.date);
+      return s - (t * cf.amount) / Math.pow(1 + r, t + 1);
+    }, 0);
+
+  let r = guess;
+  for (let i = 0; i < 100; i++) {
+    const f = npv(r);
+    const d = dNpv(r);
+    if (!isFinite(f) || !isFinite(d) || Math.abs(d) < 1e-12) break;
+    const next = r - f / d;
+    if (!isFinite(next)) break;
+    if (Math.abs(next - r) < 1e-7) return next <= -0.9999 ? null : next;
+    r = next;
+    if (r <= -0.9999) r = -0.9999 + 1e-6;
+  }
+  return null;
 }
 
 /** Calcola il numero di anni tra due date */
@@ -85,7 +132,8 @@ export function calcLumpSum(
   prices: PricePoint[],
   investedAmount: number,
   startDate: Date,
-  dividends: DividendPoint[] = []
+  dividends: DividendPoint[] = [],
+  inflationRate: number = 0.02
 ): LumpSumResult {
   const today = new Date();
 
@@ -98,6 +146,7 @@ export function calcLumpSum(
       totalInvested: investedAmount,
       returnPct: 0,
       returnRealPct: 0,
+      annualizedReturnPct: null,
       worstSessionPct: 0,
       worstSession: 0,
       periodsInNegative: 0,
@@ -127,7 +176,7 @@ export function calcLumpSum(
     const p = relevantPrices[i];
     const value = shares * p.close;
     const years = yearsBetween(new Date(startPoint.date), new Date(p.date));
-    const valueReal = adjustForInflation(value, years);
+    const valueReal = adjustForInflation(value, years, inflationRate);
 
     // Peggior sessione giornaliera
     if (i > 0) {
@@ -149,10 +198,18 @@ export function calcLumpSum(
   const lastPoint = portfolioHistory[portfolioHistory.length - 1];
   const finalValue = lastPoint?.value ?? investedAmount;
   const years = yearsBetween(new Date(startPoint.date), today);
-  const finalValueReal = adjustForInflation(finalValue, years);
+  const finalValueReal = adjustForInflation(finalValue, years, inflationRate);
 
   const returnPct = ((finalValue - investedAmount) / investedAmount) * 100;
   const returnRealPct = ((finalValueReal - investedAmount) / investedAmount) * 100;
+
+  // Rendimento annualizzato: per un investimento unico coincide col CAGR.
+  const lastDate = lastPoint ? new Date(lastPoint.date) : today;
+  const irr = xirr([
+    { date: new Date(startPoint.date), amount: -investedAmount },
+    { date: lastDate, amount: finalValue },
+  ]);
+  const annualizedReturnPct = irr !== null ? Math.round(irr * 10000) / 100 : null;
 
   // Dividendi: filtra quelli dopo la data di acquisto, raggruppa per anno
   const byYear = new Map<number, number>();
@@ -178,6 +235,7 @@ export function calcLumpSum(
     totalInvested: investedAmount,
     returnPct: Math.round(returnPct * 100) / 100,
     returnRealPct: Math.round(returnRealPct * 100) / 100,
+    annualizedReturnPct,
     worstSessionPct: Math.round(worstSessionPct * 100) / 100,
     worstSession: Math.round(worstSession * 100) / 100,
     periodsInNegative,
@@ -198,7 +256,8 @@ export function calcDCA(
   startDate: Date,
   dayOfMonth: number,
   dividends: DividendPoint[] = [],
-  endDate?: Date
+  endDate?: Date,
+  inflationRate: number = 0.02
 ): DCAResult {
   if (!prices.length) {
     return {
@@ -208,6 +267,7 @@ export function calcDCA(
       totalInvested: 0,
       returnPct: 0,
       returnRealPct: 0,
+      annualizedReturnPct: null,
       installments: 0,
       totalDividends: 0,
       totalDividendsPct: 0,
@@ -255,6 +315,7 @@ export function calcDCA(
       totalInvested: 0,
       returnPct: 0,
       returnRealPct: 0,
+      annualizedReturnPct: null,
       installments: 0,
       totalDividends: 0,
       totalDividendsPct: 0,
@@ -314,10 +375,22 @@ export function calcDCA(
   const finalDate = kpiPoint?.date ?? kpiDate.toISOString().split("T")[0];
   const kpiTotalInvested = kpiPoint?.totalInvested ?? totalInvested;
   const years = yearsBetween(firstPurchaseDate, new Date(finalDate));
-  const finalValueReal = adjustForInflation(finalValue, years);
+  const finalValueReal = adjustForInflation(finalValue, years, inflationRate);
 
   const returnPct = kpiTotalInvested > 0 ? ((finalValue - kpiTotalInvested) / kpiTotalInvested) * 100 : 0;
   const returnRealPct = kpiTotalInvested > 0 ? ((finalValueReal - kpiTotalInvested) / kpiTotalInvested) * 100 : 0;
+
+  // Rendimento annualizzato money-weighted (XIRR): ogni versamento è un esborso
+  // alla sua data, il valore finale è l'incasso alla data di valutazione.
+  // Tiene conto di quanto tempo ogni euro è rimasto investito → confrontabile
+  // col Lump Sum. Consideriamo solo i versamenti fino alla data dei KPI.
+  const kpiTs = new Date(finalDate).getTime();
+  const irrFlows: CashFlow[] = purchases
+    .filter((p) => new Date(p.date).getTime() <= kpiTs)
+    .map((p) => ({ date: new Date(p.date), amount: -monthlyAmount }));
+  irrFlows.push({ date: new Date(finalDate), amount: finalValue });
+  const irr = xirr(irrFlows);
+  const annualizedReturnPct = irr !== null ? Math.round(irr * 10000) / 100 : null;
 
   // Dividendi DCA: per ogni pagamento, moltiplica per le quote accumulate FINO a quella data
   const firstPurchaseTs = firstPurchaseDate.getTime();
@@ -352,6 +425,7 @@ export function calcDCA(
     totalInvested: Math.round(totalInvested * 100) / 100,
     returnPct: Math.round(returnPct * 100) / 100,
     returnRealPct: Math.round(returnRealPct * 100) / 100,
+    annualizedReturnPct,
     installments: purchases.length,
     totalDividends,
     totalDividendsPct,

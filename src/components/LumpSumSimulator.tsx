@@ -26,6 +26,9 @@ interface Props {
   dividends?: DividendPoint[];
   currency: string;
   ticker: string;
+  /** Tasso d'inflazione annuo in percentuale (es. 2) */
+  inflationRate: number;
+  onInflationChange: (rate: number) => void;
   onResult?: (result: LumpSumResult, amount: number, startDate: string) => void;
 }
 
@@ -43,7 +46,7 @@ function sampleArray<T>(arr: T[], step: number): T[] {
   return result;
 }
 
-export function LumpSumSimulator({ prices, dividends = [], currency, ticker, onResult }: Props) {
+export function LumpSumSimulator({ prices, dividends = [], currency, ticker, inflationRate, onInflationChange, onResult }: Props) {
   const [amount, setAmount] = useState("10000");
   const [startDate, setStartDate] = useState(() => {
     const d = new Date();
@@ -59,7 +62,7 @@ export function LumpSumSimulator({ prices, dividends = [], currency, ticker, onR
   function handleCalculate() {
     const amt = parseFloat(amount);
     if (!amt || amt <= 0 || !prices.length) return;
-    const res = calcLumpSum(prices, amt, new Date(startDate), dividends);
+    const res = calcLumpSum(prices, amt, new Date(startDate), dividends, inflationRate / 100);
     setResult(res);
     onResult?.(res, amt, startDate);
   }
@@ -67,7 +70,7 @@ export function LumpSumSimulator({ prices, dividends = [], currency, ticker, onR
   useEffect(() => {
     if (prices.length) handleCalculate();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [prices]);
+  }, [prices, inflationRate]);
 
   const chartData = result
     ? sampleArray(
@@ -105,7 +108,7 @@ export function LumpSumSimulator({ prices, dividends = [], currency, ticker, onR
           <CardDescription>Investimento unico in {ticker}</CardDescription>
         </CardHeader>
         <CardContent>
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 items-end">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 items-end">
             <div className="space-y-1.5">
               <Label>Importo ({currency})</Label>
               <Input
@@ -124,6 +127,17 @@ export function LumpSumSimulator({ prices, dividends = [], currency, ticker, onR
                 max={maxDate}
                 value={startDate}
                 onChange={(e) => setStartDate(e.target.value)}
+              />
+            </div>
+            <div className="space-y-1.5">
+              <Label>Inflazione annua (%)</Label>
+              <Input
+                type="number"
+                min={0}
+                max={20}
+                step={0.5}
+                value={inflationRate}
+                onChange={(e) => onInflationChange(parseFloat(e.target.value) || 0)}
               />
             </div>
             <Button onClick={handleCalculate} className="w-full">
@@ -154,12 +168,17 @@ export function LumpSumSimulator({ prices, dividends = [], currency, ticker, onR
                 <div className={`text-sm font-semibold mt-0.5 ${pctColor(result.returnPct)}`}>
                   {formatPct(result.returnPct)}
                 </div>
+                {result.annualizedReturnPct !== null && (
+                  <div className="text-[11px] text-muted-foreground mt-0.5">
+                    ≈ {formatPct(result.annualizedReturnPct)}/anno
+                  </div>
+                )}
               </CardContent>
             </Card>
             <Card>
               <CardContent className="pt-4 pb-3">
                 <div className="text-xs text-muted-foreground flex items-center gap-1">
-                  Valore reale <span className="text-[10px]">(inflaz. 2%)</span>
+                  Valore reale <span className="text-[10px]">(inflaz. {inflationRate}%)</span>
                 </div>
                 <div className="text-lg font-bold mt-1">
                   {formatCurrency(result.finalValueReal, currency)}
@@ -334,7 +353,8 @@ export function LumpSumSimulator({ prices, dividends = [], currency, ticker, onR
                 <div className="text-xs text-muted-foreground space-y-1">
                   <div><span className="font-semibold">Quote acquistate</span> = Importo ÷ Prezzo acquisto</div>
                   <div><span className="font-semibold">Valore nominale</span> = Quote × Prezzo corrente</div>
-                  <div><span className="font-semibold">Valore reale</span> = Valore nominale ÷ (1.02)^anni <span className="italic">(inflazione 2%/anno)</span></div>
+                  <div><span className="font-semibold">Rendimento annualizzato</span> = tasso di crescita medio annuo (CAGR/IRR) — confrontabile col PAC</div>
+                  <div><span className="font-semibold">Valore reale</span> = Valore nominale ÷ (1+{(inflationRate / 100).toFixed(3).replace(/0+$/, "").replace(/\.$/, "")})^anni <span className="italic">(inflazione {inflationRate}%/anno)</span></div>
                 </div>
               </div>
             </CardContent>

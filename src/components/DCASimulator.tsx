@@ -25,6 +25,9 @@ interface Props {
   dividends?: DividendPoint[];
   currency: string;
   ticker: string;
+  /** Tasso d'inflazione annuo in percentuale (es. 2) */
+  inflationRate: number;
+  onInflationChange: (rate: number) => void;
   onResult?: (result: DCAResult, monthlyAmount: number, startDate: string, dayOfMonth: number) => void;
 }
 
@@ -36,7 +39,7 @@ function sampleArray<T>(arr: T[], step: number): T[] {
   return result;
 }
 
-export function DCASimulator({ prices, dividends = [], currency, ticker, onResult }: Props) {
+export function DCASimulator({ prices, dividends = [], currency, ticker, inflationRate, onInflationChange, onResult }: Props) {
   const [monthlyAmount, setMonthlyAmount] = useState("500");
   const [startDate, setStartDate] = useState(() => {
     const d = new Date();
@@ -56,7 +59,7 @@ export function DCASimulator({ prices, dividends = [], currency, ticker, onResul
     const day = parseInt(dayOfMonth, 10);
     if (!amt || amt <= 0 || !prices.length || !day) return;
     const end = useEndDate && endDate ? new Date(endDate) : undefined;
-    const res = calcDCA(prices, amt, new Date(startDate), Math.min(Math.max(day, 1), 28), dividends, end);
+    const res = calcDCA(prices, amt, new Date(startDate), Math.min(Math.max(day, 1), 28), dividends, end, inflationRate / 100);
     setResult(res);
     onResult?.(res, amt, startDate, day);
   }
@@ -64,7 +67,7 @@ export function DCASimulator({ prices, dividends = [], currency, ticker, onResul
   useEffect(() => {
     if (prices.length) handleCalculate();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [prices]);
+  }, [prices, inflationRate]);
 
   const chartData = result
     ? sampleArray(
@@ -172,6 +175,18 @@ export function DCASimulator({ prices, dividends = [], currency, ticker, onResul
             </Button>
           </div>
           <div className="mt-4 flex flex-wrap items-center gap-4">
+            <div className="flex items-center gap-2">
+              <Label className="text-sm shrink-0">Inflazione annua (%)</Label>
+              <Input
+                type="number"
+                min={0}
+                max={20}
+                step={0.5}
+                value={inflationRate}
+                onChange={(e) => onInflationChange(parseFloat(e.target.value) || 0)}
+                className="w-20"
+              />
+            </div>
             <label className="flex items-center gap-2 cursor-pointer select-none">
               <input
                 type="checkbox"
@@ -229,6 +244,11 @@ export function DCASimulator({ prices, dividends = [], currency, ticker, onResul
                 <div className={`text-sm font-semibold mt-0.5 ${pctColor(result.returnPct)}`}>
                   {formatPct(result.returnPct)}
                 </div>
+                {result.annualizedReturnPct !== null && (
+                  <div className="text-[11px] text-muted-foreground mt-0.5">
+                    ≈ {formatPct(result.annualizedReturnPct)}/anno
+                  </div>
+                )}
               </CardContent>
             </Card>
             <Card className={gain >= 0 ? "border-emerald-200 bg-emerald-50/50 dark:bg-emerald-950/10" : "border-red-200 bg-red-50/50 dark:bg-red-950/10"}>
@@ -242,7 +262,7 @@ export function DCASimulator({ prices, dividends = [], currency, ticker, onResul
             <Card>
               <CardContent className="pt-4 pb-3">
                 <div className="text-xs text-muted-foreground flex items-center gap-1">
-                  Valore reale <span className="text-[10px]">(inflaz. 2%)</span>
+                  Valore reale <span className="text-[10px]">(inflaz. {inflationRate}%)</span>
                 </div>
                 <div className="text-lg font-bold mt-1">
                   {formatCurrency(result.finalValueReal, currency)}
@@ -375,8 +395,9 @@ export function DCASimulator({ prices, dividends = [], currency, ticker, onResul
                 <div className="text-xs text-muted-foreground space-y-1">
                   <div><span className="font-semibold">Quote mese n</span> = Versamento ÷ Prezzo del giorno {dayOfMonth} del mese</div>
                   <div><span className="font-semibold">Valore portafoglio</span> = Σ(Quote mese n) × Prezzo attuale</div>
-                  <div><span className="font-semibold">Rendimento %</span> = (Valore finale − Totale versato) ÷ Totale versato × 100</div>
-                  <div><span className="font-semibold">Valore reale</span> = Valore finale ÷ (1.02)^anni <span className="italic">(inflazione 2%/anno)</span></div>
+                  <div><span className="font-semibold">Rendimento %</span> = (Valore finale − Totale versato) ÷ Totale versato × 100 <span className="italic">(rendimento semplice, non annualizzato)</span></div>
+                  <div><span className="font-semibold">Rendimento annualizzato</span> = tasso annuo che tiene conto di <span className="italic">quando</span> versi ogni euro (XIRR) — confrontabile col Lump Sum</div>
+                  <div><span className="font-semibold">Valore reale</span> = Valore finale ÷ (1+{(inflationRate / 100).toFixed(3).replace(/0+$/, "").replace(/\.$/, "")})^anni <span className="italic">(inflazione {inflationRate}%/anno)</span></div>
                 </div>
               </div>
             </CardContent>

@@ -54,6 +54,9 @@ export default function HomePage() {
   const [dcaResult, setDcaResult] = useState<DCAResult | null>(null);
   const [dcaMonthly, setDcaMonthly] = useState(500);
 
+  // Tasso d'inflazione annuo (%) condiviso tra i simulatori e il confronto
+  const [inflationRate, setInflationRate] = useState(2);
+
   const { loading, error, fetch: fetchStock } = useStockData();
 
   const loadStock = useCallback(
@@ -309,6 +312,8 @@ export default function HomePage() {
                   dividends={dividends}
                   currency={currency}
                   ticker={ticker.toUpperCase()}
+                  inflationRate={inflationRate}
+                  onInflationChange={setInflationRate}
                   onResult={(res, amt) => {
                     setLsResult(res);
                     setLsAmount(amt);
@@ -322,6 +327,8 @@ export default function HomePage() {
                   dividends={dividends}
                   currency={currency}
                   ticker={ticker.toUpperCase()}
+                  inflationRate={inflationRate}
+                  onInflationChange={setInflationRate}
                   onResult={(res, monthly) => {
                     setDcaResult(res);
                     setDcaMonthly(monthly);
@@ -359,6 +366,7 @@ export default function HomePage() {
                     lumpSumAmount={lsAmount}
                     dcaMonthly={dcaMonthly}
                     currency={currency}
+                    inflationRate={inflationRate}
                   />
                 )}
               </TabsContent>
