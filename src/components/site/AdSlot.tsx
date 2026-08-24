@@ -1,4 +1,5 @@
 import { AdUnit } from "./AdUnit";
+import { ADSENSE_CLIENT } from "@/lib/adsense";
 
 // Slot pubblicitario. Comportamento a seconda della configurazione:
 // - Nessun NEXT_PUBLIC_ADSENSE_CLIENT  → placeholder discreto (sviluppo).
@@ -21,7 +22,7 @@ const HEIGHTS: Record<NonNullable<AdSlotProps["format"]>, string> = {
 };
 
 export function AdSlot({ slot, className = "", format = "leaderboard" }: AdSlotProps) {
-  const adsenseClient = process.env.NEXT_PUBLIC_ADSENSE_CLIENT;
+  const adsenseClient = ADSENSE_CLIENT;
 
   if (adsenseClient) {
     // Unità manuale solo se abbiamo lo slot; altrimenti lasciamo fare agli Auto Ads.

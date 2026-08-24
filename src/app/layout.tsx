@@ -4,10 +4,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { SiteHeader } from "@/components/site/SiteHeader";
 import { SiteFooter } from "@/components/site/SiteFooter";
-
-// Publisher ID di Google AdSense (es. "ca-pub-1234567890123456").
-// Finché non è impostato nelle env, lo script pubblicitario non viene caricato.
-const ADSENSE_CLIENT = process.env.NEXT_PUBLIC_ADSENSE_CLIENT;
+import { ADSENSE_CLIENT } from "@/lib/adsense";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
