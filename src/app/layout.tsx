@@ -43,6 +43,11 @@ export const metadata: Metadata = {
       "Quanto avresti oggi con 500€ al mese? Simulalo sui dati storici veri e scopri i bias che ti ingannano.",
   },
   robots: { index: true, follow: true },
+  // Verifica proprietà Google AdSense: meta tag statico nel <head>,
+  // renderizzato lato server (il metodo più affidabile per il crawler).
+  other: {
+    "google-adsense-account": ADSENSE_CLIENT,
+  },
 };
 
 export default function RootLayout({
