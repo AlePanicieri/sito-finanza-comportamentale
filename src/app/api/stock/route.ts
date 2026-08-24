@@ -1,8 +1,26 @@
 import { NextRequest, NextResponse } from "next/server";
+import { findItalianStock } from "@/lib/italianStocks";
 // yahoo-finance2 v3 exports a class that must be instantiated
 import YahooFinanceClass from "yahoo-finance2";
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const yahooFinance = new (YahooFinanceClass as any)();
+
+// Yahoo cambia spesso lo schema delle risposte: quando i dati non combaciano,
+// la libreria lancia FailedYahooValidationError. I dati grezzi sono però validi
+// e disponibili in err.result: li recuperiamo invece di far fallire la richiesta.
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+async function tolerant<T = any>(fn: () => Promise<T>): Promise<T> {
+  try {
+    return await fn();
+  } catch (err) {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const e = err as any;
+    if (e?.name === "FailedYahooValidationError" && e?.result !== undefined) {
+      return e.result as T;
+    }
+    throw err;
+  }
+}
 
 export async function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url);
@@ -18,33 +36,83 @@ export async function GET(request: NextRequest) {
   try {
     if (action === "search") {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const results: any = await yahooFinance.search(ticker, { newsCount: 0 });
+      const results: any = await tolerant(() => yahooFinance.search(ticker, { newsCount: 0 }));
       const allQuotes: Array<Record<string, string>> = results?.quotes ?? [];
-      // Suffissi di listinggi secondari da mettere in fondo (stessa società, borsa minore)
+      // Suffisso della Borsa Italiana (Milano): sito rivolto a un pubblico italiano,
+      // quindi va sempre in cima.
+      const ITALIAN_SUFFIX = ".MI";
+      // Suffissi di listini secondari da mettere in fondo (stessa società, borsa minore)
       const SECONDARY_SUFFIXES = new Set([".VI", ".F", ".BE", ".MU", ".SG", ".HM", ".DU", ".TI", ".SW", ".DE"]);
+      const suffixOf = (s: string) =>
+        s.includes(".") ? "." + s.split(".").pop()!.toUpperCase() : "";
 
-      const quotes = allQuotes
+      const mapped = allQuotes
         .filter((q) => {
           const t = (q.typeDisp ?? "").toLowerCase();
           const sym = (q.symbol ?? "").toUpperCase();
+          if (!sym) return false;
           if (sym.endsWith(".XD") || sym.endsWith(".EX")) return false;
           return t === "equity" || t === "etf" || t === "cryptocurrency" || t === "mutualfund" || t === "stock";
         })
-        .slice(0, 16)
         .map((q) => ({
           symbol: q.symbol ?? "",
           shortname: q.shortname ?? q.longname ?? "",
           typeDisp: q.typeDisp ?? "",
           exchDisp: q.exchDisp ?? "",
-        }))
-        .sort((a, b) => {
-          const suffix = (s: string) => s.includes(".") ? "." + s.split(".").pop()!.toUpperCase() : "";
-          const aSecondary = SECONDARY_SUFFIXES.has(suffix(a.symbol)) ? 1 : 0;
-          const bSecondary = SECONDARY_SUFFIXES.has(suffix(b.symbol)) ? 1 : 0;
-          return aSecondary - bSecondary;
-        })
-        .slice(0, 8);
-      return NextResponse.json({ quotes });
+        }));
+
+      // Ordinamento per priorità: Milano prima, poi listini principali,
+      // poi US/altri, infine i listini secondari esteri. sort() è stabile,
+      // quindi a parità di rango si conserva l'ordine di rilevanza di Yahoo.
+      const rank = (sym: string) => {
+        const suf = suffixOf(sym);
+        if (suf === ITALIAN_SUFFIX) return 0;
+        if (suf === "") return 1; // listino principale (es. AAPL, STLA)
+        if (SECONDARY_SUFFIXES.has(suf)) return 3;
+        return 2;
+      };
+      mapped.sort((a, b) => rank(a.symbol) - rank(b.symbol));
+
+      const q = ticker.trim().toUpperCase();
+      const hasMISymbol = () =>
+        mapped.some((r) => r.symbol.toUpperCase().endsWith(ITALIAN_SUFFIX));
+
+      // 1. Titoli italiani noti (FTSE MIB): Yahoo spesso non restituisce il
+      //    listino di Milano per nomi/abbreviazioni (es. "unicredit", "bper").
+      //    Li inseriamo in cima senza chiamate extra (mappa verificata).
+      const known = findItalianStock(ticker);
+      if (known && !mapped.some((r) => r.symbol.toUpperCase() === known.symbol)) {
+        mapped.unshift({
+          symbol: known.symbol,
+          shortname: known.name,
+          typeDisp: "Equity",
+          exchDisp: "Milano",
+        });
+      }
+
+      // 2. Fallback generico per titoli italiani non in mappa (es. dove
+      //    nome = ticker, "ENEL" → ENEL.MI). Sondiamo <QUERY>.MI con quote(),
+      //    solo se non c'è già un listino .MI e nessun risultato corrisponde
+      //    esattamente alla query (per non sprecare chiamate sui titoli USA).
+      const hasExactBase = mapped.some((r) => r.symbol.toUpperCase().split(".")[0] === q);
+      if (!hasMISymbol() && !hasExactBase && /^[A-Z0-9]{2,10}$/.test(q)) {
+        try {
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          const probe: any = await tolerant(() => yahooFinance.quote(`${q}.MI`));
+          if (probe?.symbol) {
+            mapped.unshift({
+              symbol: probe.symbol,
+              shortname: probe.shortName ?? probe.longName ?? "",
+              typeDisp: probe.quoteType === "ETF" ? "ETF" : "Equity",
+              exchDisp: probe.fullExchangeName ?? "Milan",
+            });
+          }
+        } catch {
+          // Nessun listino italiano corrispondente: ignoriamo.
+        }
+      }
+
+      return NextResponse.json({ quotes: mapped.slice(0, 8) });
     }
 
     if (!from) {
@@ -55,10 +123,12 @@ export async function GET(request: NextRequest) {
     const period2 = to ? new Date(to) : new Date();
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const historical: any = await yahooFinance.chart(
-      ticker,
-      { period1, period2, interval: "1d", events: "div" },
-      { fetchOptions: {} }
+    const historical: any = await tolerant(() =>
+      yahooFinance.chart(
+        ticker,
+        { period1, period2, interval: "1d", events: "div" },
+        { fetchOptions: {} }
+      )
     );
 
     const rawQuotes: Array<{

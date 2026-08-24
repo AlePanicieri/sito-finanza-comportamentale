@@ -12,6 +12,9 @@ import { ComparisonPanel } from "@/components/ComparisonPanel";
 import { useStockData } from "@/hooks/useStockData";
 import { LumpSumResult, DCAResult, PricePoint, DividendPoint } from "@/lib/calculations";
 import { formatCurrency } from "@/lib/formatters";
+import { ARTICLES } from "@/lib/articles";
+import { AdSlot } from "@/components/site/AdSlot";
+import Link from "next/link";
 import {
   Brain,
   TrendingUp,
@@ -20,6 +23,7 @@ import {
   AlertCircle,
   Loader2,
   RefreshCw,
+  ArrowRight,
 } from "lucide-react";
 
 const TABS = [
@@ -82,18 +86,9 @@ export default function HomePage() {
 
   return (
     <div className="min-h-screen bg-background">
-      {/* Header */}
-      <header className="border-b bg-background/95 backdrop-blur sticky top-0 z-40">
+      {/* Barra di ricerca del tool (sotto l'header globale) */}
+      <div className="border-b bg-background/95 backdrop-blur sticky top-14 z-40">
         <div className="max-w-6xl mx-auto px-4 py-3 flex items-center gap-4">
-          <div className="flex items-center gap-2">
-            <div className="bg-primary rounded-lg p-1.5">
-              <Brain className="h-5 w-5 text-primary-foreground" />
-            </div>
-            <div className="hidden sm:block">
-              <div className="text-sm font-bold leading-tight">Finanza Comportamentale</div>
-              <div className="text-[11px] text-muted-foreground leading-tight">Simulatore & Distorsione Temporale</div>
-            </div>
-          </div>
           <div className="flex-1 flex gap-2 max-w-lg">
             <StockSearch
               value={ticker}
@@ -123,20 +118,24 @@ export default function HomePage() {
             </div>
           )}
         </div>
-      </header>
+      </div>
 
       <main className="max-w-6xl mx-auto px-4 py-6">
         {/* Stato iniziale */}
         {!hasLoaded && !loading && (
-          <div className="flex flex-col items-center justify-center min-h-[60vh] text-center gap-8">
-            <div>
-              <div className="inline-flex items-center justify-center w-20 h-20 rounded-2xl bg-primary/10 mb-4">
-                <Brain className="h-10 w-10 text-primary" />
+          <div className="flex flex-col items-center justify-center text-center gap-8 pt-8">
+            <div className="max-w-2xl">
+              <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-primary/10 mb-4">
+                <Brain className="h-8 w-8 text-primary" />
               </div>
-              <h1 className="text-3xl font-bold mb-2">Finanza Comportamentale</h1>
-              <p className="text-muted-foreground max-w-lg text-sm leading-relaxed">
-                Scopri quanto influisce la distorsione temporale sulle tue decisioni di investimento.
-                Cerca un titolo per iniziare l&apos;analisi.
+              <h1 className="text-3xl sm:text-4xl font-bold tracking-tight mb-4">
+                «Se avessi investito 500€ al mese, oggi avrei…»
+              </h1>
+              <p className="text-muted-foreground text-base leading-relaxed">
+                Forse una fortuna. Forse molto meno di quanto ti raccontano. Qui non trovi
+                promesse: scegli un titolo vero e guarda come sarebbe andato davvero il tuo
+                investimento, giorno per giorno, sui <strong className="text-foreground font-semibold">dati storici reali</strong>.
+                Poi impara a riconoscere i bias — e i fuffaguru — che ti fanno vedere guadagni che non esistono.
               </p>
             </div>
 
@@ -190,6 +189,36 @@ export default function HomePage() {
                   >
                     {t}
                   </button>
+                ))}
+              </div>
+            </div>
+
+            <AdSlot format="leaderboard" className="w-full max-w-3xl" />
+
+            {/* Teaser guide */}
+            <div className="w-full max-w-3xl text-left">
+              <div className="flex items-baseline justify-between mb-4">
+                <h2 className="text-lg font-bold tracking-tight">Prima di iniziare, leggi</h2>
+                <Link
+                  href="/guide"
+                  className="text-xs text-primary hover:underline inline-flex items-center gap-1"
+                >
+                  Tutte le guide <ArrowRight className="h-3 w-3" />
+                </Link>
+              </div>
+              <div className="grid gap-3 sm:grid-cols-2">
+                {ARTICLES.map((a) => (
+                  <Link
+                    key={a.slug}
+                    href={`/guide/${a.slug}`}
+                    className="border rounded-xl p-4 hover:border-primary/40 transition-colors"
+                  >
+                    <div className="text-[11px] text-muted-foreground mb-1">
+                      {a.tag} · {a.readingMinutes} min
+                    </div>
+                    <div className="font-semibold text-sm mb-1 leading-snug">{a.shortTitle}</div>
+                    <div className="text-xs text-muted-foreground leading-relaxed">{a.excerpt}</div>
+                  </Link>
                 ))}
               </div>
             </div>
@@ -334,18 +363,6 @@ export default function HomePage() {
           </>
         )}
       </main>
-
-      {/* Footer */}
-      <footer className="border-t mt-12 py-6">
-        <div className="max-w-6xl mx-auto px-4 text-center text-xs text-muted-foreground space-y-1">
-          <p>
-            Dati forniti da Yahoo Finance. Solo a scopo educativo — non costituisce consulenza finanziaria.
-          </p>
-          <p>
-            Rendimenti storici non garantiscono risultati futuri. I dividendi sono lordi e non tengono conto della tassazione.
-          </p>
-        </div>
-      </footer>
     </div>
   );
 }
