@@ -1,7 +1,7 @@
 import type { MetadataRoute } from "next";
 import { ARTICLES } from "@/lib/articles";
 
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://finanzacomportamentale.it";
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.seavessiinvestito.com";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const staticRoutes: MetadataRoute.Sitemap = [
