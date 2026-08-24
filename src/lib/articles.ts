@@ -67,6 +67,42 @@ export const ARTICLES: ArticleMeta[] = [
     date: "2026-08-24",
     readingMinutes: 5,
   },
+  {
+    slug: "quanto-serve-per-iniziare-a-investire",
+    title: "Quanto serve per iniziare a investire? (spoiler: molto poco)",
+    shortTitle: "Quanto serve per iniziare",
+    description:
+      "Non servono 10.000€: si parte da 50€ al mese. Ma il vero ingrediente non sono i soldi, è il tempo — ecco perché i risultati si vedono solo sul lungo periodo.",
+    excerpt:
+      "La barriera d'ingresso è un mito: bastano poche decine di euro. Il difficile non è la cifra, è la pazienza di aspettare che il tempo faccia il suo lavoro.",
+    tag: "Per iniziare",
+    date: "2026-08-24",
+    readingMinutes: 6,
+  },
+  {
+    slug: "interesse-composto",
+    title: "L'interesse composto: la forza (onesta) del tempo",
+    shortTitle: "L'interesse composto",
+    description:
+      "Interesse sull'interesse: come funziona davvero, la regola del 72, e perché nei mercati non è la 'crescita garantita' che ti vendono i guru.",
+    excerpt:
+      "L'avrebbero chiamato l'ottava meraviglia del mondo. È potente, ma non è magia né una promessa: ecco come funziona e dove finisce la favola.",
+    tag: "Fondamentali",
+    date: "2026-08-24",
+    readingMinutes: 6,
+  },
+  {
+    slug: "vivere-di-rendita-titoli-di-stato",
+    title: "Quando un titolo di Stato ti paga la macchina: la rendita spiegata",
+    shortTitle: "La rendita che paga la macchina",
+    description:
+      "Accumulato un capitale, la cedola di un titolo di Stato (tassata al 12,5%) può coprire la rata di un'auto lasciando intatto il capitale. Quando ha senso — e quando no.",
+    excerpt:
+      "Immagina che la rata dell'auto la paghi lo Stato, mentre i tuoi soldi restano tuoi. Si può fare — a certe condizioni. I numeri veri, senza favole.",
+    tag: "Rendita",
+    date: "2026-08-24",
+    readingMinutes: 7,
+  },
 ];
 
 export function getArticle(slug: string): ArticleMeta | undefined {
