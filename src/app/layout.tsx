@@ -44,6 +44,10 @@ export const metadata: Metadata = {
       "Quanto avresti oggi con 500€ al mese? Simulalo sui dati storici veri e scopri i bias che ti ingannano.",
   },
   robots: { index: true, follow: true },
+  // Verifica proprietà Google Search Console (metodo tag HTML).
+  verification: {
+    google: "3P8V4CM8jV2UK8U3DBKL-Qiiot0nFCAUmMURs14V0Tk",
+  },
   // Verifica proprietà Google AdSense: meta tag statico nel <head>,
   // renderizzato lato server (il metodo più affidabile per il crawler).
   other: {
