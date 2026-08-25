@@ -37,6 +37,11 @@ export function SiteFooter() {
                 Guide
               </Link>
             </li>
+            <li>
+              <Link href="/chi-siamo" className="text-muted-foreground hover:text-foreground">
+                Chi siamo
+              </Link>
+            </li>
           </ul>
         </div>
 

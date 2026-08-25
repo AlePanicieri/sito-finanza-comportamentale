@@ -3,6 +3,8 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArrowLeft, TrendingDown, Lightbulb } from "lucide-react";
 import { Simulator } from "@/components/Simulator";
+import { JsonLd } from "@/components/site/JsonLd";
+import { SITE_URL, SITE_NAME } from "@/lib/site";
 import { SCENARIOS, getScenario } from "@/lib/scenarios";
 import { getArticle } from "@/lib/articles";
 
@@ -52,6 +54,19 @@ export default async function Page({
 
   return (
     <div>
+      <JsonLd
+        data={{
+          "@context": "https://schema.org",
+          "@type": "Article",
+          headline: scenario.title,
+          description: scenario.hook,
+          inLanguage: "it-IT",
+          author: { "@type": "Organization", name: SITE_NAME },
+          publisher: { "@type": "Organization", name: SITE_NAME },
+          mainEntityOfPage: `${SITE_URL}/crolli/${scenario.slug}`,
+          about: scenario.name,
+        }}
+      />
       {/* Storia server-rendered (indicizzabile) */}
       <article className="max-w-3xl mx-auto px-4 pt-8">
         <Link

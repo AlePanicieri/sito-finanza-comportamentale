@@ -2,6 +2,8 @@ import Link from "next/link";
 import { ArrowLeft, Clock, TrendingUp } from "lucide-react";
 import { ArticleMeta, formatDate, getRelated } from "@/lib/articles";
 import { AdSlot } from "./AdSlot";
+import { JsonLd } from "./JsonLd";
+import { SITE_URL, SITE_NAME } from "@/lib/site";
 
 // Stile "prose" realizzato con variant arbitrarie di Tailwind v4 (niente plugin).
 const PROSE =
@@ -25,6 +27,20 @@ export function ArticleShell({ meta, children }: Props) {
 
   return (
     <div className="max-w-3xl mx-auto px-4 py-8">
+      <JsonLd
+        data={{
+          "@context": "https://schema.org",
+          "@type": "Article",
+          headline: meta.title,
+          description: meta.description,
+          datePublished: meta.date,
+          dateModified: meta.date,
+          inLanguage: "it-IT",
+          author: { "@type": "Organization", name: SITE_NAME },
+          publisher: { "@type": "Organization", name: SITE_NAME },
+          mainEntityOfPage: `${SITE_URL}/guide/${meta.slug}`,
+        }}
+      />
       <Link
         href="/guide"
         className="inline-flex items-center gap-1.5 text-xs text-muted-foreground hover:text-foreground mb-6"

@@ -11,6 +11,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${SITE_URL}/simula`, changeFrequency: "weekly", priority: 0.9 },
     { url: `${SITE_URL}/crolli`, changeFrequency: "weekly", priority: 0.9 },
     { url: `${SITE_URL}/guide`, changeFrequency: "weekly", priority: 0.8 },
+    { url: `${SITE_URL}/chi-siamo`, changeFrequency: "monthly", priority: 0.5 },
   ];
 
   const articleRoutes: MetadataRoute.Sitemap = ARTICLES.map((a) => ({

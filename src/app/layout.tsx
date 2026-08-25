@@ -5,6 +5,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { SiteHeader } from "@/components/site/SiteHeader";
 import { SiteFooter } from "@/components/site/SiteFooter";
+import { JsonLd } from "@/components/site/JsonLd";
 import { ADSENSE_CLIENT } from "@/lib/adsense";
 
 const geistSans = Geist({
@@ -66,6 +67,29 @@ export default function RootLayout({
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">
+        <JsonLd
+          data={{
+            "@context": "https://schema.org",
+            "@type": "Organization",
+            name: "Finanza Comportamentale",
+            alternateName: "Se avessi investito",
+            url: SITE_URL,
+            description:
+              "Progetto indipendente di educazione finanziaria: simula investimenti sui dati storici reali, capisci i bias e distingui l'educazione dalla fuffa.",
+            foundingDate: "2026",
+          }}
+        />
+        <JsonLd
+          data={{
+            "@context": "https://schema.org",
+            "@type": "WebSite",
+            name: "Finanza Comportamentale",
+            url: SITE_URL,
+            inLanguage: "it-IT",
+            description:
+              "Simulatore di investimenti sui dati reali, guide senza fuffa e i grandi crolli della storia. Educazione finanziaria, non consulenza.",
+          }}
+        />
         <SiteHeader />
         <div className="flex-1">{children}</div>
         <SiteFooter />
