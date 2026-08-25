@@ -1,6 +1,7 @@
 import type { MetadataRoute } from "next";
 import { ARTICLES } from "@/lib/articles";
 import { ASSETS } from "@/lib/assets";
+import { SCENARIOS } from "@/lib/scenarios";
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.seavessiinvestito.com";
 
@@ -8,6 +9,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const staticRoutes: MetadataRoute.Sitemap = [
     { url: SITE_URL, changeFrequency: "weekly", priority: 1 },
     { url: `${SITE_URL}/simula`, changeFrequency: "weekly", priority: 0.9 },
+    { url: `${SITE_URL}/crolli`, changeFrequency: "weekly", priority: 0.9 },
     { url: `${SITE_URL}/guide`, changeFrequency: "weekly", priority: 0.8 },
   ];
 
@@ -24,5 +26,11 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.8,
   }));
 
-  return [...staticRoutes, ...assetRoutes, ...articleRoutes];
+  const scenarioRoutes: MetadataRoute.Sitemap = SCENARIOS.map((s) => ({
+    url: `${SITE_URL}/crolli/${s.slug}`,
+    changeFrequency: "monthly",
+    priority: 0.8,
+  }));
+
+  return [...staticRoutes, ...assetRoutes, ...scenarioRoutes, ...articleRoutes];
 }

@@ -28,6 +28,12 @@ interface Props {
   /** Tasso d'inflazione annuo in percentuale (es. 2) */
   inflationRate: number;
   onInflationChange: (rate: number) => void;
+  /** Versamento mensile preimpostato (modificabile) */
+  initialMonthly?: number;
+  /** Data d'inizio preimpostata (ISO) */
+  initialStartDate?: string;
+  /** Se true, la data è fissa e non modificabile (modalità scenario) */
+  datesLocked?: boolean;
   onResult?: (result: DCAResult, monthlyAmount: number, startDate: string, dayOfMonth: number) => void;
 }
 
@@ -39,9 +45,10 @@ function sampleArray<T>(arr: T[], step: number): T[] {
   return result;
 }
 
-export function DCASimulator({ prices, dividends = [], currency, ticker, inflationRate, onInflationChange, onResult }: Props) {
-  const [monthlyAmount, setMonthlyAmount] = useState("500");
+export function DCASimulator({ prices, dividends = [], currency, ticker, inflationRate, onInflationChange, initialMonthly, initialStartDate, datesLocked, onResult }: Props) {
+  const [monthlyAmount, setMonthlyAmount] = useState(initialMonthly != null ? String(initialMonthly) : "500");
   const [startDate, setStartDate] = useState(() => {
+    if (initialStartDate) return initialStartDate;
     const d = new Date();
     d.setFullYear(d.getFullYear() - 5);
     return d.toISOString().split("T")[0];
@@ -154,7 +161,12 @@ export function DCASimulator({ prices, dividends = [], currency, ticker, inflati
                 max={maxDate}
                 value={startDate}
                 onChange={(e) => setStartDate(e.target.value)}
+                disabled={datesLocked}
+                title={datesLocked ? "Data fissata su questo scenario" : undefined}
               />
+              {datesLocked && (
+                <p className="text-[10px] text-muted-foreground">Data fissa dello scenario</p>
+              )}
             </div>
             <div className="space-y-1.5">
               <Label className="flex items-center gap-1">

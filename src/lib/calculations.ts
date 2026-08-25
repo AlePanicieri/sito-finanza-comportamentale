@@ -551,4 +551,6 @@ export const HORIZON_OPTIONS = [
   { label: "2 anni", days: 730 },
   { label: "5 anni", days: 1825 },
   { label: "10 anni", days: 3650 },
+  { label: "15 anni", days: 5475 },
+  { label: "20 anni", days: 7300 },
 ] as const;

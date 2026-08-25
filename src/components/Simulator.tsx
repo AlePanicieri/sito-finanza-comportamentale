@@ -19,6 +19,7 @@ import Link from "next/link";
 import {
   Brain,
   TrendingUp,
+  TrendingDown,
   BarChart2,
   GitCompare,
   AlertCircle,
@@ -43,15 +44,30 @@ interface Props {
   /** Se impostato, il simulatore carica subito questo titolo e nasconde l'intro */
   initialTicker?: string;
   initialName?: string;
+  /** Preset per la modalità "scenario" (pagine /crolli) */
+  initialStartDate?: string;
+  initialLumpSum?: number;
+  initialMonthly?: number;
+  initialTab?: TabId;
+  /** Se true, le date dei simulatori sono fisse e non modificabili */
+  datesLocked?: boolean;
 }
 
-export function Simulator({ initialTicker, initialName }: Props) {
+export function Simulator({
+  initialTicker,
+  initialName,
+  initialStartDate,
+  initialLumpSum,
+  initialMonthly,
+  initialTab,
+  datesLocked,
+}: Props) {
   const [ticker, setTicker] = useState(initialTicker ?? "");
   const [stockName, setStockName] = useState(initialName ?? "");
   const [prices, setPrices] = useState<PricePoint[]>([]);
   const [dividends, setDividends] = useState<DividendPoint[]>([]);
   const [currency, setCurrency] = useState("USD");
-  const [activeTab, setActiveTab] = useState<TabId>("distortion");
+  const [activeTab, setActiveTab] = useState<TabId>(initialTab ?? "distortion");
   const [hasLoaded, setHasLoaded] = useState(false);
 
   // Risultati simulazioni (per il pannello confronto)
@@ -214,6 +230,30 @@ export function Simulator({ initialTicker, initialName }: Props) {
               </div>
             </div>
 
+            {/* Richiamo "I grandi crolli" */}
+            <Link
+              href="/crolli"
+              className="w-full max-w-3xl text-left rounded-xl border border-red-200 dark:border-red-950 bg-red-50/50 dark:bg-red-950/10 p-5 hover:border-red-300 dark:hover:border-red-900 transition-colors group"
+            >
+              <div className="flex items-start gap-3">
+                <div className="shrink-0 rounded-lg bg-red-100 dark:bg-red-950/40 p-2">
+                  <TrendingDown className="h-5 w-5 text-red-600 dark:text-red-400" />
+                </div>
+                <div>
+                  <div className="font-bold text-sm mb-0.5 group-hover:text-red-600 dark:group-hover:text-red-400 transition-colors">
+                    I grandi crolli — quando c&apos;era da piangere
+                  </div>
+                  <p className="text-xs text-muted-foreground leading-relaxed">
+                    Titoli crollati dell&apos;80-99%, alcuni mai più tornati al picco. Rivivi
+                    dot-com, Lehman e i disastri single-stock con le date vere fissate.{" "}
+                    <span className="text-red-600 dark:text-red-400 font-medium inline-flex items-center gap-0.5">
+                      Guarda i crolli <ArrowRight className="h-3 w-3" />
+                    </span>
+                  </p>
+                </div>
+              </div>
+            </Link>
+
             <AdSlot format="leaderboard" className="w-full max-w-3xl" />
 
             {/* Teaser guide */}
@@ -329,6 +369,9 @@ export function Simulator({ initialTicker, initialName }: Props) {
                   ticker={ticker.toUpperCase()}
                   inflationRate={inflationRate}
                   onInflationChange={setInflationRate}
+                  initialAmount={initialLumpSum}
+                  initialStartDate={initialStartDate}
+                  datesLocked={datesLocked}
                   onResult={(res, amt) => {
                     setLsResult(res);
                     setLsAmount(amt);
@@ -344,6 +387,9 @@ export function Simulator({ initialTicker, initialName }: Props) {
                   ticker={ticker.toUpperCase()}
                   inflationRate={inflationRate}
                   onInflationChange={setInflationRate}
+                  initialMonthly={initialMonthly}
+                  initialStartDate={initialStartDate}
+                  datesLocked={datesLocked}
                   onResult={(res, monthly) => {
                     setDcaResult(res);
                     setDcaMonthly(monthly);

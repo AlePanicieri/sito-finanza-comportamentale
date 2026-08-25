@@ -7,6 +7,7 @@ import { Brain } from "lucide-react";
 const NAV = [
   { href: "/", label: "Simulatore" },
   { href: "/simula", label: "Titoli" },
+  { href: "/crolli", label: "Crolli" },
   { href: "/guide", label: "Guide" },
 ];
 

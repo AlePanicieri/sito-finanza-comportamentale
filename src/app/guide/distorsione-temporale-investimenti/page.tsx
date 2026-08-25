@@ -91,6 +91,12 @@ export default function Page() {
         domanda giusta: non «quanto è salito?», ma «quanto ampio è il ventaglio di ciò che poteva
         succedermi?».
       </p>
+      <p>
+        Se vuoi toccare con mano il lato buio del ventaglio, dai un&apos;occhiata a{" "}
+        <Link href="/crolli">I grandi crolli</Link>: casi reali — dot-com, Lehman, disastri
+        single-stock — in cui entrare nel momento sbagliato significava anni, a volte decenni, sotto
+        la pari.
+      </p>
     </ArticleShell>
   );
 }

@@ -29,6 +29,12 @@ interface Props {
   /** Tasso d'inflazione annuo in percentuale (es. 2) */
   inflationRate: number;
   onInflationChange: (rate: number) => void;
+  /** Importo preimpostato (modificabile) */
+  initialAmount?: number;
+  /** Data d'acquisto preimpostata (ISO) */
+  initialStartDate?: string;
+  /** Se true, la data è fissa e non modificabile (modalità scenario) */
+  datesLocked?: boolean;
   onResult?: (result: LumpSumResult, amount: number, startDate: string) => void;
 }
 
@@ -46,9 +52,10 @@ function sampleArray<T>(arr: T[], step: number): T[] {
   return result;
 }
 
-export function LumpSumSimulator({ prices, dividends = [], currency, ticker, inflationRate, onInflationChange, onResult }: Props) {
-  const [amount, setAmount] = useState("10000");
+export function LumpSumSimulator({ prices, dividends = [], currency, ticker, inflationRate, onInflationChange, initialAmount, initialStartDate, datesLocked, onResult }: Props) {
+  const [amount, setAmount] = useState(initialAmount != null ? String(initialAmount) : "10000");
   const [startDate, setStartDate] = useState(() => {
+    if (initialStartDate) return initialStartDate;
     const d = new Date();
     d.setFullYear(d.getFullYear() - 5);
     return d.toISOString().split("T")[0];
@@ -127,7 +134,12 @@ export function LumpSumSimulator({ prices, dividends = [], currency, ticker, inf
                 max={maxDate}
                 value={startDate}
                 onChange={(e) => setStartDate(e.target.value)}
+                disabled={datesLocked}
+                title={datesLocked ? "Data fissata su questo scenario" : undefined}
               />
+              {datesLocked && (
+                <p className="text-[10px] text-muted-foreground">Data fissa dello scenario</p>
+              )}
             </div>
             <div className="space-y-1.5">
               <Label>Inflazione annua (%)</Label>

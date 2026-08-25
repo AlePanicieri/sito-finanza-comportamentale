@@ -23,6 +23,16 @@ export function SiteFooter() {
               </Link>
             </li>
             <li>
+              <Link href="/simula" className="text-muted-foreground hover:text-foreground">
+                Titoli
+              </Link>
+            </li>
+            <li>
+              <Link href="/crolli" className="text-muted-foreground hover:text-foreground">
+                I grandi crolli
+              </Link>
+            </li>
+            <li>
               <Link href="/guide" className="text-muted-foreground hover:text-foreground">
                 Guide
               </Link>

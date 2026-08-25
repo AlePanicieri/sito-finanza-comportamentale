@@ -1,9 +1,10 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { ArrowLeft, TrendingUp, BarChart2, Brain } from "lucide-react";
+import { ArrowLeft, TrendingUp, TrendingDown, BarChart2, Brain, ArrowRight } from "lucide-react";
 import { Simulator } from "@/components/Simulator";
 import { ASSETS, getAsset, getRelatedAssets } from "@/lib/assets";
+import { getScenariosByTicker } from "@/lib/scenarios";
 import { ARTICLES } from "@/lib/articles";
 
 // Solo i titoli curati generano una pagina (niente pagine "sottili" auto-generate).
@@ -42,6 +43,7 @@ export default async function Page({
 
   const related = getRelatedAssets(asset.ticker);
   const guides = ARTICLES.slice(0, 3);
+  const scenarios = getScenariosByTicker(asset.ticker);
 
   return (
     <div>
@@ -85,6 +87,31 @@ export default async function Page({
             <div className="text-xs text-muted-foreground">Come cambia tutto a seconda di quando entri.</div>
           </div>
         </div>
+
+        {scenarios.length > 0 && (
+          <div className="max-w-3xl mb-2 space-y-2">
+            {scenarios.map((s) => (
+              <Link
+                key={s.slug}
+                href={`/crolli/${s.slug}`}
+                className="flex items-start gap-3 rounded-xl border border-red-200 dark:border-red-950 bg-red-50/50 dark:bg-red-950/10 p-4 hover:border-red-300 dark:hover:border-red-900 transition-colors group"
+              >
+                <TrendingDown className="h-5 w-5 text-red-600 dark:text-red-400 shrink-0 mt-0.5" />
+                <div>
+                  <div className="text-sm font-semibold group-hover:text-red-600 dark:group-hover:text-red-400 transition-colors">
+                    Guarda cosa successe: {s.crisis}
+                  </div>
+                  <p className="text-xs text-muted-foreground leading-relaxed">
+                    {s.hook}{" "}
+                    <span className="text-red-600 dark:text-red-400 font-medium inline-flex items-center gap-0.5">
+                      Rivivi il crollo <ArrowRight className="h-3 w-3" />
+                    </span>
+                  </p>
+                </div>
+              </Link>
+            ))}
+          </div>
+        )}
       </section>
 
       {/* Simulatore interattivo, pre-caricato su questo titolo.
