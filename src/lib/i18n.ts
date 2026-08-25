@@ -22,6 +22,13 @@ export interface Translations {
   };
   howLabel: string;
   howLumpSum: string;
+  lumpGuide: {
+    title: string;
+    amount: string;
+    date: string;
+    inflation: string;
+    calculate: string;
+  };
   howDca: { pre: string; highlight: string; post: string };
   dcaGuide: {
     title: string;
@@ -50,6 +57,13 @@ export const TRANSLATIONS: Record<Lang, Translations> = {
     howLabel: "Come si usa",
     howLumpSum:
       "il Lump Sum risponde a «e se avessi messo una cifra tutta insieme, in un certo giorno?». Cambia l'importo e la data d'acquisto e guarda quanto avrebbe oscillato — e per quanto tempo saresti stato in perdita prima di (forse) recuperare.",
+    lumpGuide: {
+      title: "Cosa inserire",
+      amount: "Importo: quanto avresti investito in un'unica soluzione (es. 1.000, 10.000).",
+      date: "Data di acquisto: il giorno in cui saresti entrato. È la variabile che cambia tutto — provala.",
+      inflation: "Inflazione annua: mostra anche il valore «reale», al netto del carovita.",
+      calculate: "Poi premi «Calcola».",
+    },
     howDca: {
       pre: "il PAC è la strategia di chi versa un po' ogni mese, come con lo stipendio. Comprando a più riprese, ",
       highlight: "statisticamente",
@@ -82,6 +96,13 @@ export const TRANSLATIONS: Record<Lang, Translations> = {
     howLabel: "How to use it",
     howLumpSum:
       "the lump sum answers: «what if I'd put in a single amount all at once, on a given day?». Change the amount and the purchase date and see how much it would have swung — and how long you'd have been underwater before (maybe) recovering.",
+    lumpGuide: {
+      title: "What to enter",
+      amount: "Amount: how much you'd have invested in one go (e.g. 1,000, 10,000).",
+      date: "Purchase date: the day you'd have entered. It's the variable that changes everything — try it.",
+      inflation: "Annual inflation: also shows the «real» value, adjusted for the cost of living.",
+      calculate: "Then press «Calcola» (Calculate).",
+    },
     howDca: {
       pre: "dollar-cost averaging is the strategy of investing a little every month, like from a salary. By buying in several steps, ",
       highlight: "statistically",
@@ -114,6 +135,13 @@ export const TRANSLATIONS: Record<Lang, Translations> = {
     howLabel: "Comment l'utiliser",
     howLumpSum:
       "l'investissement unique répond à : «et si j'avais placé une somme d'un coup, un jour donné ?». Change le montant et la date d'achat et regarde l'ampleur des variations — et combien de temps tu serais resté en perte avant de (peut-être) récupérer.",
+    lumpGuide: {
+      title: "Que saisir",
+      amount: "Montant : combien tu aurais investi en une fois (ex. 1 000, 10 000).",
+      date: "Date d'achat : le jour où tu serais entré. C'est la variable qui change tout — essaie-la.",
+      inflation: "Inflation annuelle : montre aussi la valeur « réelle », hors coût de la vie.",
+      calculate: "Puis appuie sur « Calcola » (Calculer).",
+    },
     howDca: {
       pre: "l'investissement programmé, c'est verser un peu chaque mois, comme avec un salaire. En achetant en plusieurs fois, ",
       highlight: "statistiquement",
@@ -146,6 +174,13 @@ export const TRANSLATIONS: Record<Lang, Translations> = {
     howLabel: "So funktioniert's",
     howLumpSum:
       "die Einmalanlage beantwortet die Frage: «Was, wenn ich an einem bestimmten Tag alles auf einmal angelegt hätte?». Ändere Betrag und Kaufdatum und sieh, wie stark es geschwankt hätte — und wie lange du im Minus gewesen wärst, bevor du dich (vielleicht) erholst.",
+    lumpGuide: {
+      title: "Was eingeben",
+      amount: "Betrag: wie viel du auf einmal angelegt hättest (z. B. 1.000, 10.000).",
+      date: "Kaufdatum: der Tag, an dem du eingestiegen wärst. Die Variable, die alles verändert — probiere sie aus.",
+      inflation: "Jährliche Inflation: zeigt auch den «realen» Wert, bereinigt um die Teuerung.",
+      calculate: "Dann drücke «Calcola» (Berechnen).",
+    },
     howDca: {
       pre: "der Sparplan bedeutet, jeden Monat etwas anzulegen, wie vom Gehalt. Wenn du in mehreren Schritten kaufst, senkst du ",
       highlight: "statistisch",
@@ -178,6 +213,13 @@ export const TRANSLATIONS: Record<Lang, Translations> = {
     howLabel: "Cómo se usa",
     howLumpSum:
       "la inversión única responde a: «¿y si hubiera metido una cantidad de golpe, un día concreto?». Cambia el importe y la fecha de compra y observa cuánto habría oscilado — y cuánto tiempo habrías estado en pérdidas antes de (quizás) recuperar.",
+    lumpGuide: {
+      title: "Qué introducir",
+      amount: "Importe: cuánto habrías invertido de una vez (p. ej. 1.000, 10.000).",
+      date: "Fecha de compra: el día en que habrías entrado. Es la variable que lo cambia todo — pruébala.",
+      inflation: "Inflación anual: muestra también el valor «real», descontada la carestía.",
+      calculate: "Luego pulsa «Calcola» (Calcular).",
+    },
     howDca: {
       pre: "la aportación periódica es la estrategia de invertir un poco cada mes, como con el sueldo. Comprando en varias veces, ",
       highlight: "estadísticamente",

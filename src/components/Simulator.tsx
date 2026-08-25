@@ -396,8 +396,17 @@ export function Simulator({
               </TabsContent>
 
               <TabsContent value="lumpsum">
-                <div className="mb-4 rounded-lg border bg-muted/40 p-3 text-sm text-muted-foreground leading-relaxed">
+                <div className="mb-3 rounded-lg border bg-muted/40 p-3 text-sm text-muted-foreground leading-relaxed">
                   <strong className="text-foreground">{t.howLabel}:</strong> {t.howLumpSum}
+                </div>
+                <div className="mb-4 rounded-lg border bg-muted/40 p-3 text-sm leading-relaxed">
+                  <div className="font-semibold text-foreground mb-1.5">{t.lumpGuide.title}</div>
+                  <ul className="space-y-1 text-muted-foreground list-disc pl-4">
+                    <li>{t.lumpGuide.amount}</li>
+                    <li>{t.lumpGuide.date}</li>
+                    <li>{t.lumpGuide.inflation}</li>
+                  </ul>
+                  <div className="mt-2 font-medium text-foreground">{t.lumpGuide.calculate}</div>
                 </div>
                 <LumpSumSimulator
                   prices={prices}
