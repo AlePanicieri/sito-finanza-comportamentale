@@ -16,6 +16,7 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/com
 import { Badge } from "@/components/ui/badge";
 import { calcRollingWindows, HORIZON_OPTIONS, PricePoint, WindowPerformance } from "@/lib/calculations";
 import { formatPct, pctColor } from "@/lib/formatters";
+import { useLang } from "@/components/site/LanguageProvider";
 import { AlertCircle, TrendingUp, TrendingDown } from "lucide-react";
 
 interface Props {
@@ -25,6 +26,7 @@ interface Props {
 }
 
 export function TemporalDistortion({ prices, ticker, currency }: Props) {
+  const { t } = useLang();
   const [selectedHorizon, setSelectedHorizon] = useState<{ label: string; days: number }>(HORIZON_OPTIONS[4]); // 5 anni default
   const [windows, setWindows] = useState<WindowPerformance[]>([]);
 
@@ -60,13 +62,18 @@ export function TemporalDistortion({ prices, ticker, currency }: Props) {
     <div className="space-y-6">
       {/* Come funziona questa sezione */}
       <div className="rounded-lg border bg-muted/40 p-3 text-sm text-muted-foreground leading-relaxed">
-        <strong className="text-foreground">Come si usa:</strong> scegli un orizzonte (5, 10, 20
-        anni…). La prima barra è la finestra <em>più recente</em>, quella che finisce oggi; la
-        seconda copre lo stesso numero di anni <em>appena prima</em>, la terza quelli ancora prima, e
-        così via indietro nel tempo. Confronta le barre: lo{" "}
-        <strong className="text-foreground">stesso identico titolo</strong> ha reso in modo molto
-        diverso a seconda dell&apos;epoca — ecco perché la performance che vedi «oggi» può ingannarti
-        sulle attese future.
+        <strong className="text-foreground">{t.howLabel}:</strong> {t.howDistortion}
+      </div>
+
+      {/* Monito sul rischio: maratona non sprint */}
+      <div className="rounded-lg border border-amber-300/60 bg-amber-50/60 dark:border-amber-500/30 dark:bg-amber-500/5 p-3 text-sm leading-relaxed">
+        <div className="flex items-start gap-2">
+          <AlertCircle className="h-4 w-4 text-amber-600 dark:text-amber-400 shrink-0 mt-0.5" />
+          <div>
+            <span className="font-semibold text-foreground">{t.cautionLabel}: </span>
+            <span className="text-foreground/90">{t.distortionMarathon}</span>
+          </div>
+        </div>
       </div>
 
       {/* Selettore orizzonte */}

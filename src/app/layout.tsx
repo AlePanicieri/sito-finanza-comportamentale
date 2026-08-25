@@ -6,6 +6,7 @@ import "./globals.css";
 import { SiteHeader } from "@/components/site/SiteHeader";
 import { SiteFooter } from "@/components/site/SiteFooter";
 import { JsonLd } from "@/components/site/JsonLd";
+import { LanguageProvider } from "@/components/site/LanguageProvider";
 import { ADSENSE_CLIENT } from "@/lib/adsense";
 
 const geistSans = Geist({
@@ -90,9 +91,11 @@ export default function RootLayout({
               "Simulatore di investimenti sui dati reali, guide senza fuffa e i grandi crolli della storia. Educazione finanziaria, non consulenza.",
           }}
         />
-        <SiteHeader />
-        <div className="flex-1">{children}</div>
-        <SiteFooter />
+        <LanguageProvider>
+          <SiteHeader />
+          <div className="flex-1">{children}</div>
+          <SiteFooter />
+        </LanguageProvider>
         <Analytics />
         {ADSENSE_CLIENT && (
           <Script

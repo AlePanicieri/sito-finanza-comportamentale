@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Brain } from "lucide-react";
+import { LanguageSwitcher } from "./LanguageSwitcher";
 
 const NAV = [
   { href: "/", label: "Simulatore" },
@@ -32,21 +33,24 @@ export function SiteHeader() {
           </div>
         </Link>
 
-        <nav className="flex items-center gap-1">
-          {NAV.map(({ href, label }) => (
-            <Link
-              key={href}
-              href={href}
-              className={`px-3 py-1.5 rounded-md text-sm font-medium transition-colors ${
-                isActive(href)
-                  ? "bg-muted text-foreground"
-                  : "text-muted-foreground hover:text-foreground hover:bg-muted/60"
-              }`}
-            >
-              {label}
-            </Link>
-          ))}
-        </nav>
+        <div className="flex items-center gap-2 shrink-0">
+          <nav className="flex items-center gap-0.5 sm:gap-1">
+            {NAV.map(({ href, label }) => (
+              <Link
+                key={href}
+                href={href}
+                className={`px-2 sm:px-3 py-1.5 rounded-md text-xs sm:text-sm font-medium transition-colors ${
+                  isActive(href)
+                    ? "bg-muted text-foreground"
+                    : "text-muted-foreground hover:text-foreground hover:bg-muted/60"
+                }`}
+              >
+                {label}
+              </Link>
+            ))}
+          </nav>
+          <LanguageSwitcher />
+        </div>
       </div>
     </header>
   );

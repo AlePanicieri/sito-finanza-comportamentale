@@ -15,6 +15,7 @@ import { formatCurrency } from "@/lib/formatters";
 import { ARTICLES } from "@/lib/articles";
 import { AdSlot } from "@/components/site/AdSlot";
 import { RiskDisclaimer } from "@/components/site/RiskDisclaimer";
+import { useLang } from "@/components/site/LanguageProvider";
 import Link from "next/link";
 import {
   Brain,
@@ -80,6 +81,7 @@ export function Simulator({
   const [inflationRate, setInflationRate] = useState(2);
 
   const { loading, error, fetch: fetchStock } = useStockData();
+  const { t } = useLang();
 
   const loadStock = useCallback(
     async (sym: string, name?: string) => {
@@ -395,10 +397,7 @@ export function Simulator({
 
               <TabsContent value="lumpsum">
                 <div className="mb-4 rounded-lg border bg-muted/40 p-3 text-sm text-muted-foreground leading-relaxed">
-                  <strong className="text-foreground">Come si usa:</strong> il Lump Sum risponde a
-                  «e se avessi messo una cifra <em>tutta insieme</em>, in un certo giorno?». Cambia
-                  l&apos;importo e la data d&apos;acquisto e guarda quanto avrebbe oscillato — e per
-                  quanto tempo saresti stato in perdita prima di (forse) recuperare.
+                  <strong className="text-foreground">{t.howLabel}:</strong> {t.howLumpSum}
                 </div>
                 <LumpSumSimulator
                   prices={prices}
@@ -419,10 +418,7 @@ export function Simulator({
 
               <TabsContent value="dca">
                 <div className="mb-4 rounded-lg border bg-muted/40 p-3 text-sm text-muted-foreground leading-relaxed">
-                  <strong className="text-foreground">Come si usa:</strong> il PAC è la strategia di
-                  chi versa <em>un po&apos; ogni mese</em>, come con lo stipendio. Cambia il
-                  versamento mensile e il giorno del mese: vedrai che comprare con costanza — anche
-                  durante i crolli — abbassa il prezzo medio d&apos;acquisto.
+                  <strong className="text-foreground">{t.howLabel}:</strong> {t.howDca}
                 </div>
                 <DCASimulator
                   prices={prices}
