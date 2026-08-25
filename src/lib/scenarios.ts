@@ -135,6 +135,78 @@ export const SCENARIOS: Scenario[] = [
     lesson:
       "Il rischio estremo è a doppio taglio: può moltiplicare o dimezzare, e per anni sembra solo la seconda. Per ogni AMD che è esplosa, ci sono decine di titoli simili che non si sono mai più ripresi — e non li ricorda nessuno.",
   },
+  {
+    slug: "telecom-italia-declino",
+    title: "Telecom Italia: 25 anni di declino",
+    crisis: "Disastri italiani",
+    ticker: "TIT.MI",
+    name: "Telecom Italia",
+    startDate: "2000-03-01",
+    defaultTab: "lumpsum",
+    lumpSumAmount: 10000,
+    hook: "Il titolo che avevano in casa tutti i nonni. Dal picco della new economy nel 2000, un declino lungo un quarto di secolo.",
+    what: [
+      "Alla fine degli anni '90 Telecom Italia era l'orgoglio della Borsa di Milano: privatizzata da poco, protagonista dell'euforia della new economy, presente nei portafogli di milioni di piccoli risparmiatori italiani che la consideravano un investimento «sicuro come lo Stato».",
+      "Sul picco del 2000, l'azione valeva molte volte quanto vale oggi. Da lì è iniziata una discesa che non si è mai davvero fermata: montagne di debito, una privatizzazione controversa, la concorrenza feroce nelle telecomunicazioni e una lunga serie di ristrutturazioni.",
+      "A distanza di venticinque anni, chi comprò sul massimo del 2000 ha perso la stragrande maggioranza del capitale — un declino lento, silenzioso, che ha bruciato i risparmi di un'intera generazione di piccoli azionisti.",
+    ],
+    lesson:
+      "Anche il «campione nazionale», il titolo che «hanno tutti» e sembra solido come un'istituzione, può distruggere valore per decenni. Un'azione non deve nulla a nessuno: né alla sua storia, né al fatto di essere italiana.",
+  },
+  {
+    slug: "bitcoin-2021",
+    title: "Bitcoin 2021: l'euforia e il −77%",
+    crisis: "Crolli recenti (2021-2022)",
+    ticker: "BTC-USD",
+    name: "Bitcoin",
+    startDate: "2021-11-08",
+    defaultTab: "lumpsum",
+    lumpSumAmount: 10000,
+    hook: "Novembre 2021, l'entusiasmo crypto ai massimi storici. Chi comprò allora vide il proprio capitale crollare del 77% in un anno.",
+    what: [
+      "Nel novembre 2021 Bitcoin toccava il suo massimo storico di allora, vicino ai 69.000 dollari. Era il momento dell'euforia totale: media mainstream, celebrità, amici che «ci avevano guadagnato». La FOMO — la paura di restare fuori — spingeva molti a comprare proprio sul picco.",
+      "Nell'anno successivo arrivò l'inverno crypto: crollo dei prezzi, fallimenti a catena (il caso FTX su tutti), e Bitcoin che perse circa il 77%, scendendo sotto i 16.000 dollari. Diecimila euro investiti sul top valevano, sul fondo, poco più di duemila.",
+      "Chi ha resistito ha poi rivisto la ripresa, fino a superare i valori del 2021. Ma la maggioranza non ce l'ha fatta: capitolò proprio vicino al minimo, trasformando il crollo temporaneo in una perdita definitiva.",
+    ],
+    lesson:
+      "Gli asset più volatili regalano i sogni più grandi e le discese più violente. Anche quando «poi si riprende», devi prima sopravvivere — psicologicamente ed economicamente — a un −77%. Comprare nell'euforia è il modo migliore per non riuscirci.",
+  },
+  {
+    slug: "tesla-2021",
+    title: "Tesla 2021: cinque anni dopo, ancora sotto",
+    crisis: "Crolli recenti (2021-2022)",
+    ticker: "TSLA",
+    name: "Tesla",
+    startDate: "2021-11-04",
+    defaultTab: "lumpsum",
+    lumpSumAmount: 10000,
+    hook: "Il titolo-simbolo del rialzo. Chi entrò sul massimo del novembre 2021 vide −74% — e a distanza di cinque anni è ancora in perdita.",
+    what: [
+      "A fine 2021 Tesla era il titolo che tutti volevano: cresciuta di dieci volte, guidata da un personaggio idolatrato, sembrava non potesse che salire. Entrare sembrava un obbligo, non un rischio.",
+      "Nel 2022 la caduta: da circa 410 a poco più di 100 (aggiustato per il frazionamento azionario), un crollo del 74%. Poi una ripresa, altri saliscendi, e nuovi massimi nel 2025.",
+      "Eppure, chi comprò esattamente sul massimo del novembre 2021 — pur avendo attraversato la ripresa — a distanza di cinque anni si ritrova ancora sotto il prezzo d'ingresso. Cinque anni di montagne russe per essere, oggi, in leggera perdita.",
+    ],
+    lesson:
+      "«Prima o poi recupera» non è una legge fisica. A volte, anche anni dopo, sei ancora sotto — e nel frattempo hai dovuto reggere un −74%. Il tempo aiuta, ma non garantisce nulla su quando (e se) tornerai in pari.",
+  },
+  {
+    slug: "meta-2021",
+    title: "Meta 2021: −77% e poi il ritorno (per chi resse)",
+    crisis: "Crolli recenti (2021-2022)",
+    ticker: "META",
+    name: "Meta (Facebook)",
+    startDate: "2021-09-01",
+    defaultTab: "lumpsum",
+    lumpSumAmount: 10000,
+    hook: "Crollò del 77% nel 2022 tra scetticismo sul metaverso. Poi tornò alla grande — ma solo chi non vendette al minimo lo vide.",
+    what: [
+      "Nel 2021 Facebook (poi Meta) era una delle aziende più solide e profittevoli al mondo. Sembrava impossibile sbagliare. Poi arrivò il 2022: dubbi sul metaverso, calo della pubblicità, spese fuori controllo.",
+      "Il titolo crollò di circa il 77%, da oltre 380 dollari a meno di 90. Sui giornali si parlava del «declino irreversibile» del social network. Molti investitori, spaventati, vendettero proprio vicino al fondo.",
+      "Poi la svolta: tagli ai costi, ritorno alla crescita, e un recupero potente che ha portato il titolo ben sopra i livelli del 2021. Chi ebbe la freddezza di restare fu ampiamente ripagato; chi capitolò al minimo, no.",
+    ],
+    lesson:
+      "Il recupero c'è stato, ma è arrivato solo per chi ha sopportato un −77% senza vendere al minimo. È l'esempio più netto di quanto il rendimento del titolo e quello dell'investitore possano divergere: la differenza la fa il comportamento nel panico.",
+  },
 ];
 
 export function getScenario(slug: string): Scenario | undefined {
@@ -151,5 +223,7 @@ export function getScenariosByTicker(ticker: string): Scenario[] {
 export const CRISIS_ORDER = [
   "Bolla dot-com (2000)",
   "Crisi finanziaria (2008)",
+  "Disastri italiani",
+  "Crolli recenti (2021-2022)",
   "Rischio single-stock",
 ];

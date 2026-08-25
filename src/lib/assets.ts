@@ -55,6 +55,13 @@ export const ASSETS: Asset[] = [
       "Il titolo più volatile e discusso degli ultimi anni: capace di moltiplicarsi e di dimezzarsi in pochi mesi. Un test di stomaco più che di portafoglio.",
   },
   {
+    ticker: "META",
+    name: "Meta (Facebook)",
+    category: "Azioni USA",
+    blurb:
+      "La società di Facebook, Instagram e WhatsApp. Nel 2022 crollò di quasi l'80% per poi tornare alle stelle: un caso da manuale sul comportamento dell'investitore.",
+  },
+  {
     ticker: "SPY",
     name: "S&P 500",
     category: "Indici & ETF",
@@ -95,6 +102,13 @@ export const ASSETS: Asset[] = [
     category: "Azioni Italia",
     blurb:
       "La principale banca italiana, altro classico da dividendo di Piazza Affari. Un caso concreto per ragionare su titoli italiani invece dei soliti nomi americani.",
+  },
+  {
+    ticker: "TIT.MI",
+    name: "Telecom Italia",
+    category: "Azioni Italia",
+    blurb:
+      "L'ex campione nazionale delle telecomunicazioni: dal picco della new economy nel 2000, un declino durato un quarto di secolo. Il simbolo della distruzione di valore all'italiana.",
   },
 ];
 
