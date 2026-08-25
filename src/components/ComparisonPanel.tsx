@@ -157,7 +157,7 @@ export function ComparisonPanel({ lumpSum, dca, lumpSumAmount, dcaMonthly, curre
                   dca: dca ? formatCurrency(dca.finalValue, currency) : null,
                 },
                 {
-                  label: "Rendimento annualizzato ⭐",
+                  label: "Rendimento annualizzato",
                   ls: lumpSum ? fmtAnnualized(lumpSum.annualizedReturnPct) : null,
                   dca: dca ? fmtAnnualized(dca.annualizedReturnPct) : null,
                   lsColor: lumpSum && lumpSum.annualizedReturnPct !== null ? pctColor(lumpSum.annualizedReturnPct) : "",

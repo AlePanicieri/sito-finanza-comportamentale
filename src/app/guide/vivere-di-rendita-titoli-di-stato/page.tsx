@@ -90,12 +90,12 @@ export default function Page() {
         Se il finanziamento costa <em>meno</em> di quanto rende il titolo, vinci. Se costa di
         più, stai semplicemente pagando per tenere fermi i tuoi soldi.
       </blockquote>
-      <h3>✅ Ha senso quando…</h3>
+      <h3>Ha senso quando…</h3>
       <ul>
         <li>Il finanziamento è a <strong>tasso zero o molto basso</strong> (le promo dei concessionari esistono davvero). Lì la cedola copre la rata e il capitale continua a lavorare per te: è un vantaggio reale.</li>
         <li>Vuoi <strong>mantenere la liquidità</strong> e la flessibilità del capitale invece di svuotare il conto in un colpo.</li>
       </ul>
-      <h3>❌ È una trappola quando…</h3>
+      <h3>È una trappola quando…</h3>
       <ul>
         <li>Il finanziamento costa <strong>più della rendita</strong> (es. prestito all&apos;8% contro un titolo al 3,5%). In quel caso pagare l&apos;auto in contanti ti costa meno: la «rendita che paga la rata» è un&apos;illusione contabile che ti fa perdere lo spread.</li>
         <li>Ti racconti che è «gratis». Non lo è mai: o sfrutti un finanziamento agevolato, o stai rinunciando a qualcosa.</li>

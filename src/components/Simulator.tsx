@@ -183,7 +183,7 @@ export function Simulator({
             {/* Ricerca protagonista nell'hero, con microcopy che guida l'utente */}
             <div className="w-full max-w-xl">
               <p className="text-sm font-medium mb-2">
-                👇 Scrivi il nome o il ticker di un titolo — ti guidiamo noi passo passo
+                Scrivi il nome o il ticker di un titolo — ti guidiamo noi passo passo
               </p>
               <div className="flex gap-2">
                 <StockSearch
