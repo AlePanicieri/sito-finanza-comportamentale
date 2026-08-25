@@ -124,7 +124,9 @@ export function Simulator({
 
   return (
     <div className="bg-background">
-      {/* Barra di ricerca del tool (sotto l'header globale) */}
+      {/* Barra di ricerca del tool. Nascosta durante l'intro della homepage,
+          dove la ricerca è protagonista nell'hero. */}
+      {(!showIntro || hasLoaded || loading) && (
       <div className="border-b bg-background/95 backdrop-blur sticky top-14 z-40">
         <div className="max-w-6xl mx-auto px-4 py-3 flex items-center gap-4">
           <div className="flex-1 flex gap-2 max-w-lg">
@@ -157,6 +159,7 @@ export function Simulator({
           )}
         </div>
       </div>
+      )}
 
       <main className="max-w-6xl mx-auto px-4 py-6">
         {/* Stato iniziale (solo in homepage, non nelle pagine dedicate) */}
@@ -174,6 +177,35 @@ export function Simulator({
                 promesse: scegli un titolo vero e guarda come sarebbe andato davvero il tuo
                 investimento, giorno per giorno, sui <strong className="text-foreground font-semibold">dati storici reali</strong>.
                 Poi impara a riconoscere i bias — e i fuffaguru — che ti fanno vedere guadagni che non esistono.
+              </p>
+            </div>
+
+            {/* Ricerca protagonista nell'hero, con microcopy che guida l'utente */}
+            <div className="w-full max-w-xl">
+              <p className="text-sm font-medium mb-2">
+                👇 Scrivi il nome o il ticker di un titolo — ti guidiamo noi passo passo
+              </p>
+              <div className="flex gap-2">
+                <StockSearch
+                  value={ticker}
+                  onChange={handleTickerChange}
+                  placeholder="Es. Apple, AAPL, Bitcoin, ENI.MI…"
+                />
+                <button
+                  onClick={handleSearch}
+                  disabled={!ticker.trim() || loading}
+                  className="shrink-0 bg-primary text-primary-foreground px-5 py-2 rounded-md text-sm font-medium hover:bg-primary/90 disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-1.5 transition-colors"
+                >
+                  {loading ? (
+                    <Loader2 className="h-4 w-4 animate-spin" />
+                  ) : (
+                    <RefreshCw className="h-4 w-4" />
+                  )}
+                  Analizza
+                </button>
+              </div>
+              <p className="text-xs text-muted-foreground mt-2 text-left">
+                Scelto il titolo, ti spieghiamo passo dopo passo come leggere ogni sezione.
               </p>
             </div>
 
@@ -362,6 +394,12 @@ export function Simulator({
               </TabsContent>
 
               <TabsContent value="lumpsum">
+                <div className="mb-4 rounded-lg border bg-muted/40 p-3 text-sm text-muted-foreground leading-relaxed">
+                  <strong className="text-foreground">Come si usa:</strong> il Lump Sum risponde a
+                  «e se avessi messo una cifra <em>tutta insieme</em>, in un certo giorno?». Cambia
+                  l&apos;importo e la data d&apos;acquisto e guarda quanto avrebbe oscillato — e per
+                  quanto tempo saresti stato in perdita prima di (forse) recuperare.
+                </div>
                 <LumpSumSimulator
                   prices={prices}
                   dividends={dividends}
@@ -380,6 +418,12 @@ export function Simulator({
               </TabsContent>
 
               <TabsContent value="dca">
+                <div className="mb-4 rounded-lg border bg-muted/40 p-3 text-sm text-muted-foreground leading-relaxed">
+                  <strong className="text-foreground">Come si usa:</strong> il PAC è la strategia di
+                  chi versa <em>un po&apos; ogni mese</em>, come con lo stipendio. Cambia il
+                  versamento mensile e il giorno del mese: vedrai che comprare con costanza — anche
+                  durante i crolli — abbassa il prezzo medio d&apos;acquisto.
+                </div>
                 <DCASimulator
                   prices={prices}
                   dividends={dividends}

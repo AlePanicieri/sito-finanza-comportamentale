@@ -58,6 +58,17 @@ export function TemporalDistortion({ prices, ticker, currency }: Props) {
 
   return (
     <div className="space-y-6">
+      {/* Come funziona questa sezione */}
+      <div className="rounded-lg border bg-muted/40 p-3 text-sm text-muted-foreground leading-relaxed">
+        <strong className="text-foreground">Come si usa:</strong> scegli un orizzonte (5, 10, 20
+        anni…). La prima barra è la finestra <em>più recente</em>, quella che finisce oggi; la
+        seconda copre lo stesso numero di anni <em>appena prima</em>, la terza quelli ancora prima, e
+        così via indietro nel tempo. Confronta le barre: lo{" "}
+        <strong className="text-foreground">stesso identico titolo</strong> ha reso in modo molto
+        diverso a seconda dell&apos;epoca — ecco perché la performance che vedi «oggi» può ingannarti
+        sulle attese future.
+      </div>
+
       {/* Selettore orizzonte */}
       <div className="flex flex-wrap gap-2">
         {HORIZON_OPTIONS.map((h) => (
@@ -109,7 +120,8 @@ export function TemporalDistortion({ prices, ticker, currency }: Props) {
         <CardHeader className="pb-2">
           <CardTitle className="text-base">Performance per finestre temporali di {selectedHorizon.label}</CardTitle>
           <CardDescription>
-            Ogni barra mostra la performance di {selectedHorizon.label} consecutivi. La prima barra è quella attuale.
+            Ogni barra è una finestra di {selectedHorizon.label}: la prima finisce oggi, le
+            successive vanno via via indietro nel tempo, {selectedHorizon.label} alla volta.
           </CardDescription>
         </CardHeader>
         <CardContent>
