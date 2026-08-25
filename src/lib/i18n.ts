@@ -22,7 +22,16 @@ export interface Translations {
   };
   howLabel: string;
   howLumpSum: string;
-  howDca: string;
+  howDca: { pre: string; highlight: string; post: string };
+  dcaGuide: {
+    title: string;
+    monthly: string;
+    startDate: string;
+    dayOfMonth: string;
+    inflation: string;
+    endDate: string;
+    calculate: string;
+  };
   howDistortion: string;
   cautionLabel: string;
   distortionMarathon: string;
@@ -41,8 +50,20 @@ export const TRANSLATIONS: Record<Lang, Translations> = {
     howLabel: "Come si usa",
     howLumpSum:
       "il Lump Sum risponde a «e se avessi messo una cifra tutta insieme, in un certo giorno?». Cambia l'importo e la data d'acquisto e guarda quanto avrebbe oscillato — e per quanto tempo saresti stato in perdita prima di (forse) recuperare.",
-    howDca:
-      "il PAC è la strategia di chi versa un po' ogni mese, come con lo stipendio. Cambia il versamento mensile e il giorno del mese: vedrai che comprare con costanza — anche durante i crolli — abbassa il prezzo medio d'acquisto.",
+    howDca: {
+      pre: "il PAC è la strategia di chi versa un po' ogni mese, come con lo stipendio. Comprando a più riprese, ",
+      highlight: "statisticamente",
+      post: " riduci il rischio di entrare tutto nel momento sbagliato: quando il prezzo scende compri di più a poco e il prezzo medio si abbassa. Ma non è magia: se il prezzo sale a lungo e poi crolla, avrai comprato molto a caro prezzo e resterai comunque esposto.",
+    },
+    dcaGuide: {
+      title: "Cosa inserire",
+      monthly: "Versamento mensile: quanto metteresti da parte ogni mese (es. 100, 300, 500).",
+      startDate: "Data di inizio: da quando avresti cominciato a versare.",
+      dayOfMonth: "Giorno del mese: in che giorno compri ogni mese. Cambia il prezzo pagato — prova a variarlo.",
+      inflation: "Inflazione annua: mostra anche il valore «reale», al netto del carovita.",
+      endDate: "Data di fine (opzionale): se a un certo punto avresti smesso di versare. Il grafico prosegue comunque fino a oggi.",
+      calculate: "Poi premi «Calcola».",
+    },
     howDistortion:
       "scegli un orizzonte (5, 10, 20 anni…). La prima barra è la finestra più recente, quella che finisce oggi; la seconda copre lo stesso numero di anni appena prima, la terza quelli ancora prima, e così via indietro nel tempo. Confronta le barre: lo stesso identico titolo ha reso in modo molto diverso a seconda dell'epoca — ecco perché la performance che vedi «oggi» può ingannarti sulle attese future.",
     cautionLabel: "Attenzione",
@@ -61,8 +82,20 @@ export const TRANSLATIONS: Record<Lang, Translations> = {
     howLabel: "How to use it",
     howLumpSum:
       "the lump sum answers: «what if I'd put in a single amount all at once, on a given day?». Change the amount and the purchase date and see how much it would have swung — and how long you'd have been underwater before (maybe) recovering.",
-    howDca:
-      "dollar-cost averaging is the strategy of investing a little every month, like from a salary. Change the monthly amount and the day of the month: you'll see that buying consistently — even during crashes — lowers your average purchase price.",
+    howDca: {
+      pre: "dollar-cost averaging is the strategy of investing a little every month, like from a salary. By buying in several steps, ",
+      highlight: "statistically",
+      post: " you cut the risk of putting everything in at the wrong moment: when the price falls you buy more for less and your average price drops. But it's no magic: if the price climbs for a long time and then crashes, you'll have bought a lot at high prices and you're still exposed.",
+    },
+    dcaGuide: {
+      title: "What to enter",
+      monthly: "Monthly contribution: how much you'd set aside each month (e.g. 100, 300, 500).",
+      startDate: "Start date: when you'd have started contributing.",
+      dayOfMonth: "Day of the month: which day you buy each month. It changes the price you pay — try varying it.",
+      inflation: "Annual inflation: also shows the «real» value, adjusted for the cost of living.",
+      endDate: "End date (optional): if at some point you'd have stopped contributing. The chart still runs to today.",
+      calculate: "Then press «Calcola» (Calculate).",
+    },
     howDistortion:
       "pick a horizon (5, 10, 20 years…). The first bar is the most recent window, the one ending today; the second covers the same number of years just before, the third the ones before that, and so on back in time. Compare the bars: the very same stock performed very differently depending on the era — which is why the return you see «today» can mislead you about the future.",
     cautionLabel: "A word of caution",
@@ -81,8 +114,20 @@ export const TRANSLATIONS: Record<Lang, Translations> = {
     howLabel: "Comment l'utiliser",
     howLumpSum:
       "l'investissement unique répond à : «et si j'avais placé une somme d'un coup, un jour donné ?». Change le montant et la date d'achat et regarde l'ampleur des variations — et combien de temps tu serais resté en perte avant de (peut-être) récupérer.",
-    howDca:
-      "l'investissement programmé, c'est verser un peu chaque mois, comme avec un salaire. Change le versement mensuel et le jour du mois : tu verras qu'acheter régulièrement — même pendant les krachs — fait baisser ton prix d'achat moyen.",
+    howDca: {
+      pre: "l'investissement programmé, c'est verser un peu chaque mois, comme avec un salaire. En achetant en plusieurs fois, ",
+      highlight: "statistiquement",
+      post: " tu réduis le risque de tout placer au mauvais moment : quand le prix baisse, tu achètes plus pour moins cher et ton prix moyen diminue. Mais ce n'est pas magique : si le prix monte longtemps puis s'effondre, tu auras beaucoup acheté cher et tu restes exposé.",
+    },
+    dcaGuide: {
+      title: "Que saisir",
+      monthly: "Versement mensuel : combien tu mettrais de côté chaque mois (ex. 100, 300, 500).",
+      startDate: "Date de début : à partir de quand tu aurais commencé à verser.",
+      dayOfMonth: "Jour du mois : quel jour tu achètes chaque mois. Cela change le prix payé — essaie de le varier.",
+      inflation: "Inflation annuelle : montre aussi la valeur « réelle », hors coût de la vie.",
+      endDate: "Date de fin (facultative) : si à un moment tu aurais cessé de verser. Le graphique continue jusqu'à aujourd'hui.",
+      calculate: "Puis appuie sur « Calcola » (Calculer).",
+    },
     howDistortion:
       "choisis un horizon (5, 10, 20 ans…). La première barre est la fenêtre la plus récente, celle qui se termine aujourd'hui ; la deuxième couvre le même nombre d'années juste avant, la troisième celles d'encore avant, et ainsi de suite en remontant le temps. Compare les barres : le même titre a rendu très différemment selon l'époque — d'où le fait que la performance vue «aujourd'hui» peut t'induire en erreur sur l'avenir.",
     cautionLabel: "Attention",
@@ -101,8 +146,20 @@ export const TRANSLATIONS: Record<Lang, Translations> = {
     howLabel: "So funktioniert's",
     howLumpSum:
       "die Einmalanlage beantwortet die Frage: «Was, wenn ich an einem bestimmten Tag alles auf einmal angelegt hätte?». Ändere Betrag und Kaufdatum und sieh, wie stark es geschwankt hätte — und wie lange du im Minus gewesen wärst, bevor du dich (vielleicht) erholst.",
-    howDca:
-      "der Sparplan bedeutet, jeden Monat etwas anzulegen, wie vom Gehalt. Ändere die monatliche Rate und den Tag im Monat: Du wirst sehen, dass regelmäßiges Kaufen — auch während Crashs — deinen durchschnittlichen Kaufpreis senkt.",
+    howDca: {
+      pre: "der Sparplan bedeutet, jeden Monat etwas anzulegen, wie vom Gehalt. Wenn du in mehreren Schritten kaufst, senkst du ",
+      highlight: "statistisch",
+      post: " das Risiko, alles zum falschen Zeitpunkt anzulegen: Fällt der Kurs, kaufst du mehr für weniger und dein Durchschnittspreis sinkt. Aber es ist keine Zauberei: Steigt der Kurs lange und stürzt dann ab, hast du viel teuer gekauft und bist trotzdem exponiert.",
+    },
+    dcaGuide: {
+      title: "Was eingeben",
+      monthly: "Monatliche Rate: wie viel du jeden Monat zurücklegen würdest (z. B. 100, 300, 500).",
+      startDate: "Startdatum: ab wann du eingezahlt hättest.",
+      dayOfMonth: "Tag im Monat: an welchem Tag du jeden Monat kaufst. Das ändert den gezahlten Preis — probiere es aus.",
+      inflation: "Jährliche Inflation: zeigt auch den «realen» Wert, bereinigt um die Teuerung.",
+      endDate: "Enddatum (optional): falls du irgendwann aufgehört hättest einzuzahlen. Der Chart läuft trotzdem bis heute.",
+      calculate: "Dann drücke «Calcola» (Berechnen).",
+    },
     howDistortion:
       "wähle einen Zeitraum (5, 10, 20 Jahre…). Der erste Balken ist das jüngste Fenster, das heute endet; der zweite deckt genauso viele Jahre unmittelbar davor ab, der dritte die davor, und so weiter zurück in die Zeit. Vergleiche die Balken: dieselbe Aktie hat sich je nach Epoche sehr unterschiedlich entwickelt — deshalb kann dich die «heute» sichtbare Rendite über die Zukunft täuschen.",
     cautionLabel: "Achtung",
@@ -121,8 +178,20 @@ export const TRANSLATIONS: Record<Lang, Translations> = {
     howLabel: "Cómo se usa",
     howLumpSum:
       "la inversión única responde a: «¿y si hubiera metido una cantidad de golpe, un día concreto?». Cambia el importe y la fecha de compra y observa cuánto habría oscilado — y cuánto tiempo habrías estado en pérdidas antes de (quizás) recuperar.",
-    howDca:
-      "la aportación periódica es la estrategia de invertir un poco cada mes, como con el sueldo. Cambia la aportación mensual y el día del mes: verás que comprar con constancia — incluso durante las caídas — reduce tu precio medio de compra.",
+    howDca: {
+      pre: "la aportación periódica es la estrategia de invertir un poco cada mes, como con el sueldo. Comprando en varias veces, ",
+      highlight: "estadísticamente",
+      post: " reduces el riesgo de meterlo todo en el momento equivocado: cuando el precio baja compras más por menos y tu precio medio baja. Pero no es magia: si el precio sube mucho tiempo y luego se desploma, habrás comprado mucho caro y sigues expuesto.",
+    },
+    dcaGuide: {
+      title: "Qué introducir",
+      monthly: "Aportación mensual: cuánto apartarías cada mes (p. ej. 100, 300, 500).",
+      startDate: "Fecha de inicio: desde cuándo habrías empezado a aportar.",
+      dayOfMonth: "Día del mes: qué día compras cada mes. Cambia el precio pagado — prueba a variarlo.",
+      inflation: "Inflación anual: muestra también el valor «real», descontada la carestía.",
+      endDate: "Fecha de fin (opcional): si en algún momento habrías dejado de aportar. El gráfico continúa hasta hoy.",
+      calculate: "Luego pulsa «Calcola» (Calcular).",
+    },
     howDistortion:
       "elige un horizonte (5, 10, 20 años…). La primera barra es la ventana más reciente, la que termina hoy; la segunda cubre el mismo número de años justo antes, la tercera los anteriores, y así hacia atrás en el tiempo. Compara las barras: el mismo valor rindió de forma muy distinta según la época — por eso la rentabilidad que ves «hoy» puede engañarte sobre el futuro.",
     cautionLabel: "Atención",

@@ -417,8 +417,23 @@ export function Simulator({
               </TabsContent>
 
               <TabsContent value="dca">
-                <div className="mb-4 rounded-lg border bg-muted/40 p-3 text-sm text-muted-foreground leading-relaxed">
-                  <strong className="text-foreground">{t.howLabel}:</strong> {t.howDca}
+                <div className="mb-3 rounded-lg border bg-muted/40 p-3 text-sm text-muted-foreground leading-relaxed">
+                  <strong className="text-foreground">{t.howLabel}:</strong> {t.howDca.pre}
+                  <strong className="text-foreground underline decoration-amber-500 decoration-2 underline-offset-2">
+                    {t.howDca.highlight}
+                  </strong>
+                  {t.howDca.post}
+                </div>
+                <div className="mb-4 rounded-lg border bg-muted/40 p-3 text-sm leading-relaxed">
+                  <div className="font-semibold text-foreground mb-1.5">{t.dcaGuide.title}</div>
+                  <ul className="space-y-1 text-muted-foreground list-disc pl-4">
+                    <li>{t.dcaGuide.monthly}</li>
+                    <li>{t.dcaGuide.startDate}</li>
+                    <li>{t.dcaGuide.dayOfMonth}</li>
+                    <li>{t.dcaGuide.inflation}</li>
+                    <li>{t.dcaGuide.endDate}</li>
+                  </ul>
+                  <div className="mt-2 font-medium text-foreground">{t.dcaGuide.calculate}</div>
                 </div>
                 <DCASimulator
                   prices={prices}
