@@ -177,6 +177,9 @@ export function Simulator({
               <p className="text-muted-foreground text-base leading-relaxed">
                 {t.ui.heroIntro}
               </p>
+              <p className="text-lg sm:text-xl font-bold tracking-tight text-foreground mt-5 border-t pt-4">
+                {t.ui.savingMessage}
+              </p>
             </div>
 
             {/* Ricerca protagonista nell'hero, con microcopy che guida l'utente */}
