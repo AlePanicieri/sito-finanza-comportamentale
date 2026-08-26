@@ -24,8 +24,8 @@ const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.seavessiinvest
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
-    default: "Finanza Comportamentale — Simula i tuoi investimenti sui dati reali",
-    template: "%s — Finanza Comportamentale",
+    default: "Se Avessi Investito — Simula i tuoi investimenti sui dati reali",
+    template: "%s — Se Avessi Investito",
   },
   description:
     "Simula PAC e investimenti su titoli reali con dati storici veri. Capisci i bias che distorcono le tue decisioni e impara a distinguere l'educazione finanziaria dalla fuffa.",
@@ -40,8 +40,8 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     locale: "it_IT",
-    siteName: "Finanza Comportamentale",
-    title: "Finanza Comportamentale — Simula i tuoi investimenti sui dati reali",
+    siteName: "Se Avessi Investito",
+    title: "Se Avessi Investito — Simula i tuoi investimenti sui dati reali",
     description:
       "Quanto avresti oggi con 500€ al mese? Simulalo sui dati storici veri e scopri i bias che ti ingannano.",
   },
@@ -72,8 +72,7 @@ export default function RootLayout({
           data={{
             "@context": "https://schema.org",
             "@type": "Organization",
-            name: "Finanza Comportamentale",
-            alternateName: "Se avessi investito",
+            name: "Se Avessi Investito",
             url: SITE_URL,
             description:
               "Progetto indipendente di educazione finanziaria: simula investimenti sui dati storici reali, capisci i bias e distingui l'educazione dalla fuffa.",
@@ -84,7 +83,7 @@ export default function RootLayout({
           data={{
             "@context": "https://schema.org",
             "@type": "WebSite",
-            name: "Finanza Comportamentale",
+            name: "Se Avessi Investito",
             url: SITE_URL,
             inLanguage: "it-IT",
             description:

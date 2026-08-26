@@ -11,7 +11,7 @@ export function SiteFooter() {
     <footer className="border-t mt-16">
       <div className="max-w-6xl mx-auto px-4 py-8 grid gap-6 sm:grid-cols-3 text-sm">
         <div className="space-y-2">
-          <div className="font-bold">Finanza Comportamentale</div>
+          <div className="font-bold">Se Avessi Investito</div>
           <p className="text-xs text-muted-foreground leading-relaxed">{u.footerMission}</p>
         </div>
 
@@ -57,7 +57,7 @@ export function SiteFooter() {
       </div>
       <div className="border-t">
         <div className="max-w-6xl mx-auto px-4 py-4 text-center text-xs text-muted-foreground">
-          © {new Date().getFullYear()} Finanza Comportamentale — {u.footerRights}
+          © {new Date().getFullYear()} Se Avessi Investito — {u.footerRights}
         </div>
       </div>
     </footer>

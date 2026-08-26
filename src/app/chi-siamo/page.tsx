@@ -6,7 +6,7 @@ import { SITE_URL, SITE_NAME } from "@/lib/site";
 export const metadata: Metadata = {
   title: "Chi siamo e come funziona",
   description:
-    "Cos'è Finanza Comportamentale: un progetto indipendente di educazione finanziaria. Come funzionano le simulazioni, da dove arrivano i dati e cosa questo sito NON è.",
+    "Cos'è Se Avessi Investito: un progetto indipendente di educazione finanziaria. Come funzionano le simulazioni, da dove arrivano i dati e cosa questo sito NON è.",
   alternates: { canonical: "/chi-siamo" },
 };
 
@@ -36,7 +36,7 @@ export default function ChiSiamoPage() {
 
       <div className={PROSE}>
         <p>
-          <strong>Finanza Comportamentale</strong> è un progetto <strong>indipendente</strong> di
+          <strong>Se Avessi Investito</strong> è un progetto <strong>indipendente</strong> di
           educazione finanziaria. Non vendiamo prodotti, non gestiamo i tuoi soldi e non abbiamo
           nulla da collocarti. L&apos;unico obiettivo è aiutarti a <strong>ragionare</strong> con dati
           veri, invece che con gli aneddoti da bar o con le promesse dei guru.

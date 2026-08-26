@@ -2,4 +2,4 @@
 export const SITE_URL =
   process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.seavessiinvestito.com";
 
-export const SITE_NAME = "Finanza Comportamentale";
+export const SITE_NAME = "Se Avessi Investito";

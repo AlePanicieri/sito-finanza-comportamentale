@@ -203,7 +203,7 @@ export const TRANSLATIONS: Record<Lang, Translations> = {
     distortionMarathon:
       "Il fatto che un titolo sia sempre salito non significa che salirà per sempre — né che accada nell'immediato. Gli investimenti che diventano redditizi sono una maratona, non uno sprint. E il rischio non scompare mai: esistono titoli rimasti in perdita per dieci anni di fila. Saresti disposto a vedere la tua liquidità dimezzata per anni? L'investimento è un rischio da soppesare con attenzione. È vero, però, che statisticamente alcuni titoli hanno meno probabilità di altri di crollare.",
     ui: {
-      tagline: "Simula, capisci, non farti fregare",
+      tagline: "La finanza è un rischio, non come te la raccontano",
       navSimulator: "Simulatore",
       navTitles: "Titoli",
       navCrashes: "Crolli",
@@ -374,7 +374,7 @@ export const TRANSLATIONS: Record<Lang, Translations> = {
     distortionMarathon:
       "The fact that a stock has always gone up doesn't mean it always will — nor that it will happen any time soon. Investments that become profitable are a marathon, not a sprint. And the risk never disappears: some stocks have stayed at a loss for ten years straight. Would you be willing to watch your money cut in half for years? Investing is a risk to weigh carefully. It's true, though, that statistically some stocks are less likely than others to collapse.",
     ui: {
-      tagline: "Simulate, understand, don't get fooled",
+      tagline: "Finance is a risk — not what they tell you",
       navSimulator: "Simulator",
       navTitles: "Stocks",
       navCrashes: "Crashes",
@@ -545,7 +545,7 @@ export const TRANSLATIONS: Record<Lang, Translations> = {
     distortionMarathon:
       "Le fait qu'un titre ait toujours monté ne signifie pas qu'il montera toujours — ni que cela arrivera tout de suite. Les investissements qui deviennent rentables sont un marathon, pas un sprint. Et le risque ne disparaît jamais : certains titres sont restés en perte pendant dix ans d'affilée. Serais-tu prêt à voir ton capital réduit de moitié pendant des années ? Investir est un risque à peser avec soin. Il est vrai, cependant, que statistiquement certains titres ont moins de probabilité que d'autres de s'effondrer.",
     ui: {
-      tagline: "Simule, comprends, ne te fais pas avoir",
+      tagline: "La finance est un risque, pas ce qu'on te raconte",
       navSimulator: "Simulateur",
       navTitles: "Titres",
       navCrashes: "Krachs",
@@ -716,7 +716,7 @@ export const TRANSLATIONS: Record<Lang, Translations> = {
     distortionMarathon:
       "Dass eine Aktie immer gestiegen ist, heißt nicht, dass sie immer steigen wird — und schon gar nicht sofort. Investments, die sich lohnen, sind ein Marathon, kein Sprint. Und das Risiko verschwindet nie: Manche Aktien lagen zehn Jahre am Stück im Minus. Wärst du bereit, dein Vermögen jahrelang halbiert zu sehen? Investieren ist ein Risiko, das sorgfältig abzuwägen ist. Es stimmt allerdings, dass statistisch manche Aktien seltener einbrechen als andere.",
     ui: {
-      tagline: "Simulieren, verstehen, sich nicht täuschen lassen",
+      tagline: "Finanzen sind ein Risiko — nicht das, was man dir erzählt",
       navSimulator: "Simulator",
       navTitles: "Aktien",
       navCrashes: "Crashs",
@@ -887,7 +887,7 @@ export const TRANSLATIONS: Record<Lang, Translations> = {
     distortionMarathon:
       "Que un valor haya subido siempre no significa que subirá para siempre — ni que ocurra de inmediato. Las inversiones que se vuelven rentables son una maratón, no un esprint. Y el riesgo nunca desaparece: hay valores que han estado en pérdidas diez años seguidos. ¿Estarías dispuesto a ver tu dinero reducido a la mitad durante años? Invertir es un riesgo que hay que sopesar con cuidado. Es cierto, eso sí, que estadísticamente algunos valores tienen menos probabilidad que otros de desplomarse.",
     ui: {
-      tagline: "Simula, entiende, que no te engañen",
+      tagline: "Las finanzas son un riesgo, no lo que te cuentan",
       navSimulator: "Simulador",
       navTitles: "Valores",
       navCrashes: "Desplomes",

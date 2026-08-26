@@ -28,7 +28,7 @@ export function SiteHeader() {
             <Brain className="h-5 w-5 text-primary-foreground" />
           </div>
           <div className="leading-tight">
-            <div className="text-sm font-bold">Finanza Comportamentale</div>
+            <div className="text-sm font-bold">Se Avessi Investito</div>
             <div className="text-[11px] text-muted-foreground hidden sm:block">
               {t.ui.tagline}
             </div>
