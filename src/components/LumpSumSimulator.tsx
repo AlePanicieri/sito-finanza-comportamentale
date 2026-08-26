@@ -19,6 +19,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { calcLumpSum, LumpSumResult, PricePoint, DividendPoint } from "@/lib/calculations";
 import { formatCurrency, formatPct, formatShortDate, pctColor } from "@/lib/formatters";
+import { useLang } from "@/components/site/LanguageProvider";
 import { TrendingUp, TrendingDown, AlertTriangle, Info, Coins } from "lucide-react";
 
 interface Props {
@@ -53,6 +54,8 @@ function sampleArray<T>(arr: T[], step: number): T[] {
 }
 
 export function LumpSumSimulator({ prices, dividends = [], currency, ticker, inflationRate, onInflationChange, initialAmount, initialStartDate, datesLocked, onResult }: Props) {
+  const { t } = useLang();
+  const s = t.sim;
   const [amount, setAmount] = useState(initialAmount != null ? String(initialAmount) : "10000");
   const [startDate, setStartDate] = useState(() => {
     if (initialStartDate) return initialStartDate;
@@ -111,13 +114,13 @@ export function LumpSumSimulator({ prices, dividends = [], currency, ticker, inf
       {/* Parametri */}
       <Card>
         <CardHeader className="pb-3">
-          <CardTitle className="text-base">Parametri investimento</CardTitle>
-          <CardDescription>Investimento unico in {ticker}</CardDescription>
+          <CardTitle className="text-base">{s.lsParamsTitle}</CardTitle>
+          <CardDescription>{s.lsParamsDesc.replace("{ticker}", ticker)}</CardDescription>
         </CardHeader>
         <CardContent>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 items-end">
             <div className="space-y-1.5">
-              <Label>Importo ({currency})</Label>
+              <Label>{s.amount} ({currency})</Label>
               <Input
                 type="number"
                 min={1}
@@ -127,7 +130,7 @@ export function LumpSumSimulator({ prices, dividends = [], currency, ticker, inf
               />
             </div>
             <div className="space-y-1.5">
-              <Label>Data di acquisto</Label>
+              <Label>{s.purchaseDate}</Label>
               <Input
                 type="date"
                 min={minDate}
@@ -135,14 +138,14 @@ export function LumpSumSimulator({ prices, dividends = [], currency, ticker, inf
                 value={startDate}
                 onChange={(e) => setStartDate(e.target.value)}
                 disabled={datesLocked}
-                title={datesLocked ? "Data fissata su questo scenario" : undefined}
+                title={datesLocked ? s.lockedDateTitle : undefined}
               />
               {datesLocked && (
-                <p className="text-[10px] text-muted-foreground">Data fissa dello scenario</p>
+                <p className="text-[10px] text-muted-foreground">{s.lockedDateNote}</p>
               )}
             </div>
             <div className="space-y-1.5">
-              <Label>Inflazione annua (%)</Label>
+              <Label>{s.inflationAnnual}</Label>
               <Input
                 type="number"
                 min={0}
@@ -153,7 +156,7 @@ export function LumpSumSimulator({ prices, dividends = [], currency, ticker, inf
               />
             </div>
             <Button onClick={handleCalculate} className="w-full">
-              Calcola
+              {s.calculate}
             </Button>
           </div>
         </CardContent>
@@ -165,7 +168,7 @@ export function LumpSumSimulator({ prices, dividends = [], currency, ticker, inf
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
             <Card>
               <CardContent className="pt-4 pb-3">
-                <div className="text-xs text-muted-foreground">Investito</div>
+                <div className="text-xs text-muted-foreground">{s.invested}</div>
                 <div className="text-lg font-bold mt-1">
                   {formatCurrency(result.totalInvested, currency)}
                 </div>
@@ -173,7 +176,7 @@ export function LumpSumSimulator({ prices, dividends = [], currency, ticker, inf
             </Card>
             <Card>
               <CardContent className="pt-4 pb-3">
-                <div className="text-xs text-muted-foreground">Valore oggi</div>
+                <div className="text-xs text-muted-foreground">{s.valueToday}</div>
                 <div className="text-lg font-bold mt-1">
                   {formatCurrency(result.finalValue, currency)}
                 </div>
@@ -182,7 +185,7 @@ export function LumpSumSimulator({ prices, dividends = [], currency, ticker, inf
                 </div>
                 {result.annualizedReturnPct !== null && (
                   <div className="text-[11px] text-muted-foreground mt-0.5">
-                    ≈ {formatPct(result.annualizedReturnPct)}/anno
+                    ≈ {formatPct(result.annualizedReturnPct)}{s.perYear}
                   </div>
                 )}
               </CardContent>
@@ -190,7 +193,7 @@ export function LumpSumSimulator({ prices, dividends = [], currency, ticker, inf
             <Card>
               <CardContent className="pt-4 pb-3">
                 <div className="text-xs text-muted-foreground flex items-center gap-1">
-                  Valore reale <span className="text-[10px]">(inflaz. {inflationRate}%)</span>
+                  {s.realValue} <span className="text-[10px]">({s.inflAbbr} {inflationRate}%)</span>
                 </div>
                 <div className="text-lg font-bold mt-1">
                   {formatCurrency(result.finalValueReal, currency)}
@@ -204,7 +207,7 @@ export function LumpSumSimulator({ prices, dividends = [], currency, ticker, inf
               <CardContent className="pt-4 pb-3">
                 <div className="text-xs text-muted-foreground flex items-center gap-1">
                   <AlertTriangle className="h-3 w-3 text-amber-500" />
-                  Peggior sessione
+                  {s.worstSession}
                 </div>
                 <div className="text-lg font-bold mt-1 text-red-500">
                   {result.worstSessionPct.toFixed(2)}%
@@ -223,23 +226,23 @@ export function LumpSumSimulator({ prices, dividends = [], currency, ticker, inf
                 <div className="flex items-center justify-between flex-wrap gap-2">
                   <div className="flex items-center gap-2">
                     <Coins className="h-4 w-4 text-green-600" />
-                    <CardTitle className="text-base">Rendita da dividendi</CardTitle>
+                    <CardTitle className="text-base">{s.dividendsTitle}</CardTitle>
                   </div>
                   <div className="flex items-baseline gap-3">
                     <span className="text-xl font-bold text-green-600">{formatCurrency(result.totalDividends, currency)}</span>
-                    <span className="text-sm text-muted-foreground">+{result.totalDividendsPct.toFixed(1)}% sull&apos;investito</span>
+                    <span className="text-sm text-muted-foreground">+{result.totalDividendsPct.toFixed(1)}% {s.pctOnInvested}</span>
                   </div>
                 </div>
-                <CardDescription>Dividendi incassati separatamente dalla rivalutazione del titolo · lordi, tassazione esclusa</CardDescription>
+                <CardDescription>{s.lsDivDesc}</CardDescription>
               </CardHeader>
               <CardContent className="pb-4">
                 <div className="rounded-lg border overflow-hidden">
                   <table className="w-full text-xs">
                     <thead>
                       <tr className="bg-muted/50">
-                        <th className="text-left py-2 px-3 font-medium">Anno</th>
-                        <th className="text-right py-2 px-3 font-medium">Dividendo/quota</th>
-                        <th className="text-right py-2 px-3 font-medium">Incassato</th>
+                        <th className="text-left py-2 px-3 font-medium">{s.divYear}</th>
+                        <th className="text-right py-2 px-3 font-medium">{s.divPerShare}</th>
+                        <th className="text-right py-2 px-3 font-medium">{s.divCashed}</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -255,11 +258,7 @@ export function LumpSumSimulator({ prices, dividends = [], currency, ticker, inf
                 </div>
                 <div className="mt-3 flex items-start gap-2 text-xs text-muted-foreground border-t pt-3">
                   <Info className="h-3.5 w-3.5 shrink-0 mt-0.5" />
-                  <span>
-                    Nel Lump Sum le quote acquistate all&apos;inizio restano <span className="font-semibold">sempre le stesse</span> per tutta la durata dell&apos;investimento.
-                    Ogni volta che il titolo paga un dividendo, quell&apos;importo viene moltiplicato per il numero fisso di quote in tuo possesso.
-                    {" "}<span className="font-semibold">Dividendo incassato = Dividendo/quota × Quote acquistate</span>.
-                  </span>
+                  <span>{s.lsDivNote}</span>
                 </div>
               </CardContent>
             </Card>
@@ -272,9 +271,10 @@ export function LumpSumSimulator({ prices, dividends = [], currency, ticker, inf
                 <div className="flex items-start gap-2 text-sm">
                   <Info className="h-4 w-4 text-amber-500 mt-0.5 shrink-0" />
                   <span>
-                    Per <span className="font-semibold">{result.periodsInNegative}</span> giorni su{" "}
-                    <span className="font-semibold">{result.totalPeriods}</span> ({Math.round((result.periodsInNegative / result.totalPeriods) * 100)}%
-                    del tempo) il portafoglio era <span className="font-semibold text-red-500">in perdita</span> rispetto all&apos;investimento iniziale.
+                    {s.negPeriods
+                      .replace("{n}", String(result.periodsInNegative))
+                      .replace("{m}", String(result.totalPeriods))
+                      .replace("{pct}", String(Math.round((result.periodsInNegative / result.totalPeriods) * 100)))}
                   </span>
                 </div>
               </CardContent>
@@ -286,8 +286,8 @@ export function LumpSumSimulator({ prices, dividends = [], currency, ticker, inf
             <CardHeader className="pb-2">
               <div className="flex items-center justify-between flex-wrap gap-2">
                 <div>
-                  <CardTitle className="text-base">Andamento del portafoglio</CardTitle>
-                  <CardDescription>Oscillazioni giornaliere del valore dell&apos;investimento</CardDescription>
+                  <CardTitle className="text-base">{s.lsChartTitle}</CardTitle>
+                  <CardDescription>{s.lsChartDesc}</CardDescription>
                 </div>
                 <button
                   onClick={() => setShowReal(!showReal)}
@@ -295,7 +295,7 @@ export function LumpSumSimulator({ prices, dividends = [], currency, ticker, inf
                     showReal ? "bg-primary text-primary-foreground border-primary" : "border-border text-muted-foreground"
                   }`}
                 >
-                  Mostra valore reale
+                  {s.showReal}
                 </button>
               </div>
             </CardHeader>
@@ -330,11 +330,12 @@ export function LumpSumSimulator({ prices, dividends = [], currency, ticker, inf
                     stroke="#f59e0b"
                     strokeDasharray="6 3"
                     strokeWidth={1.5}
-                    label={{ value: "Investito", position: "insideTopRight", fontSize: 10, fill: "#f59e0b" }}
+                    label={{ value: s.investedLine, position: "insideTopRight", fontSize: 10, fill: "#f59e0b" }}
                   />
                   <Area
                     type="monotone"
                     dataKey="Valore nominale"
+                    name={s.nominalValue}
                     stroke="#3b82f6"
                     strokeWidth={2}
                     fill="url(#colorNominal)"
@@ -344,6 +345,7 @@ export function LumpSumSimulator({ prices, dividends = [], currency, ticker, inf
                     <Area
                       type="monotone"
                       dataKey="Valore reale"
+                      name={s.realValue}
                       stroke="#8b5cf6"
                       strokeWidth={1.5}
                       strokeDasharray="4 2"
@@ -363,10 +365,22 @@ export function LumpSumSimulator({ prices, dividends = [], currency, ticker, inf
               <div className="flex items-start gap-2">
                 <Info className="h-4 w-4 text-muted-foreground mt-0.5 shrink-0" />
                 <div className="text-xs text-muted-foreground space-y-1">
-                  <div><span className="font-semibold">Quote acquistate</span> = Importo ÷ Prezzo acquisto</div>
-                  <div><span className="font-semibold">Valore nominale</span> = Quote × Prezzo corrente</div>
-                  <div><span className="font-semibold">Rendimento annualizzato</span> = tasso di crescita medio annuo (CAGR/IRR) — confrontabile col PAC</div>
-                  <div><span className="font-semibold">Valore reale</span> = Valore nominale ÷ (1+{(inflationRate / 100).toFixed(3).replace(/0+$/, "").replace(/\.$/, "")})^anni <span className="italic">(inflazione {inflationRate}%/anno)</span></div>
+                  {[
+                    s.lsFormula1,
+                    s.lsFormula2,
+                    s.annualizedFormulaLs,
+                    s.realFormula.replace("{rate}", String(inflationRate)),
+                  ].map((line, i) => {
+                    const idx = line.indexOf(" = ");
+                    const label = idx >= 0 ? line.slice(0, idx) : line;
+                    const rest = idx >= 0 ? line.slice(idx) : "";
+                    return (
+                      <div key={i}>
+                        <span className="font-semibold">{label}</span>
+                        {rest}
+                      </div>
+                    );
+                  })}
                 </div>
               </div>
             </CardContent>

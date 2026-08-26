@@ -84,6 +84,39 @@ export interface Translations {
     compareOr: string;
     compareEnd: string;
   };
+  sim: {
+    lsParamsTitle: string;
+    lsParamsDesc: string;
+    amount: string;
+    purchaseDate: string;
+    lockedDateTitle: string;
+    lockedDateNote: string;
+    inflationAnnual: string;
+    calculate: string;
+    invested: string;
+    valueToday: string;
+    realValue: string;
+    inflAbbr: string;
+    perYear: string;
+    worstSession: string;
+    dividendsTitle: string;
+    pctOnInvested: string;
+    lsDivDesc: string;
+    divYear: string;
+    divPerShare: string;
+    divCashed: string;
+    lsDivNote: string;
+    negPeriods: string;
+    lsChartTitle: string;
+    lsChartDesc: string;
+    showReal: string;
+    nominalValue: string;
+    investedLine: string;
+    lsFormula1: string;
+    lsFormula2: string;
+    annualizedFormulaLs: string;
+    realFormula: string;
+  };
 }
 
 export const TRANSLATIONS: Record<Lang, Translations> = {
@@ -175,6 +208,41 @@ export const TRANSLATIONS: Record<Lang, Translations> = {
       compareOr: "o",
       compareEnd: ".",
     },
+    sim: {
+      lsParamsTitle: "Parametri investimento",
+      lsParamsDesc: "Investimento unico in {ticker}",
+      amount: "Importo",
+      purchaseDate: "Data di acquisto",
+      lockedDateTitle: "Data fissata su questo scenario",
+      lockedDateNote: "Data fissa dello scenario",
+      inflationAnnual: "Inflazione annua (%)",
+      calculate: "Calcola",
+      invested: "Investito",
+      valueToday: "Valore oggi",
+      realValue: "Valore reale",
+      inflAbbr: "inflaz.",
+      perYear: "/anno",
+      worstSession: "Peggior sessione",
+      dividendsTitle: "Rendita da dividendi",
+      pctOnInvested: "sull'investito",
+      lsDivDesc: "Dividendi incassati separatamente dalla rivalutazione del titolo · lordi, tassazione esclusa",
+      divYear: "Anno",
+      divPerShare: "Dividendo/quota",
+      divCashed: "Incassato",
+      lsDivNote:
+        "Nel Lump Sum le quote acquistate all'inizio restano sempre le stesse per tutta la durata dell'investimento. Ogni volta che il titolo paga un dividendo, quell'importo viene moltiplicato per il numero fisso di quote in tuo possesso. Dividendo incassato = Dividendo/quota × Quote acquistate.",
+      negPeriods:
+        "Per {n} giorni su {m} ({pct}% del tempo) il portafoglio era in perdita rispetto all'investimento iniziale.",
+      lsChartTitle: "Andamento del portafoglio",
+      lsChartDesc: "Oscillazioni giornaliere del valore dell'investimento",
+      showReal: "Mostra valore reale",
+      nominalValue: "Valore nominale",
+      investedLine: "Investito",
+      lsFormula1: "Quote acquistate = Importo ÷ Prezzo d'acquisto",
+      lsFormula2: "Valore nominale = Quote × Prezzo corrente",
+      annualizedFormulaLs: "Rendimento annualizzato = tasso di crescita medio annuo (CAGR/IRR), confrontabile col PAC",
+      realFormula: "Valore reale = Valore nominale ÷ (1 + inflazione)^anni — inflazione {rate}%/anno",
+    },
   },
   en: {
     disclaimer: {
@@ -263,6 +331,41 @@ export const TRANSLATIONS: Record<Lang, Translations> = {
       compareEmptyPre: "Run at least one simulation first in the",
       compareOr: "or",
       compareEnd: "tab.",
+    },
+    sim: {
+      lsParamsTitle: "Investment parameters",
+      lsParamsDesc: "A single investment in {ticker}",
+      amount: "Amount",
+      purchaseDate: "Purchase date",
+      lockedDateTitle: "Date locked for this scenario",
+      lockedDateNote: "Fixed scenario date",
+      inflationAnnual: "Annual inflation (%)",
+      calculate: "Calculate",
+      invested: "Invested",
+      valueToday: "Value today",
+      realValue: "Real value",
+      inflAbbr: "infl.",
+      perYear: "/yr",
+      worstSession: "Worst session",
+      dividendsTitle: "Dividend income",
+      pctOnInvested: "of the amount invested",
+      lsDivDesc: "Dividends collected separately from the stock's appreciation · gross, before tax",
+      divYear: "Year",
+      divPerShare: "Dividend/share",
+      divCashed: "Collected",
+      lsDivNote:
+        "In a lump sum, the shares bought at the start stay the same for the whole investment. Every time the stock pays a dividend, that amount is multiplied by your fixed number of shares. Dividend collected = Dividend/share × Shares bought.",
+      negPeriods:
+        "For {n} out of {m} days ({pct}% of the time) the portfolio was at a loss versus the initial investment.",
+      lsChartTitle: "Portfolio trajectory",
+      lsChartDesc: "Daily swings in the value of the investment",
+      showReal: "Show real value",
+      nominalValue: "Nominal value",
+      investedLine: "Invested",
+      lsFormula1: "Shares bought = Amount ÷ Purchase price",
+      lsFormula2: "Nominal value = Shares × Current price",
+      annualizedFormulaLs: "Annualized return = average yearly growth rate (CAGR/IRR), comparable with DCA",
+      realFormula: "Real value = Nominal value ÷ (1 + inflation)^years — inflation {rate}%/yr",
     },
   },
   fr: {
@@ -353,6 +456,41 @@ export const TRANSLATIONS: Record<Lang, Translations> = {
       compareOr: "ou",
       compareEnd: ".",
     },
+    sim: {
+      lsParamsTitle: "Paramètres de l'investissement",
+      lsParamsDesc: "Un investissement unique en {ticker}",
+      amount: "Montant",
+      purchaseDate: "Date d'achat",
+      lockedDateTitle: "Date figée pour ce scénario",
+      lockedDateNote: "Date fixe du scénario",
+      inflationAnnual: "Inflation annuelle (%)",
+      calculate: "Calculer",
+      invested: "Investi",
+      valueToday: "Valeur aujourd'hui",
+      realValue: "Valeur réelle",
+      inflAbbr: "infl.",
+      perYear: "/an",
+      worstSession: "Pire séance",
+      dividendsTitle: "Revenu des dividendes",
+      pctOnInvested: "du montant investi",
+      lsDivDesc: "Dividendes encaissés séparément de la valorisation du titre · bruts, avant impôts",
+      divYear: "Année",
+      divPerShare: "Dividende/action",
+      divCashed: "Encaissé",
+      lsDivNote:
+        "Avec l'investissement unique, les actions achetées au départ restent les mêmes pendant toute la durée. Chaque fois que le titre verse un dividende, ce montant est multiplié par ton nombre fixe d'actions. Dividende encaissé = Dividende/action × Actions achetées.",
+      negPeriods:
+        "Pendant {n} jours sur {m} ({pct}% du temps), le portefeuille était en perte par rapport à l'investissement initial.",
+      lsChartTitle: "Évolution du portefeuille",
+      lsChartDesc: "Variations quotidiennes de la valeur de l'investissement",
+      showReal: "Afficher la valeur réelle",
+      nominalValue: "Valeur nominale",
+      investedLine: "Investi",
+      lsFormula1: "Actions achetées = Montant ÷ Prix d'achat",
+      lsFormula2: "Valeur nominale = Actions × Prix actuel",
+      annualizedFormulaLs: "Rendement annualisé = taux de croissance annuel moyen (TCAM/TRI), comparable au DCA",
+      realFormula: "Valeur réelle = Valeur nominale ÷ (1 + inflation)^ans — inflation {rate}%/an",
+    },
   },
   de: {
     disclaimer: {
@@ -442,6 +580,41 @@ export const TRANSLATIONS: Record<Lang, Translations> = {
       compareOr: "oder",
       compareEnd: "aus.",
     },
+    sim: {
+      lsParamsTitle: "Anlage-Parameter",
+      lsParamsDesc: "Eine Einmalanlage in {ticker}",
+      amount: "Betrag",
+      purchaseDate: "Kaufdatum",
+      lockedDateTitle: "Datum für dieses Szenario fixiert",
+      lockedDateNote: "Festes Szenario-Datum",
+      inflationAnnual: "Jährliche Inflation (%)",
+      calculate: "Berechnen",
+      invested: "Angelegt",
+      valueToday: "Wert heute",
+      realValue: "Realwert",
+      inflAbbr: "Infl.",
+      perYear: "/Jahr",
+      worstSession: "Schlechtester Tag",
+      dividendsTitle: "Dividendenerträge",
+      pctOnInvested: "des angelegten Betrags",
+      lsDivDesc: "Dividenden getrennt von der Kurssteigerung erfasst · brutto, vor Steuern",
+      divYear: "Jahr",
+      divPerShare: "Dividende/Anteil",
+      divCashed: "Erhalten",
+      lsDivNote:
+        "Bei der Einmalanlage bleiben die anfangs gekauften Anteile die ganze Zeit gleich. Jedes Mal, wenn die Aktie eine Dividende zahlt, wird dieser Betrag mit deiner festen Anteilszahl multipliziert. Erhaltene Dividende = Dividende/Anteil × gekaufte Anteile.",
+      negPeriods:
+        "An {n} von {m} Tagen ({pct}% der Zeit) lag das Portfolio unter der Anfangsanlage.",
+      lsChartTitle: "Portfolio-Verlauf",
+      lsChartDesc: "Tägliche Schwankungen des Anlagewerts",
+      showReal: "Realwert anzeigen",
+      nominalValue: "Nominalwert",
+      investedLine: "Angelegt",
+      lsFormula1: "Gekaufte Anteile = Betrag ÷ Kaufpreis",
+      lsFormula2: "Nominalwert = Anteile × aktueller Kurs",
+      annualizedFormulaLs: "Annualisierte Rendite = durchschnittliche jährliche Wachstumsrate (CAGR/IRR), vergleichbar mit dem Sparplan",
+      realFormula: "Realwert = Nominalwert ÷ (1 + Inflation)^Jahre — Inflation {rate}%/Jahr",
+    },
   },
   es: {
     disclaimer: {
@@ -530,6 +703,41 @@ export const TRANSLATIONS: Record<Lang, Translations> = {
       compareEmptyPre: "Ejecuta primero al menos una simulación en la pestaña",
       compareOr: "o",
       compareEnd: ".",
+    },
+    sim: {
+      lsParamsTitle: "Parámetros de la inversión",
+      lsParamsDesc: "Una única inversión en {ticker}",
+      amount: "Importe",
+      purchaseDate: "Fecha de compra",
+      lockedDateTitle: "Fecha fijada para este escenario",
+      lockedDateNote: "Fecha fija del escenario",
+      inflationAnnual: "Inflación anual (%)",
+      calculate: "Calcular",
+      invested: "Invertido",
+      valueToday: "Valor hoy",
+      realValue: "Valor real",
+      inflAbbr: "infl.",
+      perYear: "/año",
+      worstSession: "Peor sesión",
+      dividendsTitle: "Renta por dividendos",
+      pctOnInvested: "sobre lo invertido",
+      lsDivDesc: "Dividendos cobrados aparte de la revalorización del valor · brutos, antes de impuestos",
+      divYear: "Año",
+      divPerShare: "Dividendo/acción",
+      divCashed: "Cobrado",
+      lsDivNote:
+        "En la inversión única, las acciones compradas al inicio se mantienen igual durante toda la inversión. Cada vez que el valor paga un dividendo, ese importe se multiplica por tu número fijo de acciones. Dividendo cobrado = Dividendo/acción × Acciones compradas.",
+      negPeriods:
+        "Durante {n} de {m} días ({pct}% del tiempo) la cartera estuvo en pérdidas respecto a la inversión inicial.",
+      lsChartTitle: "Evolución de la cartera",
+      lsChartDesc: "Oscilaciones diarias del valor de la inversión",
+      showReal: "Mostrar valor real",
+      nominalValue: "Valor nominal",
+      investedLine: "Invertido",
+      lsFormula1: "Acciones compradas = Importe ÷ Precio de compra",
+      lsFormula2: "Valor nominal = Acciones × Precio actual",
+      annualizedFormulaLs: "Rentabilidad anualizada = tasa de crecimiento anual media (CAGR/TIR), comparable con el DCA",
+      realFormula: "Valor real = Valor nominal ÷ (1 + inflación)^años — inflación {rate}%/año",
     },
   },
 };
