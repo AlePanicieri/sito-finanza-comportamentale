@@ -143,6 +143,23 @@ export interface Translations {
     simpleReturnFormula: string;
     annualizedFormulaDca: string;
     dcaRealFormula: string;
+    cmpNoteLead: string;
+    cmpNoteBody: string;
+    cmpTableTitle: string;
+    cmpTableDesc: string;
+    metric: string;
+    cmpLumpSum: string;
+    cmpDca: string;
+    oneOff: string;
+    perMonth: string;
+    rowInvested: string;
+    rowFinalValue: string;
+    rowAnnualized: string;
+    rowTotalReturn: string;
+    rowRealReturn: string;
+    cmpChartTitle: string;
+    cmpChartDesc: string;
+    cmpDisclaimer: string;
   };
 }
 
@@ -297,6 +314,25 @@ export const TRANSLATIONS: Record<Lang, Translations> = {
       simpleReturnFormula: "Rendimento % = (Valore finale − Totale versato) ÷ Totale versato × 100 (semplice, non annualizzato)",
       annualizedFormulaDca: "Rendimento annualizzato = tasso annuo che tiene conto di quando versi ogni euro (XIRR), confrontabile col Lump Sum",
       dcaRealFormula: "Valore reale = Valore finale ÷ (1 + inflazione)^anni — inflazione {rate}%/anno",
+      cmpNoteLead: "Non c'è un «vincitore» assoluto.",
+      cmpNoteBody:
+        "Le due strategie muovono importi diversi in momenti diversi, quindi il rendimento semplice (valore vs versato) non è confrontabile direttamente: nel PAC i soldi restano investiti in media molto meno tempo. Per un paragone corretto guarda il rendimento annualizzato nella tabella qui sotto: tiene conto di quando investi ogni euro.",
+      cmpTableTitle: "Confronto scenari",
+      cmpTableDesc: "Dati al momento dell'ultima esecuzione",
+      metric: "Metrica",
+      cmpLumpSum: "Lump Sum",
+      cmpDca: "PAC (DCA)",
+      oneOff: "una tantum",
+      perMonth: "/mese",
+      rowInvested: "Capitale investito",
+      rowFinalValue: "Valore finale",
+      rowAnnualized: "Rendimento annualizzato",
+      rowTotalReturn: "Rendimento totale (non annualizzato)",
+      rowRealReturn: "Rendimento reale ({rate}% inflaz.)",
+      cmpChartTitle: "Andamento a confronto",
+      cmpChartDesc: "Valore del portafoglio nel tempo per entrambe le strategie",
+      cmpDisclaimer:
+        "* I risultati escludono commissioni, dividendi e tasse. L'inflazione è stimata al {rate}%/anno. Il rendimento annualizzato (XIRR/CAGR) è l'unica metrica realmente confrontabile tra le due strategie. I rendimenti passati non sono garanzia di rendimenti futuri.",
     },
   },
   en: {
@@ -449,6 +485,25 @@ export const TRANSLATIONS: Record<Lang, Translations> = {
       simpleReturnFormula: "Return % = (Final value − Total contributed) ÷ Total contributed × 100 (simple, not annualized)",
       annualizedFormulaDca: "Annualized return = annual rate that accounts for when you invest each euro (XIRR), comparable with lump sum",
       dcaRealFormula: "Real value = Final value ÷ (1 + inflation)^years — inflation {rate}%/yr",
+      cmpNoteLead: "There's no absolute «winner».",
+      cmpNoteBody:
+        "The two strategies move different amounts at different times, so the simple return (value vs invested) isn't directly comparable: with DCA the money stays invested for much less time on average. For a fair comparison look at the annualized return in the table below: it accounts for when you invest each euro.",
+      cmpTableTitle: "Scenario comparison",
+      cmpTableDesc: "Data as of the last run",
+      metric: "Metric",
+      cmpLumpSum: "Lump Sum",
+      cmpDca: "DCA",
+      oneOff: "one-off",
+      perMonth: "/mo",
+      rowInvested: "Capital invested",
+      rowFinalValue: "Final value",
+      rowAnnualized: "Annualized return",
+      rowTotalReturn: "Total return (not annualized)",
+      rowRealReturn: "Real return ({rate}% infl.)",
+      cmpChartTitle: "Trajectories compared",
+      cmpChartDesc: "Portfolio value over time for both strategies",
+      cmpDisclaimer:
+        "* Results exclude fees, dividends and taxes. Inflation is assumed at {rate}%/yr. The annualized return (XIRR/CAGR) is the only truly comparable metric between the two strategies. Past returns are no guarantee of future results.",
     },
   },
   fr: {
@@ -601,6 +656,25 @@ export const TRANSLATIONS: Record<Lang, Translations> = {
       simpleReturnFormula: "Rendement % = (Valeur finale − Total versé) ÷ Total versé × 100 (simple, non annualisé)",
       annualizedFormulaDca: "Rendement annualisé = taux annuel qui tient compte du moment où tu verses chaque euro (TRI), comparable à l'investissement unique",
       dcaRealFormula: "Valeur réelle = Valeur finale ÷ (1 + inflation)^ans — inflation {rate}%/an",
+      cmpNoteLead: "Il n'y a pas de « gagnant » absolu.",
+      cmpNoteBody:
+        "Les deux stratégies déplacent des montants différents à des moments différents ; le rendement simple (valeur vs versé) n'est donc pas directement comparable : avec le DCA, l'argent reste investi bien moins longtemps en moyenne. Pour une comparaison juste, regarde le rendement annualisé dans le tableau ci-dessous : il tient compte du moment où tu investis chaque euro.",
+      cmpTableTitle: "Comparaison des scénarios",
+      cmpTableDesc: "Données au moment de la dernière exécution",
+      metric: "Mesure",
+      cmpLumpSum: "Invest. unique",
+      cmpDca: "DCA",
+      oneOff: "en une fois",
+      perMonth: "/mois",
+      rowInvested: "Capital investi",
+      rowFinalValue: "Valeur finale",
+      rowAnnualized: "Rendement annualisé",
+      rowTotalReturn: "Rendement total (non annualisé)",
+      rowRealReturn: "Rendement réel ({rate}% infl.)",
+      cmpChartTitle: "Évolutions comparées",
+      cmpChartDesc: "Valeur du portefeuille dans le temps pour les deux stratégies",
+      cmpDisclaimer:
+        "* Les résultats excluent frais, dividendes et impôts. L'inflation est estimée à {rate}%/an. Le rendement annualisé (TRI/TCAM) est la seule mesure vraiment comparable entre les deux stratégies. Les performances passées ne préjugent pas des résultats futurs.",
     },
   },
   de: {
@@ -753,6 +827,25 @@ export const TRANSLATIONS: Record<Lang, Translations> = {
       simpleReturnFormula: "Rendite % = (Endwert − insgesamt eingezahlt) ÷ insgesamt eingezahlt × 100 (einfach, nicht annualisiert)",
       annualizedFormulaDca: "Annualisierte Rendite = Jahresrate, die berücksichtigt, wann du jeden Euro anlegst (XIRR), vergleichbar mit der Einmalanlage",
       dcaRealFormula: "Realwert = Endwert ÷ (1 + Inflation)^Jahre — Inflation {rate}%/Jahr",
+      cmpNoteLead: "Es gibt keinen absoluten «Sieger».",
+      cmpNoteBody:
+        "Die beiden Strategien bewegen unterschiedliche Beträge zu unterschiedlichen Zeiten, daher ist die einfache Rendite (Wert vs. eingezahlt) nicht direkt vergleichbar: Beim Sparplan bleibt das Geld im Schnitt viel kürzer investiert. Für einen fairen Vergleich sieh dir die annualisierte Rendite in der Tabelle unten an: Sie berücksichtigt, wann du jeden Euro anlegst.",
+      cmpTableTitle: "Szenario-Vergleich",
+      cmpTableDesc: "Daten zum Zeitpunkt der letzten Ausführung",
+      metric: "Kennzahl",
+      cmpLumpSum: "Einmalanlage",
+      cmpDca: "Sparplan",
+      oneOff: "einmalig",
+      perMonth: "/Monat",
+      rowInvested: "Investiertes Kapital",
+      rowFinalValue: "Endwert",
+      rowAnnualized: "Annualisierte Rendite",
+      rowTotalReturn: "Gesamtrendite (nicht annualisiert)",
+      rowRealReturn: "Reale Rendite ({rate}% Infl.)",
+      cmpChartTitle: "Verläufe im Vergleich",
+      cmpChartDesc: "Portfoliowert im Zeitverlauf für beide Strategien",
+      cmpDisclaimer:
+        "* Ergebnisse ohne Gebühren, Dividenden und Steuern. Inflation mit {rate}%/Jahr angenommen. Die annualisierte Rendite (XIRR/CAGR) ist die einzige wirklich vergleichbare Kennzahl zwischen beiden Strategien. Vergangene Renditen sind keine Garantie für künftige Ergebnisse.",
     },
   },
   es: {
@@ -905,6 +998,25 @@ export const TRANSLATIONS: Record<Lang, Translations> = {
       simpleReturnFormula: "Rentabilidad % = (Valor final − Total aportado) ÷ Total aportado × 100 (simple, no anualizada)",
       annualizedFormulaDca: "Rentabilidad anualizada = tasa anual que tiene en cuenta cuándo inviertes cada euro (TIR), comparable con la inversión única",
       dcaRealFormula: "Valor real = Valor final ÷ (1 + inflación)^años — inflación {rate}%/año",
+      cmpNoteLead: "No hay un «ganador» absoluto.",
+      cmpNoteBody:
+        "Las dos estrategias mueven importes distintos en momentos distintos, así que la rentabilidad simple (valor vs aportado) no es directamente comparable: con el DCA el dinero permanece invertido mucho menos tiempo de media. Para una comparación justa mira la rentabilidad anualizada en la tabla de abajo: tiene en cuenta cuándo inviertes cada euro.",
+      cmpTableTitle: "Comparación de escenarios",
+      cmpTableDesc: "Datos en el momento de la última ejecución",
+      metric: "Métrica",
+      cmpLumpSum: "Inversión única",
+      cmpDca: "DCA",
+      oneOff: "de una vez",
+      perMonth: "/mes",
+      rowInvested: "Capital invertido",
+      rowFinalValue: "Valor final",
+      rowAnnualized: "Rentabilidad anualizada",
+      rowTotalReturn: "Rentabilidad total (no anualizada)",
+      rowRealReturn: "Rentabilidad real ({rate}% infl.)",
+      cmpChartTitle: "Evoluciones comparadas",
+      cmpChartDesc: "Valor de la cartera en el tiempo para ambas estrategias",
+      cmpDisclaimer:
+        "* Los resultados excluyen comisiones, dividendos e impuestos. La inflación se estima en {rate}%/año. La rentabilidad anualizada (TIR/CAGR) es la única métrica realmente comparable entre las dos estrategias. Las rentabilidades pasadas no garantizan resultados futuros.",
     },
   },
 };

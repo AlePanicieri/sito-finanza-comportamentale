@@ -13,6 +13,7 @@ import {
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { LumpSumResult, DCAResult } from "@/lib/calculations";
 import { formatCurrency, formatPct, formatShortDate, pctColor } from "@/lib/formatters";
+import { useLang } from "@/components/site/LanguageProvider";
 import { Scale } from "lucide-react";
 
 interface Props {
@@ -33,6 +34,8 @@ function sampleArray<T>(arr: T[], step: number): T[] {
 }
 
 export function ComparisonPanel({ lumpSum, dca, lumpSumAmount, dcaMonthly, currency, inflationRate }: Props) {
+  const { t } = useLang();
+  const s = t.sim;
   if (!lumpSum && !dca) return null;
 
   const fmtAnnualized = (v: number | null) => (v !== null ? formatPct(v) : "—");
@@ -103,12 +106,8 @@ export function ComparisonPanel({ lumpSum, dca, lumpSumAmount, dcaMonthly, curre
             <div className="flex items-start gap-3">
               <Scale className="h-5 w-5 text-primary shrink-0 mt-0.5" />
               <div className="text-xs text-muted-foreground leading-relaxed">
-                <span className="font-semibold text-foreground">Non c&apos;è un &quot;vincitore&quot; assoluto.</span>{" "}
-                Le due strategie muovono importi diversi in momenti diversi, quindi il{" "}
-                <span className="font-medium">rendimento semplice</span> (valore vs versato) non è
-                confrontabile direttamente: nel PAC i soldi restano investiti in media molto meno tempo.
-                Per un paragone corretto guarda il <span className="font-medium text-foreground">rendimento annualizzato</span>{" "}
-                nella tabella qui sotto: tiene conto di <span className="italic">quando</span> investi ogni euro.
+                <span className="font-semibold text-foreground">{s.cmpNoteLead}</span>{" "}
+                {s.cmpNoteBody}
               </div>
             </div>
           </CardContent>
@@ -118,27 +117,27 @@ export function ComparisonPanel({ lumpSum, dca, lumpSumAmount, dcaMonthly, curre
       {/* Tabella comparativa */}
       <Card>
         <CardHeader className="pb-3">
-          <CardTitle className="text-base">Confronto scenari</CardTitle>
-          <CardDescription>Dati al momento dell&apos;ultima esecuzione</CardDescription>
+          <CardTitle className="text-base">{s.cmpTableTitle}</CardTitle>
+          <CardDescription>{s.cmpTableDesc}</CardDescription>
         </CardHeader>
         <CardContent className="overflow-x-auto">
           <table className="w-full text-sm">
             <thead>
               <tr className="border-b">
-                <th className="text-left py-2 pr-4 font-medium text-muted-foreground text-xs">Metrica</th>
+                <th className="text-left py-2 pr-4 font-medium text-muted-foreground text-xs">{s.metric}</th>
                 {lumpSum && (
                   <th className="text-right py-2 px-4 font-medium text-blue-600 text-xs">
-                    Lump Sum
+                    {s.cmpLumpSum}
                     <div className="text-[10px] text-muted-foreground font-normal">
-                      {formatCurrency(lumpSumAmount, currency)} una tantum
+                      {formatCurrency(lumpSumAmount, currency)} {s.oneOff}
                     </div>
                   </th>
                 )}
                 {dca && (
                   <th className="text-right py-2 pl-4 font-medium text-emerald-600 text-xs">
-                    PAC (DCA)
+                    {s.cmpDca}
                     <div className="text-[10px] text-muted-foreground font-normal">
-                      {formatCurrency(dcaMonthly, currency)}/mese
+                      {formatCurrency(dcaMonthly, currency)}{s.perMonth}
                     </div>
                   </th>
                 )}
@@ -147,17 +146,17 @@ export function ComparisonPanel({ lumpSum, dca, lumpSumAmount, dcaMonthly, curre
             <tbody>
               {[
                 {
-                  label: "Capitale investito",
+                  label: s.rowInvested,
                   ls: lumpSum ? formatCurrency(lumpSum.totalInvested, currency) : null,
                   dca: dca ? formatCurrency(dca.totalInvested, currency) : null,
                 },
                 {
-                  label: "Valore finale",
+                  label: s.rowFinalValue,
                   ls: lumpSum ? formatCurrency(lumpSum.finalValue, currency) : null,
                   dca: dca ? formatCurrency(dca.finalValue, currency) : null,
                 },
                 {
-                  label: "Rendimento annualizzato",
+                  label: s.rowAnnualized,
                   ls: lumpSum ? fmtAnnualized(lumpSum.annualizedReturnPct) : null,
                   dca: dca ? fmtAnnualized(dca.annualizedReturnPct) : null,
                   lsColor: lumpSum && lumpSum.annualizedReturnPct !== null ? pctColor(lumpSum.annualizedReturnPct) : "",
@@ -165,28 +164,28 @@ export function ComparisonPanel({ lumpSum, dca, lumpSumAmount, dcaMonthly, curre
                   highlight: true,
                 },
                 {
-                  label: "Rendimento totale (non annualizzato)",
+                  label: s.rowTotalReturn,
                   ls: lumpSum ? formatPct(lumpSum.returnPct) : null,
                   dca: dca ? formatPct(dca.returnPct) : null,
                   lsColor: lumpSum ? pctColor(lumpSum.returnPct) : "",
                   dcaColor: dca ? pctColor(dca.returnPct) : "",
                 },
                 {
-                  label: `Rendimento reale (${inflationRate}% inflaz.)`,
+                  label: s.rowRealReturn.replace("{rate}", String(inflationRate)),
                   ls: lumpSum ? formatPct(lumpSum.returnRealPct) : null,
                   dca: dca ? formatPct(dca.returnRealPct) : null,
                   lsColor: lumpSum ? pctColor(lumpSum.returnRealPct) : "",
                   dcaColor: dca ? pctColor(dca.returnRealPct) : "",
                 },
                 {
-                  label: "Valore reale",
+                  label: s.realValue,
                   ls: lumpSum ? formatCurrency(lumpSum.finalValueReal, currency) : null,
                   dca: dca ? formatCurrency(dca.finalValueReal, currency) : null,
                 },
                 ...(lumpSum
                   ? [
                       {
-                        label: "Peggior sessione",
+                        label: s.worstSession,
                         ls: `${lumpSum.worstSessionPct.toFixed(2)}%`,
                         dca: null,
                         lsColor: "text-red-500",
@@ -218,10 +217,8 @@ export function ComparisonPanel({ lumpSum, dca, lumpSumAmount, dcaMonthly, curre
       {chartData.length > 0 && (
         <Card>
           <CardHeader className="pb-2">
-            <CardTitle className="text-base">Andamento a confronto</CardTitle>
-            <CardDescription>
-              Valore del portafoglio nel tempo per entrambe le strategie
-            </CardDescription>
+            <CardTitle className="text-base">{s.cmpChartTitle}</CardTitle>
+            <CardDescription>{s.cmpChartDesc}</CardDescription>
           </CardHeader>
           <CardContent>
             <ResponsiveContainer width="100%" height={300}>
@@ -244,6 +241,7 @@ export function ComparisonPanel({ lumpSum, dca, lumpSumAmount, dcaMonthly, curre
                   <Line
                     type="monotone"
                     dataKey="Lump Sum"
+                    name={s.cmpLumpSum}
                     stroke="#3b82f6"
                     strokeWidth={2}
                     dot={false}
@@ -254,6 +252,7 @@ export function ComparisonPanel({ lumpSum, dca, lumpSumAmount, dcaMonthly, curre
                   <Line
                     type="monotone"
                     dataKey="PAC (DCA)"
+                    name={s.cmpDca}
                     stroke="#10b981"
                     strokeWidth={2}
                     dot={false}
@@ -268,9 +267,7 @@ export function ComparisonPanel({ lumpSum, dca, lumpSumAmount, dcaMonthly, curre
 
       {/* Disclaimer */}
       <p className="text-xs text-muted-foreground text-center px-4">
-        * I risultati escludono commissioni, dividendi e tasse. L&apos;inflazione è stimata al {inflationRate}%/anno.
-        Il <span className="font-medium">rendimento annualizzato</span> (XIRR/CAGR) è l&apos;unica metrica
-        realmente confrontabile tra le due strategie. I rendimenti passati non sono garanzia di rendimenti futuri.
+        {s.cmpDisclaimer.replace("{rate}", String(inflationRate))}
       </p>
     </div>
   );
