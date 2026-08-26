@@ -4,16 +4,18 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Brain } from "lucide-react";
 import { LanguageSwitcher } from "./LanguageSwitcher";
+import { useLang } from "./LanguageProvider";
 
 const NAV = [
-  { href: "/", label: "Simulatore" },
-  { href: "/simula", label: "Titoli" },
-  { href: "/crolli", label: "Crolli" },
-  { href: "/guide", label: "Guide" },
-];
+  { href: "/", key: "navSimulator" },
+  { href: "/simula", key: "navTitles" },
+  { href: "/crolli", key: "navCrashes" },
+  { href: "/guide", key: "navGuides" },
+] as const;
 
 export function SiteHeader() {
   const pathname = usePathname();
+  const { t } = useLang();
 
   const isActive = (href: string) =>
     href === "/" ? pathname === "/" : pathname.startsWith(href);
@@ -28,14 +30,14 @@ export function SiteHeader() {
           <div className="leading-tight">
             <div className="text-sm font-bold">Finanza Comportamentale</div>
             <div className="text-[11px] text-muted-foreground hidden sm:block">
-              Simula, capisci, non farti fregare
+              {t.ui.tagline}
             </div>
           </div>
         </Link>
 
         <div className="flex items-center gap-2 shrink-0">
           <nav className="flex items-center gap-0.5 sm:gap-1">
-            {NAV.map(({ href, label }) => (
+            {NAV.map(({ href, key }) => (
               <Link
                 key={href}
                 href={href}
@@ -45,7 +47,7 @@ export function SiteHeader() {
                     : "text-muted-foreground hover:text-foreground hover:bg-muted/60"
                 }`}
               >
-                {label}
+                {t.ui[key]}
               </Link>
             ))}
           </nav>

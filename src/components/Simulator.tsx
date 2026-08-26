@@ -135,7 +135,7 @@ export function Simulator({
             <StockSearch
               value={ticker}
               onChange={handleTickerChange}
-              placeholder="Cerca ticker: AAPL, BTC-USD, MSFT..."
+              placeholder={t.ui.searchPlaceholder}
             />
             <button
               onClick={handleSearch}
@@ -147,7 +147,7 @@ export function Simulator({
               ) : (
                 <RefreshCw className="h-4 w-4" />
               )}
-              <span className="hidden sm:inline">Analizza</span>
+              <span className="hidden sm:inline">{t.ui.analyze}</span>
             </button>
           </div>
           {hasLoaded && (
@@ -172,26 +172,21 @@ export function Simulator({
                 <Brain className="h-8 w-8 text-primary" />
               </div>
               <h1 className="text-3xl sm:text-4xl font-bold tracking-tight mb-4">
-                «Se avessi investito 500€ al mese, oggi avrei…»
+                {t.ui.heroTitle}
               </h1>
               <p className="text-muted-foreground text-base leading-relaxed">
-                Forse una fortuna. Forse molto meno di quanto ti raccontano. Qui non trovi
-                promesse: scegli un titolo vero e guarda come sarebbe andato davvero il tuo
-                investimento, giorno per giorno, sui <strong className="text-foreground font-semibold">dati storici reali</strong>.
-                Poi impara a riconoscere i bias — e i fuffaguru — che ti fanno vedere guadagni che non esistono.
+                {t.ui.heroIntro}
               </p>
             </div>
 
             {/* Ricerca protagonista nell'hero, con microcopy che guida l'utente */}
             <div className="w-full max-w-xl">
-              <p className="text-sm font-medium mb-2">
-                Scrivi il nome o il ticker di un titolo — ti guidiamo noi passo passo
-              </p>
+              <p className="text-sm font-medium mb-2">{t.ui.heroSearchLead}</p>
               <div className="flex gap-2">
                 <StockSearch
                   value={ticker}
                   onChange={handleTickerChange}
-                  placeholder="Es. Apple, AAPL, Bitcoin, ENI.MI…"
+                  placeholder={t.ui.searchPlaceholder}
                 />
                 <button
                   onClick={handleSearch}
@@ -203,12 +198,10 @@ export function Simulator({
                   ) : (
                     <RefreshCw className="h-4 w-4" />
                   )}
-                  Analizza
+                  {t.ui.analyze}
                 </button>
               </div>
-              <p className="text-xs text-muted-foreground mt-2 text-left">
-                Scelto il titolo, ti spieghiamo passo dopo passo come leggere ogni sezione.
-              </p>
+              <p className="text-xs text-muted-foreground mt-2 text-left">{t.ui.heroSearchSub}</p>
             </div>
 
             <RiskDisclaimer className="w-full max-w-3xl text-left" />
@@ -216,26 +209,10 @@ export function Simulator({
             {/* Feature cards */}
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 w-full max-w-3xl">
               {[
-                {
-                  icon: Brain,
-                  title: "Distorsione Temporale",
-                  desc: "Vedi come il titolo performava nel passato, non solo oggi",
-                },
-                {
-                  icon: TrendingUp,
-                  title: "Simulazione Lump Sum",
-                  desc: "Investimento unico: come avrei oscillato giornalmente?",
-                },
-                {
-                  icon: BarChart2,
-                  title: "PAC Mensile",
-                  desc: "Versamento ricorrente: quale giorno del mese scegliere?",
-                },
-                {
-                  icon: GitCompare,
-                  title: "Confronto Strategie",
-                  desc: "Lump Sum vs DCA: chi avrebbe vinto nel tuo caso?",
-                },
+                { icon: Brain, title: t.ui.c1t, desc: t.ui.c1d },
+                { icon: TrendingUp, title: t.ui.c2t, desc: t.ui.c2d },
+                { icon: BarChart2, title: t.ui.c3t, desc: t.ui.c3d },
+                { icon: GitCompare, title: t.ui.c4t, desc: t.ui.c4d },
               ].map(({ icon: Icon, title, desc }) => (
                 <div
                   key={title}
@@ -250,7 +227,7 @@ export function Simulator({
 
             {/* Titoli più cercati → pagine dedicate (link interni per la SEO) */}
             <div className="text-center">
-              <p className="text-xs text-muted-foreground mb-3">Simula i titoli più cercati:</p>
+              <p className="text-xs text-muted-foreground mb-3">{t.ui.mostSearched}</p>
               <div className="flex flex-wrap gap-2 justify-center">
                 {["AAPL", "MSFT", "BTC-USD", "SPY", "AMZN", "NVDA", "QQQ", "ENI.MI"].map((t) => (
                   <Link
@@ -275,13 +252,12 @@ export function Simulator({
                 </div>
                 <div>
                   <div className="font-bold text-sm mb-0.5 group-hover:text-red-600 dark:group-hover:text-red-400 transition-colors">
-                    I grandi crolli — quando c&apos;era da piangere
+                    {t.ui.crashTitle}
                   </div>
                   <p className="text-xs text-muted-foreground leading-relaxed">
-                    Titoli crollati dell&apos;80-99%, alcuni mai più tornati al picco. Rivivi
-                    dot-com, Lehman e i disastri single-stock con le date vere fissate.{" "}
+                    {t.ui.crashDesc}{" "}
                     <span className="text-red-600 dark:text-red-400 font-medium inline-flex items-center gap-0.5">
-                      Guarda i crolli <ArrowRight className="h-3 w-3" />
+                      {t.ui.crashCta} <ArrowRight className="h-3 w-3" />
                     </span>
                   </p>
                 </div>
@@ -293,12 +269,12 @@ export function Simulator({
             {/* Teaser guide */}
             <div className="w-full max-w-3xl text-left">
               <div className="flex items-baseline justify-between mb-4">
-                <h2 className="text-lg font-bold tracking-tight">Prima di iniziare, leggi</h2>
+                <h2 className="text-lg font-bold tracking-tight">{t.ui.beforeStart}</h2>
                 <Link
                   href="/guide"
                   className="text-xs text-primary hover:underline inline-flex items-center gap-1"
                 >
-                  Tutte le guide <ArrowRight className="h-3 w-3" />
+                  {t.ui.allGuides} <ArrowRight className="h-3 w-3" />
                 </Link>
               </div>
               <div className="grid gap-3 sm:grid-cols-2">
@@ -324,7 +300,9 @@ export function Simulator({
         {loading && (
           <div className="flex flex-col items-center justify-center min-h-[60vh] gap-4 text-muted-foreground">
             <Loader2 className="h-10 w-10 animate-spin text-primary" />
-            <div className="text-sm">Recupero {HISTORY_YEARS} anni di dati per {ticker.toUpperCase()}...</div>
+            <div className="text-sm">
+              {t.ui.loading.replace("{years}", String(HISTORY_YEARS)).replace("{ticker}", ticker.toUpperCase())}
+            </div>
           </div>
         )}
 
@@ -334,7 +312,7 @@ export function Simulator({
             <CardContent className="pt-6 pb-6 flex items-start gap-3">
               <AlertCircle className="h-5 w-5 text-destructive shrink-0 mt-0.5" />
               <div>
-                <div className="font-semibold text-sm mb-1">Impossibile caricare i dati</div>
+                <div className="font-semibold text-sm mb-1">{t.ui.errTitle}</div>
                 <div className="text-xs text-muted-foreground">{error}</div>
                 <div className="text-xs text-muted-foreground mt-2">
                   Verifica che il ticker sia corretto (es. <code className="bg-muted px-1 rounded">AAPL</code>,{" "}
@@ -358,7 +336,7 @@ export function Simulator({
                   </span>
                   <span className="text-xs text-muted-foreground">{currency}</span>
                   <span className="text-xs text-muted-foreground">
-                    {prices.length} giorni di dati storici
+                    {prices.length} {t.ui.daysOfData}
                   </span>
                   {prices.length > 0 && (
                     <span className="text-xs text-muted-foreground">
@@ -372,7 +350,7 @@ export function Simulator({
                   <div className="text-2xl font-bold">
                     {formatCurrency(prices[prices.length - 1].close, currency)}
                   </div>
-                  <div className="text-xs text-muted-foreground">Ultimo prezzo disponibile</div>
+                  <div className="text-xs text-muted-foreground">{t.ui.lastPrice}</div>
                 </div>
               )}
             </div>
@@ -380,15 +358,20 @@ export function Simulator({
             {/* Tab navigation */}
             <Tabs value={activeTab} onValueChange={(v) => setActiveTab(v as TabId)}>
               <TabsList className="grid w-full grid-cols-4 mb-6">
-                {TABS.map(({ id, label, icon: Icon }) => (
-                  <TabsTrigger key={id} value={id} className="flex items-center gap-1.5 text-xs sm:text-sm">
-                    <Icon className="h-3.5 w-3.5 shrink-0" />
-                    <span className="hidden sm:inline">{label}</span>
-                    <span className="sm:hidden">
-                      {id === "distortion" ? "Distors." : id === "lumpsum" ? "Lump Sum" : id === "dca" ? "PAC" : "Confronto"}
-                    </span>
-                  </TabsTrigger>
-                ))}
+                {TABS.map(({ id, icon: Icon }) => {
+                  const tabLabel = {
+                    distortion: t.ui.tabDistortion,
+                    lumpsum: t.ui.tabLumpSum,
+                    dca: t.ui.tabDca,
+                    compare: t.ui.tabCompare,
+                  }[id];
+                  return (
+                    <TabsTrigger key={id} value={id} className="flex items-center gap-1.5 text-xs sm:text-sm min-w-0">
+                      <Icon className="h-3.5 w-3.5 shrink-0" />
+                      <span className="truncate">{tabLabel}</span>
+                    </TabsTrigger>
+                  );
+                })}
               </TabsList>
 
               <TabsContent value="distortion">
@@ -465,23 +448,23 @@ export function Simulator({
                 {!lsResult && !dcaResult ? (
                   <div className="flex flex-col items-center justify-center py-20 text-center gap-3">
                     <GitCompare className="h-10 w-10 text-muted-foreground/50" />
-                    <div className="text-sm font-medium">Nessuna simulazione da confrontare</div>
+                    <div className="text-sm font-medium">{t.ui.compareEmptyTitle}</div>
                     <div className="text-xs text-muted-foreground max-w-sm">
-                      Esegui prima almeno una simulazione nella scheda{" "}
+                      {t.ui.compareEmptyPre}{" "}
                       <button
                         onClick={() => setActiveTab("lumpsum")}
                         className="text-primary underline"
                       >
-                        Lump Sum
+                        {t.ui.tabLumpSum}
                       </button>{" "}
-                      o{" "}
+                      {t.ui.compareOr}{" "}
                       <button
                         onClick={() => setActiveTab("dca")}
                         className="text-primary underline"
                       >
-                        PAC Mensile
-                      </button>
-                      .
+                        {t.ui.tabDca}
+                      </button>{" "}
+                      {t.ui.compareEnd}
                     </div>
                   </div>
                 ) : (

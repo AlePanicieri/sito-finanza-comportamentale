@@ -42,6 +42,48 @@ export interface Translations {
   howDistortion: string;
   cautionLabel: string;
   distortionMarathon: string;
+  ui: {
+    tagline: string;
+    navSimulator: string;
+    navTitles: string;
+    navCrashes: string;
+    navGuides: string;
+    navAbout: string;
+    footerMission: string;
+    footerNav: string;
+    footerCrashes: string;
+    footerNotices: string;
+    footerNoticesText: string;
+    footerRights: string;
+    heroTitle: string;
+    heroIntro: string;
+    heroSearchLead: string;
+    heroSearchSub: string;
+    searchPlaceholder: string;
+    analyze: string;
+    c1t: string; c1d: string;
+    c2t: string; c2d: string;
+    c3t: string; c3d: string;
+    c4t: string; c4d: string;
+    mostSearched: string;
+    beforeStart: string;
+    allGuides: string;
+    crashTitle: string;
+    crashDesc: string;
+    crashCta: string;
+    loading: string;
+    daysOfData: string;
+    lastPrice: string;
+    errTitle: string;
+    tabDistortion: string;
+    tabLumpSum: string;
+    tabDca: string;
+    tabCompare: string;
+    compareEmptyTitle: string;
+    compareEmptyPre: string;
+    compareOr: string;
+    compareEnd: string;
+  };
 }
 
 export const TRANSLATIONS: Record<Lang, Translations> = {
@@ -83,6 +125,56 @@ export const TRANSLATIONS: Record<Lang, Translations> = {
     cautionLabel: "Attenzione",
     distortionMarathon:
       "Il fatto che un titolo sia sempre salito non significa che salirà per sempre — né che accada nell'immediato. Gli investimenti che diventano redditizi sono una maratona, non uno sprint. E il rischio non scompare mai: esistono titoli rimasti in perdita per dieci anni di fila. Saresti disposto a vedere la tua liquidità dimezzata per anni? L'investimento è un rischio da soppesare con attenzione. È vero, però, che statisticamente alcuni titoli hanno meno probabilità di altri di crollare.",
+    ui: {
+      tagline: "Simula, capisci, non farti fregare",
+      navSimulator: "Simulatore",
+      navTitles: "Titoli",
+      navCrashes: "Crolli",
+      navGuides: "Guide",
+      navAbout: "Chi siamo",
+      footerMission:
+        "Uno strumento educativo per capire come i bias mentali distorcono le decisioni di investimento. Simula, confronta, ragiona.",
+      footerNav: "Naviga",
+      footerCrashes: "I grandi crolli",
+      footerNotices: "Avvertenze",
+      footerNoticesText:
+        "Contenuto a solo scopo educativo. Non è consulenza finanziaria né un invito a investire. La finanza è rischio: i titoli possono perdere valore, fallire o essere delistati. I rendimenti storici non garantiscono risultati futuri. Dati di mercato forniti da Yahoo Finance.",
+      footerRights: "Tutti i diritti riservati.",
+      heroTitle: "«Se avessi investito 500€ al mese, oggi avrei…»",
+      heroIntro:
+        "Forse una fortuna. Forse molto meno di quanto ti raccontano. Qui non trovi promesse: scegli un titolo vero e guarda come sarebbe andato davvero il tuo investimento, giorno per giorno, sui dati storici reali. Poi impara a riconoscere i bias — e i fuffaguru — che ti fanno vedere guadagni che non esistono.",
+      heroSearchLead: "Scrivi il nome o il ticker di un titolo — ti guidiamo noi passo passo",
+      heroSearchSub: "Scelto il titolo, ti spieghiamo passo dopo passo come leggere ogni sezione.",
+      searchPlaceholder: "Es. Apple, AAPL, Bitcoin, ENI.MI…",
+      analyze: "Analizza",
+      c1t: "Distorsione Temporale",
+      c1d: "Vedi come il titolo performava nel passato, non solo oggi",
+      c2t: "Simulazione Lump Sum",
+      c2d: "Investimento unico: come avrei oscillato giornalmente?",
+      c3t: "PAC Mensile",
+      c3d: "Versamento ricorrente: quale giorno del mese scegliere?",
+      c4t: "Confronto Strategie",
+      c4d: "Lump Sum vs DCA: chi avrebbe vinto nel tuo caso?",
+      mostSearched: "Simula i titoli più cercati:",
+      beforeStart: "Prima di iniziare, leggi",
+      allGuides: "Tutte le guide",
+      crashTitle: "I grandi crolli — quando c'era da piangere",
+      crashDesc:
+        "Titoli crollati dell'80-99%, alcuni mai più tornati al picco. Rivivi dot-com, Lehman e i disastri single-stock con le date vere fissate.",
+      crashCta: "Guarda i crolli",
+      loading: "Recupero {years} anni di dati per {ticker}…",
+      daysOfData: "giorni di dati storici",
+      lastPrice: "Ultimo prezzo disponibile",
+      errTitle: "Impossibile caricare i dati",
+      tabDistortion: "Distorsione Temporale",
+      tabLumpSum: "Lump Sum",
+      tabDca: "PAC Mensile",
+      tabCompare: "Confronto",
+      compareEmptyTitle: "Nessuna simulazione da confrontare",
+      compareEmptyPre: "Esegui prima almeno una simulazione nella scheda",
+      compareOr: "o",
+      compareEnd: ".",
+    },
   },
   en: {
     disclaimer: {
@@ -122,6 +214,56 @@ export const TRANSLATIONS: Record<Lang, Translations> = {
     cautionLabel: "A word of caution",
     distortionMarathon:
       "The fact that a stock has always gone up doesn't mean it always will — nor that it will happen any time soon. Investments that become profitable are a marathon, not a sprint. And the risk never disappears: some stocks have stayed at a loss for ten years straight. Would you be willing to watch your money cut in half for years? Investing is a risk to weigh carefully. It's true, though, that statistically some stocks are less likely than others to collapse.",
+    ui: {
+      tagline: "Simulate, understand, don't get fooled",
+      navSimulator: "Simulator",
+      navTitles: "Stocks",
+      navCrashes: "Crashes",
+      navGuides: "Guides",
+      navAbout: "About",
+      footerMission:
+        "An educational tool to see how mental biases distort investment decisions. Simulate, compare, think.",
+      footerNav: "Explore",
+      footerCrashes: "The great crashes",
+      footerNotices: "Disclaimer",
+      footerNoticesText:
+        "Educational content only. Not financial advice nor an invitation to invest. Finance is risk: stocks can lose value, fail or be delisted. Past returns don't guarantee future results. Market data provided by Yahoo Finance.",
+      footerRights: "All rights reserved.",
+      heroTitle: "«If I'd invested €500 a month, today I'd have…»",
+      heroIntro:
+        "Maybe a fortune. Maybe far less than they tell you. No promises here: pick a real stock and see how your investment would actually have gone, day by day, on real historical data. Then learn to spot the biases — and the hype-gurus — that make you see gains that aren't there.",
+      heroSearchLead: "Type the name or ticker of a stock — we'll guide you step by step",
+      heroSearchSub: "Once you pick a stock, we explain step by step how to read each section.",
+      searchPlaceholder: "e.g. Apple, AAPL, Bitcoin, ENI.MI…",
+      analyze: "Analyze",
+      c1t: "Time Distortion",
+      c1d: "See how the stock performed in the past, not just today",
+      c2t: "Lump Sum Simulation",
+      c2d: "A single investment: how would it have swung day to day?",
+      c3t: "Monthly Plan (DCA)",
+      c3d: "Recurring contribution: which day of the month to choose?",
+      c4t: "Strategy Comparison",
+      c4d: "Lump sum vs DCA: which would have won in your case?",
+      mostSearched: "Simulate the most-searched stocks:",
+      beforeStart: "Before you start, read",
+      allGuides: "All guides",
+      crashTitle: "The great crashes — when it really hurt",
+      crashDesc:
+        "Stocks down 80-99%, some never back to their peak. Relive dot-com, Lehman and single-stock disasters with the real dates locked in.",
+      crashCta: "See the crashes",
+      loading: "Fetching {years} years of data for {ticker}…",
+      daysOfData: "days of historical data",
+      lastPrice: "Last available price",
+      errTitle: "Couldn't load the data",
+      tabDistortion: "Time Distortion",
+      tabLumpSum: "Lump Sum",
+      tabDca: "Monthly (DCA)",
+      tabCompare: "Compare",
+      compareEmptyTitle: "No simulation to compare",
+      compareEmptyPre: "Run at least one simulation first in the",
+      compareOr: "or",
+      compareEnd: "tab.",
+    },
   },
   fr: {
     disclaimer: {
@@ -161,6 +303,56 @@ export const TRANSLATIONS: Record<Lang, Translations> = {
     cautionLabel: "Attention",
     distortionMarathon:
       "Le fait qu'un titre ait toujours monté ne signifie pas qu'il montera toujours — ni que cela arrivera tout de suite. Les investissements qui deviennent rentables sont un marathon, pas un sprint. Et le risque ne disparaît jamais : certains titres sont restés en perte pendant dix ans d'affilée. Serais-tu prêt à voir ton capital réduit de moitié pendant des années ? Investir est un risque à peser avec soin. Il est vrai, cependant, que statistiquement certains titres ont moins de probabilité que d'autres de s'effondrer.",
+    ui: {
+      tagline: "Simule, comprends, ne te fais pas avoir",
+      navSimulator: "Simulateur",
+      navTitles: "Titres",
+      navCrashes: "Krachs",
+      navGuides: "Guides",
+      navAbout: "À propos",
+      footerMission:
+        "Un outil éducatif pour voir comment les biais mentaux faussent les décisions d'investissement. Simule, compare, réfléchis.",
+      footerNav: "Explorer",
+      footerCrashes: "Les grands krachs",
+      footerNotices: "Avertissement",
+      footerNoticesText:
+        "Contenu éducatif uniquement. Pas un conseil financier ni une invitation à investir. La finance, c'est le risque : les titres peuvent perdre de la valeur, faire faillite ou être retirés de la cote. Les performances passées ne garantissent pas les résultats futurs. Données de marché fournies par Yahoo Finance.",
+      footerRights: "Tous droits réservés.",
+      heroTitle: "«Si j'avais investi 500 € par mois, j'aurais aujourd'hui…»",
+      heroIntro:
+        "Peut-être une fortune. Peut-être bien moins qu'on ne le raconte. Ici, pas de promesses : choisis un vrai titre et regarde comment ton investissement aurait réellement évolué, jour après jour, sur des données historiques réelles. Puis apprends à repérer les biais — et les gourous — qui te font voir des gains qui n'existent pas.",
+      heroSearchLead: "Saisis le nom ou le symbole d'un titre — on te guide pas à pas",
+      heroSearchSub: "Une fois le titre choisi, on t'explique pas à pas comment lire chaque section.",
+      searchPlaceholder: "ex. Apple, AAPL, Bitcoin, ENI.MI…",
+      analyze: "Analyser",
+      c1t: "Distorsion temporelle",
+      c1d: "Vois comment le titre a performé dans le passé, pas seulement aujourd'hui",
+      c2t: "Simulation investissement unique",
+      c2d: "Un seul investissement : quelles variations au jour le jour ?",
+      c3t: "Plan mensuel (DCA)",
+      c3d: "Versement récurrent : quel jour du mois choisir ?",
+      c4t: "Comparaison des stratégies",
+      c4d: "Investissement unique vs DCA : qui aurait gagné dans ton cas ?",
+      mostSearched: "Simule les titres les plus recherchés :",
+      beforeStart: "Avant de commencer, lis",
+      allGuides: "Tous les guides",
+      crashTitle: "Les grands krachs — quand ça faisait vraiment mal",
+      crashDesc:
+        "Des titres en baisse de 80 à 99 %, certains jamais revenus à leur sommet. Revis la bulle Internet, Lehman et les désastres d'actions isolées, avec les vraies dates figées.",
+      crashCta: "Voir les krachs",
+      loading: "Récupération de {years} ans de données pour {ticker}…",
+      daysOfData: "jours de données historiques",
+      lastPrice: "Dernier cours disponible",
+      errTitle: "Impossible de charger les données",
+      tabDistortion: "Distorsion",
+      tabLumpSum: "Invest. unique",
+      tabDca: "Mensuel (DCA)",
+      tabCompare: "Comparer",
+      compareEmptyTitle: "Aucune simulation à comparer",
+      compareEmptyPre: "Lance d'abord au moins une simulation dans l'onglet",
+      compareOr: "ou",
+      compareEnd: ".",
+    },
   },
   de: {
     disclaimer: {
@@ -200,6 +392,56 @@ export const TRANSLATIONS: Record<Lang, Translations> = {
     cautionLabel: "Achtung",
     distortionMarathon:
       "Dass eine Aktie immer gestiegen ist, heißt nicht, dass sie immer steigen wird — und schon gar nicht sofort. Investments, die sich lohnen, sind ein Marathon, kein Sprint. Und das Risiko verschwindet nie: Manche Aktien lagen zehn Jahre am Stück im Minus. Wärst du bereit, dein Vermögen jahrelang halbiert zu sehen? Investieren ist ein Risiko, das sorgfältig abzuwägen ist. Es stimmt allerdings, dass statistisch manche Aktien seltener einbrechen als andere.",
+    ui: {
+      tagline: "Simulieren, verstehen, sich nicht täuschen lassen",
+      navSimulator: "Simulator",
+      navTitles: "Aktien",
+      navCrashes: "Crashs",
+      navGuides: "Ratgeber",
+      navAbout: "Über uns",
+      footerMission:
+        "Ein Lernwerkzeug, um zu sehen, wie mentale Verzerrungen Anlageentscheidungen verfälschen. Simulieren, vergleichen, nachdenken.",
+      footerNav: "Entdecken",
+      footerCrashes: "Die großen Crashs",
+      footerNotices: "Hinweis",
+      footerNoticesText:
+        "Nur zu Bildungszwecken. Keine Finanzberatung und keine Aufforderung zu investieren. Finanzen bedeuten Risiko: Aktien können an Wert verlieren, pleitegehen oder delistet werden. Vergangene Renditen garantieren keine künftigen Ergebnisse. Marktdaten von Yahoo Finance.",
+      footerRights: "Alle Rechte vorbehalten.",
+      heroTitle: "«Hätte ich 500 € im Monat angelegt, hätte ich heute…»",
+      heroIntro:
+        "Vielleicht ein Vermögen. Vielleicht viel weniger, als man dir erzählt. Keine Versprechen hier: Wähle eine echte Aktie und sieh, wie sich deine Anlage wirklich entwickelt hätte, Tag für Tag, auf echten historischen Daten. Dann lerne, die Denkfehler — und die Schwätzer — zu erkennen, die dich Gewinne sehen lassen, die es nicht gibt.",
+      heroSearchLead: "Gib den Namen oder das Kürzel einer Aktie ein — wir führen dich Schritt für Schritt",
+      heroSearchSub: "Ist die Aktie gewählt, erklären wir dir Schritt für Schritt, wie du jeden Abschnitt liest.",
+      searchPlaceholder: "z. B. Apple, AAPL, Bitcoin, ENI.MI…",
+      analyze: "Analysieren",
+      c1t: "Zeitliche Verzerrung",
+      c1d: "Sieh, wie sich die Aktie früher entwickelt hat, nicht nur heute",
+      c2t: "Einmalanlage-Simulation",
+      c2d: "Eine einzige Anlage: wie hätte sie täglich geschwankt?",
+      c3t: "Monatlicher Sparplan (DCA)",
+      c3d: "Regelmäßige Rate: welchen Tag im Monat wählen?",
+      c4t: "Strategie-Vergleich",
+      c4d: "Einmalanlage vs. Sparplan: wer hätte in deinem Fall gewonnen?",
+      mostSearched: "Simuliere die meistgesuchten Aktien:",
+      beforeStart: "Bevor du startest, lies",
+      allGuides: "Alle Ratgeber",
+      crashTitle: "Die großen Crashs — als es richtig wehtat",
+      crashDesc:
+        "Aktien mit 80-99 % Minus, manche nie wieder am Hoch. Erlebe Dotcom, Lehman und Einzelaktien-Desaster mit den echten, fixierten Daten.",
+      crashCta: "Crashs ansehen",
+      loading: "Lade {years} Jahre Daten für {ticker}…",
+      daysOfData: "Tage historischer Daten",
+      lastPrice: "Letzter verfügbarer Kurs",
+      errTitle: "Daten konnten nicht geladen werden",
+      tabDistortion: "Verzerrung",
+      tabLumpSum: "Einmalanlage",
+      tabDca: "Sparplan (DCA)",
+      tabCompare: "Vergleich",
+      compareEmptyTitle: "Keine Simulation zum Vergleichen",
+      compareEmptyPre: "Führe zuerst mindestens eine Simulation im Tab",
+      compareOr: "oder",
+      compareEnd: "aus.",
+    },
   },
   es: {
     disclaimer: {
@@ -239,5 +481,55 @@ export const TRANSLATIONS: Record<Lang, Translations> = {
     cautionLabel: "Atención",
     distortionMarathon:
       "Que un valor haya subido siempre no significa que subirá para siempre — ni que ocurra de inmediato. Las inversiones que se vuelven rentables son una maratón, no un esprint. Y el riesgo nunca desaparece: hay valores que han estado en pérdidas diez años seguidos. ¿Estarías dispuesto a ver tu dinero reducido a la mitad durante años? Invertir es un riesgo que hay que sopesar con cuidado. Es cierto, eso sí, que estadísticamente algunos valores tienen menos probabilidad que otros de desplomarse.",
+    ui: {
+      tagline: "Simula, entiende, que no te engañen",
+      navSimulator: "Simulador",
+      navTitles: "Valores",
+      navCrashes: "Desplomes",
+      navGuides: "Guías",
+      navAbout: "Quiénes somos",
+      footerMission:
+        "Una herramienta educativa para ver cómo los sesgos mentales distorsionan las decisiones de inversión. Simula, compara, razona.",
+      footerNav: "Explorar",
+      footerCrashes: "Los grandes desplomes",
+      footerNotices: "Aviso",
+      footerNoticesText:
+        "Contenido solo educativo. No es asesoramiento financiero ni una invitación a invertir. Las finanzas son riesgo: los valores pueden perder valor, quebrar o ser excluidos de cotización. Las rentabilidades pasadas no garantizan resultados futuros. Datos de mercado de Yahoo Finance.",
+      footerRights: "Todos los derechos reservados.",
+      heroTitle: "«Si hubiera invertido 500 € al mes, hoy tendría…»",
+      heroIntro:
+        "Quizás una fortuna. Quizás mucho menos de lo que te cuentan. Aquí no hay promesas: elige un valor real y observa cómo habría ido de verdad tu inversión, día a día, con datos históricos reales. Luego aprende a reconocer los sesgos — y a los gurús de humo — que te hacen ver ganancias que no existen.",
+      heroSearchLead: "Escribe el nombre o el símbolo de un valor — te guiamos paso a paso",
+      heroSearchSub: "Una vez elegido el valor, te explicamos paso a paso cómo leer cada sección.",
+      searchPlaceholder: "ej. Apple, AAPL, Bitcoin, ENI.MI…",
+      analyze: "Analizar",
+      c1t: "Distorsión temporal",
+      c1d: "Mira cómo rindió el valor en el pasado, no solo hoy",
+      c2t: "Simulación de inversión única",
+      c2d: "Una sola inversión: ¿cómo habría oscilado día a día?",
+      c3t: "Plan mensual (DCA)",
+      c3d: "Aportación periódica: ¿qué día del mes elegir?",
+      c4t: "Comparación de estrategias",
+      c4d: "Inversión única vs DCA: ¿cuál habría ganado en tu caso?",
+      mostSearched: "Simula los valores más buscados:",
+      beforeStart: "Antes de empezar, lee",
+      allGuides: "Todas las guías",
+      crashTitle: "Los grandes desplomes — cuando de verdad dolía",
+      crashDesc:
+        "Valores hundidos un 80-99%, algunos nunca de vuelta a su máximo. Revive las puntocom, Lehman y los desastres de valores concretos, con las fechas reales fijadas.",
+      crashCta: "Ver los desplomes",
+      loading: "Recuperando {years} años de datos de {ticker}…",
+      daysOfData: "días de datos históricos",
+      lastPrice: "Último precio disponible",
+      errTitle: "No se pudieron cargar los datos",
+      tabDistortion: "Distorsión",
+      tabLumpSum: "Inversión única",
+      tabDca: "Mensual (DCA)",
+      tabCompare: "Comparar",
+      compareEmptyTitle: "Ninguna simulación para comparar",
+      compareEmptyPre: "Ejecuta primero al menos una simulación en la pestaña",
+      compareOr: "o",
+      compareEnd: ".",
+    },
   },
 };
