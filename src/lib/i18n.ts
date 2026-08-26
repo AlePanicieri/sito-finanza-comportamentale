@@ -116,6 +116,33 @@ export interface Translations {
     lsFormula2: string;
     annualizedFormulaLs: string;
     realFormula: string;
+    dcaParamsTitle: string;
+    dcaParamsDesc: string;
+    monthlyAmount: string;
+    startDate: string;
+    dayOfMonth: string;
+    setEndDate: string;
+    endContrib: string;
+    dcaDayNote: string;
+    dcaEndNote: string;
+    totalContributed: string;
+    contributions: string;
+    valueAt: string;
+    netGain: string;
+    dcaChartTitle: string;
+    dcaChartDesc: string;
+    portfolioValue: string;
+    endPac: string;
+    stockPrice: string;
+    gain: string;
+    pctOnContributed: string;
+    dcaDivDesc: string;
+    dcaDivNote: string;
+    dcaFormula1: string;
+    dcaFormula2: string;
+    simpleReturnFormula: string;
+    annualizedFormulaDca: string;
+    dcaRealFormula: string;
   };
 }
 
@@ -242,6 +269,34 @@ export const TRANSLATIONS: Record<Lang, Translations> = {
       lsFormula2: "Valore nominale = Quote × Prezzo corrente",
       annualizedFormulaLs: "Rendimento annualizzato = tasso di crescita medio annuo (CAGR/IRR), confrontabile col PAC",
       realFormula: "Valore reale = Valore nominale ÷ (1 + inflazione)^anni — inflazione {rate}%/anno",
+      dcaParamsTitle: "Parametri PAC (Piano di Accumulo)",
+      dcaParamsDesc: "Versamento mensile ricorrente su {ticker}",
+      monthlyAmount: "Versamento mensile",
+      startDate: "Data di inizio",
+      dayOfMonth: "Giorno del mese (1–28)",
+      setEndDate: "Imposta data di fine PAC",
+      endContrib: "Fine versamenti",
+      dcaDayNote: "Il giorno del mese influenza il prezzo di acquisto mensile — prova a cambiarlo per vedere la differenza.",
+      dcaEndNote: " Il grafico mostra l'evoluzione del portafoglio fino ad oggi, anche dopo la fine dei versamenti.",
+      totalContributed: "Totale versato",
+      contributions: "versamenti",
+      valueAt: "Valore al {date}",
+      netGain: "Guadagno netto",
+      dcaChartTitle: "Crescita del portafoglio PAC",
+      dcaChartDesc: "Valore di mercato vs capitale versato nel tempo",
+      portfolioValue: "Valore portafoglio",
+      endPac: "Fine PAC",
+      stockPrice: "Prezzo azione",
+      gain: "Guadagno",
+      pctOnContributed: "sul versato",
+      dcaDivDesc: "Calcolati sulle quote accumulate anno per anno · lordi, tassazione esclusa",
+      dcaDivNote:
+        "Nel PAC le quote crescono mese dopo mese con ogni versamento. Ogni dividendo viene moltiplicato solo per le quote già accumulate fino a quella data — non per quelle comprate dopo. Per questo l'incasso cresce anno dopo anno man mano che il portafoglio si accumula. Dividendo incassato = Dividendo/quota × Quote detenute alla data di stacco.",
+      dcaFormula1: "Quote mese n = Versamento ÷ Prezzo del giorno {day} del mese",
+      dcaFormula2: "Valore portafoglio = Σ(Quote mese n) × Prezzo attuale",
+      simpleReturnFormula: "Rendimento % = (Valore finale − Totale versato) ÷ Totale versato × 100 (semplice, non annualizzato)",
+      annualizedFormulaDca: "Rendimento annualizzato = tasso annuo che tiene conto di quando versi ogni euro (XIRR), confrontabile col Lump Sum",
+      dcaRealFormula: "Valore reale = Valore finale ÷ (1 + inflazione)^anni — inflazione {rate}%/anno",
     },
   },
   en: {
@@ -366,6 +421,34 @@ export const TRANSLATIONS: Record<Lang, Translations> = {
       lsFormula2: "Nominal value = Shares × Current price",
       annualizedFormulaLs: "Annualized return = average yearly growth rate (CAGR/IRR), comparable with DCA",
       realFormula: "Real value = Nominal value ÷ (1 + inflation)^years — inflation {rate}%/yr",
+      dcaParamsTitle: "DCA parameters (recurring plan)",
+      dcaParamsDesc: "Recurring monthly contribution in {ticker}",
+      monthlyAmount: "Monthly contribution",
+      startDate: "Start date",
+      dayOfMonth: "Day of the month (1–28)",
+      setEndDate: "Set a plan end date",
+      endContrib: "Contributions end",
+      dcaDayNote: "The day of the month affects the monthly purchase price — try changing it to see the difference.",
+      dcaEndNote: " The chart shows the portfolio up to today, even after contributions stop.",
+      totalContributed: "Total contributed",
+      contributions: "contributions",
+      valueAt: "Value at {date}",
+      netGain: "Net gain",
+      dcaChartTitle: "DCA portfolio growth",
+      dcaChartDesc: "Market value vs contributed capital over time",
+      portfolioValue: "Portfolio value",
+      endPac: "Plan end",
+      stockPrice: "Stock price",
+      gain: "Gain",
+      pctOnContributed: "of the total contributed",
+      dcaDivDesc: "Computed on the shares accumulated year by year · gross, before tax",
+      dcaDivNote:
+        "With DCA, shares grow month after month with each contribution. Each dividend is multiplied only by the shares already accumulated by that date — not the ones bought later. That's why the income grows year after year as the portfolio builds up. Dividend collected = Dividend/share × Shares held on the ex-date.",
+      dcaFormula1: "Shares month n = Contribution ÷ Price on day {day} of the month",
+      dcaFormula2: "Portfolio value = Σ(Shares month n) × Current price",
+      simpleReturnFormula: "Return % = (Final value − Total contributed) ÷ Total contributed × 100 (simple, not annualized)",
+      annualizedFormulaDca: "Annualized return = annual rate that accounts for when you invest each euro (XIRR), comparable with lump sum",
+      dcaRealFormula: "Real value = Final value ÷ (1 + inflation)^years — inflation {rate}%/yr",
     },
   },
   fr: {
@@ -490,6 +573,34 @@ export const TRANSLATIONS: Record<Lang, Translations> = {
       lsFormula2: "Valeur nominale = Actions × Prix actuel",
       annualizedFormulaLs: "Rendement annualisé = taux de croissance annuel moyen (TCAM/TRI), comparable au DCA",
       realFormula: "Valeur réelle = Valeur nominale ÷ (1 + inflation)^ans — inflation {rate}%/an",
+      dcaParamsTitle: "Paramètres du plan (DCA)",
+      dcaParamsDesc: "Versement mensuel récurrent en {ticker}",
+      monthlyAmount: "Versement mensuel",
+      startDate: "Date de début",
+      dayOfMonth: "Jour du mois (1–28)",
+      setEndDate: "Définir une date de fin",
+      endContrib: "Fin des versements",
+      dcaDayNote: "Le jour du mois influe sur le prix d'achat mensuel — essaie de le changer pour voir la différence.",
+      dcaEndNote: " Le graphique montre le portefeuille jusqu'à aujourd'hui, même après l'arrêt des versements.",
+      totalContributed: "Total versé",
+      contributions: "versements",
+      valueAt: "Valeur au {date}",
+      netGain: "Gain net",
+      dcaChartTitle: "Croissance du portefeuille (DCA)",
+      dcaChartDesc: "Valeur de marché vs capital versé dans le temps",
+      portfolioValue: "Valeur du portefeuille",
+      endPac: "Fin du plan",
+      stockPrice: "Cours de l'action",
+      gain: "Gain",
+      pctOnContributed: "du total versé",
+      dcaDivDesc: "Calculés sur les actions accumulées année par année · bruts, avant impôts",
+      dcaDivNote:
+        "Avec le DCA, les actions augmentent mois après mois à chaque versement. Chaque dividende n'est multiplié que par les actions déjà accumulées à cette date — pas par celles achetées après. C'est pourquoi l'encaissement croît d'année en année à mesure que le portefeuille se constitue. Dividende encaissé = Dividende/action × Actions détenues à la date de détachement.",
+      dcaFormula1: "Actions mois n = Versement ÷ Prix du jour {day} du mois",
+      dcaFormula2: "Valeur du portefeuille = Σ(Actions mois n) × Prix actuel",
+      simpleReturnFormula: "Rendement % = (Valeur finale − Total versé) ÷ Total versé × 100 (simple, non annualisé)",
+      annualizedFormulaDca: "Rendement annualisé = taux annuel qui tient compte du moment où tu verses chaque euro (TRI), comparable à l'investissement unique",
+      dcaRealFormula: "Valeur réelle = Valeur finale ÷ (1 + inflation)^ans — inflation {rate}%/an",
     },
   },
   de: {
@@ -614,6 +725,34 @@ export const TRANSLATIONS: Record<Lang, Translations> = {
       lsFormula2: "Nominalwert = Anteile × aktueller Kurs",
       annualizedFormulaLs: "Annualisierte Rendite = durchschnittliche jährliche Wachstumsrate (CAGR/IRR), vergleichbar mit dem Sparplan",
       realFormula: "Realwert = Nominalwert ÷ (1 + Inflation)^Jahre — Inflation {rate}%/Jahr",
+      dcaParamsTitle: "Sparplan-Parameter (DCA)",
+      dcaParamsDesc: "Wiederkehrende monatliche Rate in {ticker}",
+      monthlyAmount: "Monatliche Rate",
+      startDate: "Startdatum",
+      dayOfMonth: "Tag im Monat (1–28)",
+      setEndDate: "Enddatum festlegen",
+      endContrib: "Ende der Einzahlungen",
+      dcaDayNote: "Der Tag im Monat beeinflusst den monatlichen Kaufpreis — ändere ihn, um den Unterschied zu sehen.",
+      dcaEndNote: " Der Chart zeigt das Portfolio bis heute, auch nach dem Ende der Einzahlungen.",
+      totalContributed: "Insgesamt eingezahlt",
+      contributions: "Einzahlungen",
+      valueAt: "Wert am {date}",
+      netGain: "Nettogewinn",
+      dcaChartTitle: "Wachstum des Sparplan-Portfolios",
+      dcaChartDesc: "Marktwert vs. eingezahltes Kapital im Zeitverlauf",
+      portfolioValue: "Portfoliowert",
+      endPac: "Sparplan-Ende",
+      stockPrice: "Aktienkurs",
+      gain: "Gewinn",
+      pctOnContributed: "des eingezahlten Betrags",
+      dcaDivDesc: "Berechnet auf die Jahr für Jahr angesammelten Anteile · brutto, vor Steuern",
+      dcaDivNote:
+        "Beim Sparplan wachsen die Anteile Monat für Monat mit jeder Rate. Jede Dividende wird nur mit den bis dahin angesammelten Anteilen multipliziert — nicht mit den später gekauften. Deshalb steigt der Ertrag Jahr für Jahr, während sich das Portfolio aufbaut. Erhaltene Dividende = Dividende/Anteil × am Ex-Tag gehaltene Anteile.",
+      dcaFormula1: "Anteile Monat n = Rate ÷ Kurs am {day}. Tag des Monats",
+      dcaFormula2: "Portfoliowert = Σ(Anteile Monat n) × aktueller Kurs",
+      simpleReturnFormula: "Rendite % = (Endwert − insgesamt eingezahlt) ÷ insgesamt eingezahlt × 100 (einfach, nicht annualisiert)",
+      annualizedFormulaDca: "Annualisierte Rendite = Jahresrate, die berücksichtigt, wann du jeden Euro anlegst (XIRR), vergleichbar mit der Einmalanlage",
+      dcaRealFormula: "Realwert = Endwert ÷ (1 + Inflation)^Jahre — Inflation {rate}%/Jahr",
     },
   },
   es: {
@@ -738,6 +877,34 @@ export const TRANSLATIONS: Record<Lang, Translations> = {
       lsFormula2: "Valor nominal = Acciones × Precio actual",
       annualizedFormulaLs: "Rentabilidad anualizada = tasa de crecimiento anual media (CAGR/TIR), comparable con el DCA",
       realFormula: "Valor real = Valor nominal ÷ (1 + inflación)^años — inflación {rate}%/año",
+      dcaParamsTitle: "Parámetros del plan (DCA)",
+      dcaParamsDesc: "Aportación mensual periódica en {ticker}",
+      monthlyAmount: "Aportación mensual",
+      startDate: "Fecha de inicio",
+      dayOfMonth: "Día del mes (1–28)",
+      setEndDate: "Fijar fecha de fin",
+      endContrib: "Fin de aportaciones",
+      dcaDayNote: "El día del mes influye en el precio de compra mensual — prueba a cambiarlo para ver la diferencia.",
+      dcaEndNote: " El gráfico muestra la cartera hasta hoy, incluso tras el fin de las aportaciones.",
+      totalContributed: "Total aportado",
+      contributions: "aportaciones",
+      valueAt: "Valor al {date}",
+      netGain: "Ganancia neta",
+      dcaChartTitle: "Crecimiento de la cartera (DCA)",
+      dcaChartDesc: "Valor de mercado vs capital aportado en el tiempo",
+      portfolioValue: "Valor de la cartera",
+      endPac: "Fin del plan",
+      stockPrice: "Precio de la acción",
+      gain: "Ganancia",
+      pctOnContributed: "sobre lo aportado",
+      dcaDivDesc: "Calculados sobre las acciones acumuladas año tras año · brutos, antes de impuestos",
+      dcaDivNote:
+        "Con el DCA, las acciones crecen mes a mes con cada aportación. Cada dividendo se multiplica solo por las acciones ya acumuladas hasta esa fecha — no por las compradas después. Por eso el cobro crece año tras año a medida que la cartera se acumula. Dividendo cobrado = Dividendo/acción × Acciones en cartera en la fecha ex.",
+      dcaFormula1: "Acciones mes n = Aportación ÷ Precio del día {day} del mes",
+      dcaFormula2: "Valor de la cartera = Σ(Acciones mes n) × Precio actual",
+      simpleReturnFormula: "Rentabilidad % = (Valor final − Total aportado) ÷ Total aportado × 100 (simple, no anualizada)",
+      annualizedFormulaDca: "Rentabilidad anualizada = tasa anual que tiene en cuenta cuándo inviertes cada euro (TIR), comparable con la inversión única",
+      dcaRealFormula: "Valor real = Valor final ÷ (1 + inflación)^años — inflación {rate}%/año",
     },
   },
 };

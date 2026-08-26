@@ -18,6 +18,7 @@ import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { calcDCA, DCAResult, PricePoint, DividendPoint } from "@/lib/calculations";
 import { formatCurrency, formatPct, formatShortDate, pctColor } from "@/lib/formatters";
+import { useLang } from "@/components/site/LanguageProvider";
 import { Info, Calendar, Coins } from "lucide-react";
 
 interface Props {
@@ -46,6 +47,8 @@ function sampleArray<T>(arr: T[], step: number): T[] {
 }
 
 export function DCASimulator({ prices, dividends = [], currency, ticker, inflationRate, onInflationChange, initialMonthly, initialStartDate, datesLocked, onResult }: Props) {
+  const { t } = useLang();
+  const s = t.sim;
   const [monthlyAmount, setMonthlyAmount] = useState(initialMonthly != null ? String(initialMonthly) : "500");
   const [startDate, setStartDate] = useState(() => {
     if (initialStartDate) return initialStartDate;
@@ -96,10 +99,10 @@ export function DCASimulator({ prices, dividends = [], currency, ticker, inflati
       ).date
     : null;
 
-  const CustomTooltip = ({ active, payload, label }: { active?: boolean; payload?: Array<{ name: string; value: number; color: string; payload: { close?: number } }>; label?: string }) => {
+  const CustomTooltip = ({ active, payload, label }: { active?: boolean; payload?: Array<{ name: string; dataKey?: string; value: number; color: string; payload: { close?: number } }>; label?: string }) => {
     if (!active || !payload?.length) return null;
-    const versato = payload.find((p) => p.name === "Totale versato")?.value ?? 0;
-    const portafoglio = payload.find((p) => p.name === "Valore portafoglio")?.value ?? 0;
+    const versato = payload.find((p) => p.dataKey === "Totale versato")?.value ?? 0;
+    const portafoglio = payload.find((p) => p.dataKey === "Valore portafoglio")?.value ?? 0;
     const guadagno = portafoglio - versato;
     const closePrice = payload[0]?.payload?.close;
     return (
@@ -107,7 +110,7 @@ export function DCASimulator({ prices, dividends = [], currency, ticker, inflati
         <div className="font-medium text-xs text-muted-foreground mb-2">{label ? formatShortDate(label) : ""}</div>
         {closePrice !== undefined && (
           <div className="flex justify-between gap-4 mb-1.5 pb-1.5 border-b">
-            <span className="text-xs text-muted-foreground">Prezzo azione</span>
+            <span className="text-xs text-muted-foreground">{s.stockPrice}</span>
             <span className="font-semibold text-xs">{formatCurrency(closePrice, currency)}</span>
           </div>
         )}
@@ -120,7 +123,7 @@ export function DCASimulator({ prices, dividends = [], currency, ticker, inflati
         {versato > 0 && (
           <div className="mt-1.5 pt-1.5 border-t text-xs">
             <div className="flex justify-between">
-              <span className="text-muted-foreground">Guadagno</span>
+              <span className="text-muted-foreground">{s.gain}</span>
               <span className={`font-semibold ${pctColor(guadagno)}`}>
                 {formatCurrency(guadagno, currency)}
               </span>
@@ -138,13 +141,13 @@ export function DCASimulator({ prices, dividends = [], currency, ticker, inflati
       {/* Parametri */}
       <Card>
         <CardHeader className="pb-3">
-          <CardTitle className="text-base">Parametri PAC (Piano di Accumulo)</CardTitle>
-          <CardDescription>Versamento mensile ricorrente su {ticker}</CardDescription>
+          <CardTitle className="text-base">{s.dcaParamsTitle}</CardTitle>
+          <CardDescription>{s.dcaParamsDesc.replace("{ticker}", ticker)}</CardDescription>
         </CardHeader>
         <CardContent>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 items-end">
             <div className="space-y-1.5">
-              <Label>Versamento mensile ({currency})</Label>
+              <Label>{s.monthlyAmount} ({currency})</Label>
               <Input
                 type="number"
                 min={1}
@@ -154,7 +157,7 @@ export function DCASimulator({ prices, dividends = [], currency, ticker, inflati
               />
             </div>
             <div className="space-y-1.5">
-              <Label>Data di inizio</Label>
+              <Label>{s.startDate}</Label>
               <Input
                 type="date"
                 min={minDate}
@@ -162,16 +165,16 @@ export function DCASimulator({ prices, dividends = [], currency, ticker, inflati
                 value={startDate}
                 onChange={(e) => setStartDate(e.target.value)}
                 disabled={datesLocked}
-                title={datesLocked ? "Data fissata su questo scenario" : undefined}
+                title={datesLocked ? s.lockedDateTitle : undefined}
               />
               {datesLocked && (
-                <p className="text-[10px] text-muted-foreground">Data fissa dello scenario</p>
+                <p className="text-[10px] text-muted-foreground">{s.lockedDateNote}</p>
               )}
             </div>
             <div className="space-y-1.5">
               <Label className="flex items-center gap-1">
                 <Calendar className="h-3 w-3" />
-                Giorno del mese (1–28)
+                {s.dayOfMonth}
               </Label>
               <Input
                 type="number"
@@ -183,12 +186,12 @@ export function DCASimulator({ prices, dividends = [], currency, ticker, inflati
               />
             </div>
             <Button onClick={handleCalculate} className="w-full">
-              Calcola
+              {s.calculate}
             </Button>
           </div>
           <div className="mt-4 flex flex-wrap items-center gap-4">
             <div className="flex items-center gap-2">
-              <Label className="text-sm shrink-0">Inflazione annua (%)</Label>
+              <Label className="text-sm shrink-0">{s.inflationAnnual}</Label>
               <Input
                 type="number"
                 min={0}
@@ -206,11 +209,11 @@ export function DCASimulator({ prices, dividends = [], currency, ticker, inflati
                 onChange={(e) => setUseEndDate(e.target.checked)}
                 className="h-4 w-4 rounded border-gray-300 accent-primary"
               />
-              <span className="text-sm text-muted-foreground">Imposta data di fine PAC</span>
+              <span className="text-sm text-muted-foreground">{s.setEndDate}</span>
             </label>
             {useEndDate && (
               <div className="flex items-center gap-2">
-                <Label className="text-sm shrink-0">Fine versamenti</Label>
+                <Label className="text-sm shrink-0">{s.endContrib}</Label>
                 <Input
                   type="date"
                   min={startDate}
@@ -224,8 +227,8 @@ export function DCASimulator({ prices, dividends = [], currency, ticker, inflati
           </div>
           <p className="text-xs text-muted-foreground mt-3 flex items-center gap-1">
             <Info className="h-3 w-3" />
-            Il giorno del mese influenza il prezzo di acquisto mensile — prova a cambiarlo per vedere la differenza.
-            {useEndDate && " Il grafico mostra l'evoluzione del portafoglio fino ad oggi, anche dopo la fine dei versamenti."}
+            {s.dcaDayNote}
+            {useEndDate && s.dcaEndNote}
           </p>
         </CardContent>
       </Card>
@@ -236,19 +239,19 @@ export function DCASimulator({ prices, dividends = [], currency, ticker, inflati
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
             <Card>
               <CardContent className="pt-4 pb-3">
-                <div className="text-xs text-muted-foreground">Totale versato</div>
+                <div className="text-xs text-muted-foreground">{s.totalContributed}</div>
                 <div className="text-lg font-bold mt-1">
                   {formatCurrency(result.totalInvested, currency)}
                 </div>
                 <div className="text-xs text-muted-foreground mt-0.5">
-                  {result.installments} versamenti
+                  {result.installments} {s.contributions}
                 </div>
               </CardContent>
             </Card>
             <Card>
               <CardContent className="pt-4 pb-3">
                 <div className="text-xs text-muted-foreground">
-                  {useEndDate && result.finalDate ? `Valore al ${formatShortDate(result.finalDate)}` : "Valore oggi"}
+                  {useEndDate && result.finalDate ? s.valueAt.replace("{date}", formatShortDate(result.finalDate)) : s.valueToday}
                 </div>
                 <div className="text-lg font-bold mt-1">
                   {formatCurrency(result.finalValue, currency)}
@@ -258,14 +261,14 @@ export function DCASimulator({ prices, dividends = [], currency, ticker, inflati
                 </div>
                 {result.annualizedReturnPct !== null && (
                   <div className="text-[11px] text-muted-foreground mt-0.5">
-                    ≈ {formatPct(result.annualizedReturnPct)}/anno
+                    ≈ {formatPct(result.annualizedReturnPct)}{s.perYear}
                   </div>
                 )}
               </CardContent>
             </Card>
             <Card className={gain >= 0 ? "border-emerald-200 bg-emerald-50/50 dark:bg-emerald-950/10" : "border-red-200 bg-red-50/50 dark:bg-red-950/10"}>
               <CardContent className="pt-4 pb-3">
-                <div className="text-xs text-muted-foreground">Guadagno netto</div>
+                <div className="text-xs text-muted-foreground">{s.netGain}</div>
                 <div className={`text-lg font-bold mt-1 ${pctColor(gain)}`}>
                   {formatCurrency(gain, currency)}
                 </div>
@@ -274,7 +277,7 @@ export function DCASimulator({ prices, dividends = [], currency, ticker, inflati
             <Card>
               <CardContent className="pt-4 pb-3">
                 <div className="text-xs text-muted-foreground flex items-center gap-1">
-                  Valore reale <span className="text-[10px]">(inflaz. {inflationRate}%)</span>
+                  {s.realValue} <span className="text-[10px]">({s.inflAbbr} {inflationRate}%)</span>
                 </div>
                 <div className="text-lg font-bold mt-1">
                   {formatCurrency(result.finalValueReal, currency)}
@@ -289,10 +292,8 @@ export function DCASimulator({ prices, dividends = [], currency, ticker, inflati
           {/* Grafico */}
           <Card>
             <CardHeader className="pb-2">
-              <CardTitle className="text-base">Crescita del portafoglio PAC</CardTitle>
-              <CardDescription>
-                Valore di mercato vs capitale versato nel tempo
-              </CardDescription>
+              <CardTitle className="text-base">{s.dcaChartTitle}</CardTitle>
+              <CardDescription>{s.dcaChartDesc}</CardDescription>
             </CardHeader>
             <CardContent>
               <ResponsiveContainer width="100%" height={320}>
@@ -323,6 +324,7 @@ export function DCASimulator({ prices, dividends = [], currency, ticker, inflati
                   <Area
                     type="monotone"
                     dataKey="Totale versato"
+                    name={s.totalContributed}
                     stroke="#f59e0b"
                     strokeWidth={1.5}
                     fill="url(#colorInvested)"
@@ -331,6 +333,7 @@ export function DCASimulator({ prices, dividends = [], currency, ticker, inflati
                   <Area
                     type="monotone"
                     dataKey="Valore portafoglio"
+                    name={s.portfolioValue}
                     stroke="#10b981"
                     strokeWidth={2}
                     fill="url(#colorDCA)"
@@ -342,7 +345,7 @@ export function DCASimulator({ prices, dividends = [], currency, ticker, inflati
                       x={pacEndDateLabel}
                       stroke="#000"
                       strokeWidth={2}
-                      label={{ value: "Fine PAC", position: "insideTopRight", fontSize: 11, fill: "#000", fontWeight: "bold" }}
+                      label={{ value: s.endPac, position: "insideTopRight", fontSize: 11, fill: "#000", fontWeight: "bold" }}
                     />
                   )}
                 </AreaChart>
@@ -357,23 +360,23 @@ export function DCASimulator({ prices, dividends = [], currency, ticker, inflati
                 <div className="flex items-center justify-between flex-wrap gap-2">
                   <div className="flex items-center gap-2">
                     <Coins className="h-4 w-4 text-green-600" />
-                    <CardTitle className="text-base">Rendita da dividendi</CardTitle>
+                    <CardTitle className="text-base">{s.dividendsTitle}</CardTitle>
                   </div>
                   <div className="flex items-baseline gap-3">
                     <span className="text-xl font-bold text-green-600">{formatCurrency(result.totalDividends, currency)}</span>
-                    <span className="text-sm text-muted-foreground">+{result.totalDividendsPct.toFixed(1)}% sul versato</span>
+                    <span className="text-sm text-muted-foreground">+{result.totalDividendsPct.toFixed(1)}% {s.pctOnContributed}</span>
                   </div>
                 </div>
-                <CardDescription>Calcolati sulle quote accumulate anno per anno · lordi, tassazione esclusa</CardDescription>
+                <CardDescription>{s.dcaDivDesc}</CardDescription>
               </CardHeader>
               <CardContent className="pb-4">
                 <div className="rounded-lg border overflow-hidden">
                   <table className="w-full text-xs">
                     <thead>
                       <tr className="bg-muted/50">
-                        <th className="text-left py-2 px-3 font-medium">Anno</th>
-                        <th className="text-right py-2 px-3 font-medium">Dividendo/quota</th>
-                        <th className="text-right py-2 px-3 font-medium">Incassato</th>
+                        <th className="text-left py-2 px-3 font-medium">{s.divYear}</th>
+                        <th className="text-right py-2 px-3 font-medium">{s.divPerShare}</th>
+                        <th className="text-right py-2 px-3 font-medium">{s.divCashed}</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -389,11 +392,7 @@ export function DCASimulator({ prices, dividends = [], currency, ticker, inflati
                 </div>
                 <div className="mt-3 flex items-start gap-2 text-xs text-muted-foreground border-t pt-3">
                   <Info className="h-3.5 w-3.5 shrink-0 mt-0.5" />
-                  <span>
-                    Nel PAC le quote crescono mese dopo mese con ogni versamento. Ogni dividendo viene moltiplicato solo per le quote <span className="font-semibold">già accumulate fino a quella data</span> — non per quelle comprate dopo.
-                    Per questo l&apos;incasso cresce anno dopo anno man mano che il portafoglio si accumula.
-                    {" "}<span className="font-semibold">Dividendo incassato = Dividendo/quota × Quote detenute alla data di stacco</span>.
-                  </span>
+                  <span>{s.dcaDivNote}</span>
                 </div>
               </CardContent>
             </Card>
@@ -405,11 +404,23 @@ export function DCASimulator({ prices, dividends = [], currency, ticker, inflati
               <div className="flex items-start gap-2">
                 <Info className="h-4 w-4 text-muted-foreground mt-0.5 shrink-0" />
                 <div className="text-xs text-muted-foreground space-y-1">
-                  <div><span className="font-semibold">Quote mese n</span> = Versamento ÷ Prezzo del giorno {dayOfMonth} del mese</div>
-                  <div><span className="font-semibold">Valore portafoglio</span> = Σ(Quote mese n) × Prezzo attuale</div>
-                  <div><span className="font-semibold">Rendimento %</span> = (Valore finale − Totale versato) ÷ Totale versato × 100 <span className="italic">(rendimento semplice, non annualizzato)</span></div>
-                  <div><span className="font-semibold">Rendimento annualizzato</span> = tasso annuo che tiene conto di <span className="italic">quando</span> versi ogni euro (XIRR) — confrontabile col Lump Sum</div>
-                  <div><span className="font-semibold">Valore reale</span> = Valore finale ÷ (1+{(inflationRate / 100).toFixed(3).replace(/0+$/, "").replace(/\.$/, "")})^anni <span className="italic">(inflazione {inflationRate}%/anno)</span></div>
+                  {[
+                    s.dcaFormula1.replace("{day}", dayOfMonth),
+                    s.dcaFormula2,
+                    s.simpleReturnFormula,
+                    s.annualizedFormulaDca,
+                    s.dcaRealFormula.replace("{rate}", String(inflationRate)),
+                  ].map((line, i) => {
+                    const idx = line.indexOf(" = ");
+                    const label = idx >= 0 ? line.slice(0, idx) : line;
+                    const rest = idx >= 0 ? line.slice(idx) : "";
+                    return (
+                      <div key={i}>
+                        <span className="font-semibold">{label}</span>
+                        {rest}
+                      </div>
+                    );
+                  })}
                 </div>
               </div>
             </CardContent>
